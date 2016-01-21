@@ -44,7 +44,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Pronombres: </span>
-                                <select id="noms-pronoms" name="nompronom" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-pronoms" name="nompronom" onchange="afegirParaula('<?=base_url();?>' ,'nompronom', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsPronoun); $i++) { ?>
                                         <option value="<?=$nomsPronoun[$i]->nameid;?>"> <?=$nomsPronoun[$i]->nomtext;?> 
                                         <?php if ($nomsPronoun[$i]->nomtext == "yo") echo "(mi)" ?></option>
@@ -55,7 +55,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Personas: </span>
-                                <select id="noms-human" name="nomhuman" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-human" name="nomhuman" onchange="afegirParaula('<?=base_url();?>' ,'nomhuman', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsHuman); $i++) { ?>
                                         <option value="<?=$nomsHuman[$i]->nameid;?>"> <?=$nomsHuman[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -70,7 +70,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Lugares: </span>
-                                <select id="noms-llocs" name="nomlloc" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-llocs" name="nomlloc" onchange="afegirParaula('<?=base_url();?>' ,'nomlloc', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsLloc); $i++) { ?>
                                         <option value="<?=$nomsLloc[$i]->nameid;?>"> <?=$nomsLloc[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -80,7 +80,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Horas: </span>
-                                <select id="noms-hores" name="nomhores" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-hores" name="nomhores" onchange="afegirParaula('<?=base_url();?>' ,'nomhores', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsHora); $i++) { ?>
                                         <option value="<?=$nomsHora[$i]->nameid;?>"> <?=$nomsHora[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -95,7 +95,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Animales: </span>
-                                <select id="noms-animal" name="nomanimal" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-animal" name="nomanimal" onchange="afegirParaula('<?=base_url();?>' ,'nomanimal', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsAnimal); $i++) { ?>
                                         <option value="<?=$nomsAnimal[$i]->nameid;?>"> <?=$nomsAnimal[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -105,7 +105,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Vehículos y Otros: </span>
-                                <select id="noms-animat" name="nomanimat" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-animat" name="nomanimat" onchange="afegirParaula('<?=base_url();?>' ,'nomanimat', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsAnimat); $i++) { ?>
                                         <option value="<?=$nomsAnimat[$i]->nameid;?>"> <?=$nomsAnimat[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -115,7 +115,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Plantas: </span>
-                                <select id="noms-planta" name="nomplanta" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-planta" name="nomplanta" onchange="afegirParaula('<?=base_url();?>' ,'nomplanta', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsPlanta); $i++) { ?>
                                         <option value="<?=$nomsPlanta[$i]->nameid;?>"> <?=$nomsPlanta[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -130,7 +130,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">General: </span>
-                                <select id="noms-temps" name="nomtemps" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-temps" name="nomtemps" onchange="afegirParaula('<?=base_url();?>' ,'nomtemps', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsTemps); $i++) { ?>
                                         <option value="<?=$nomsTemps[$i]->nameid;?>"> <?=$nomsTemps[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -140,7 +140,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Semana: </span>
-                                <select id="noms-week" name="nomweek" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-week" name="nomweek" onchange="afegirParaula('<?=base_url();?>' ,'nomweek', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsWeek); $i++) { ?>
                                         <option value="<?=$nomsWeek[$i]->nameid;?>"> <?=$nomsWeek[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -150,7 +150,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Meses: </span>
-                                <select id="noms-month" name="nommonth" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-month" name="nommonth" onchange="afegirParaula('<?=base_url();?>' ,'nommonth', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsMonth); $i++) { ?>
                                         <option value="<?=$nomsMonth[$i]->nameid;?>"> <?=$nomsMonth[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -165,7 +165,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Objeto: </span>
-                                <select id="noms-objecte" name="nomobjecte" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-objecte" name="nomobjecte" onchange="afegirParaula('<?=base_url();?>' ,'nomobjecte', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsObjecte); $i++) { ?>
                                         <option value="<?=$nomsObjecte[$i]->nameid;?>"> <?=$nomsObjecte[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -175,7 +175,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Juguete y deporte: </span>
-                                <select id="noms-joc" name="nomsjoc" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-joc" name="nomsjoc" onchange="afegirParaula('<?=base_url();?>' ,'nomsjoc', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsJoc); $i++) { ?>
                                         <option value="<?=$nomsJoc[$i]->nameid;?>"> <?=$nomsJoc[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -185,7 +185,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Comida: </span>
-                                <select id="noms-menjar" name="nommenjar" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-menjar" name="nommenjar" onchange="afegirParaula('<?=base_url();?>' ,'nomsjoc', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsMenjar); $i++) { ?>
                                         <option value="<?=$nomsMenjar[$i]->nameid;?>"> <?=$nomsMenjar[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -195,7 +195,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Bebida: </span>
-                                <select id="noms-beguda" name="nombeguda" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-beguda" name="nombeguda" onchange="afegirParaula('<?=base_url();?>' ,'nombeguda', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsBeguda); $i++) { ?>
                                         <option value="<?=$nomsBeguda[$i]->nameid;?>"> <?=$nomsBeguda[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -210,7 +210,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Abstracto: </span>
-                                <select id="noms-abstracte" name="nomabstracte" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-abstracte" name="nomabstracte" onchange="afegirParaula('<?=base_url();?>' ,'nomabstracte', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsAbstracte); $i++) { ?>
                                         <option value="<?=$nomsAbstracte[$i]->nameid;?>"> <?=$nomsAbstracte[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -220,7 +220,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Forma y color: </span>
-                                <select id="noms-forma" name="nomforma" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-forma" name="nomforma" onchange="afegirParaula('<?=base_url();?>' ,'nomforma', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsForma); $i++) { ?>
                                         <option value="<?=$nomsForma[$i]->nameid;?>"> <?=$nomsForma[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -230,7 +230,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Cuerpo: </span>
-                                <select id="noms-cos" name="nomcos" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-cos" name="nomcos" onchange="afegirParaula('<?=base_url();?>' ,'nomcos', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsCos); $i++) { ?>
                                         <option value="<?=$nomsCos[$i]->nameid;?>"> <?=$nomsCos[$i]->nomtext;?></option>
                                     <?php } ?>
@@ -250,7 +250,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Verbo: </span>
-                                <select id="verbs-all" name="verball" size=1 tabindex="1" class="selectbox">
+                                <select id="verbs-all" name="verball" onchange="afegirParaula('<?=base_url();?>' ,'verball', 'Verb');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($verbs); $i++) { ?>
                                         <option value="<?=$verbs[$i]->verbid;?>"> <?=$verbs[$i]->verbtext;?></option>
                                     <?php } ?>
@@ -283,7 +283,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Para todo: </span>
-                                <select id="adjs-all" name="adjall" size=1 tabindex="1" class="selectbox">
+                                <select id="adjs-all" name="adjall" onchange="afegirParaula('<?=base_url();?>' ,'adjall', 'Adjectiu');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($adjsAll); $i++) { ?>
                                         <option value="<?=$adjsAll[$i]->adjid;?>"> <?=$adjsAll[$i]->masc;?></option>
                                     <?php } ?>
@@ -293,7 +293,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Animado: </span>
-                                <select id="adjs-animat" name="adjanimat" size=1 tabindex="1" class="selectbox">
+                                <select id="adjs-animat" name="adjanimat" onchange="afegirParaula('<?=base_url();?>' ,'adjanimat', 'Adjectiu');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($adjsAnimat); $i++) { ?>
                                         <option value="<?=$adjsAnimat[$i]->adjid;?>"> <?=$adjsAnimat[$i]->masc;?></option>
                                     <?php } ?>
@@ -303,7 +303,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Objeto: </span>
-                                <select id="adjs-objecte" name="adjobjecte" size=1 tabindex="1" class="selectbox">
+                                <select id="adjs-objecte" name="adjobjecte" onchange="afegirParaula('<?=base_url();?>' ,'adjobjecte', 'Adjectiu');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($adjsObjecte); $i++) { ?>
                                         <option value="<?=$adjsObjecte[$i]->adjid;?>"> <?=$adjsObjecte[$i]->masc;?></option>
                                     <?php } ?>
@@ -313,7 +313,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Color: </span>
-                                <select id="adjs-color" name="adjcolor" size=1 tabindex="1" class="selectbox">
+                                <select id="adjs-color" name="adjcolor" onchange="afegirParaula('<?=base_url();?>' ,'adjcolor', 'Adjectiu');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($adjsColor); $i++) { ?>
                                         <option value="<?=$adjsColor[$i]->adjid;?>"> <?=$adjsColor[$i]->masc;?></option>
                                     <?php } ?>
@@ -328,7 +328,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Lugar: </span>
-                                <select id="advs-lloc" name="advlloc" size=1 tabindex="1" class="selectbox">
+                                <select id="advs-lloc" name="advlloc" onchange="afegirParaula('<?=base_url();?>' ,'advlloc', 'Adverb');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($advsLloc); $i++) { ?>
                                         <option value="<?=$advsLloc[$i]->advid;?>"> <?=$advsLloc[$i]->advtext;?></option>
                                     <?php } ?>
@@ -338,7 +338,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Tiempo: </span>
-                                <select id="advs-temps" name="advtemps" size=1 tabindex="1" class="selectbox">
+                                <select id="advs-temps" name="advtemps" onchange="afegirParaula('<?=base_url();?>' ,'advtemps', 'Adverb');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($advsTemps); $i++) { ?>
                                         <option value="<?=$advsTemps[$i]->advid;?>"> <?=$advsTemps[$i]->advtext;?></option>
                                     <?php } ?>
@@ -348,7 +348,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Manera: </span>
-                                <select id="advs-manera" name="advmanera" size=1 tabindex="1" class="selectbox">
+                                <select id="advs-manera" name="advmanera" onchange="afegirParaula('<?=base_url();?>' ,'advmanera', 'Adverb');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($advsManera); $i++) { ?>
                                         <option value="<?=$advsManera[$i]->advid;?>"> <?=$advsManera[$i]->advtext;?></option>
                                     <?php } ?>
@@ -371,7 +371,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">De palabra: </span>
-                                <select id="modifs-word" name="modifword" size=1 tabindex="1" class="selectbox">
+                                <select id="modifs-word" name="modifword" onchange="afegirParaula('<?=base_url();?>' ,'modifword', 'Modifier');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($modifsWord); $i++) { ?>
                                         <option value="<?=$modifsWord[$i]->modid;?>"> <?=$modifsWord[$i]->masc;?></option>
                                     <?php } ?>
@@ -381,7 +381,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">De frase: </span>
-                                <select id="modifs-phrase" name="modifphrase" size=1 tabindex="1" class="selectbox">
+                                <select id="modifs-phrase" name="modifphrase" onchange="afegirParaula('<?=base_url();?>' ,'modifphrase', 'Modifier');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($modifsPhrase); $i++) { ?>
                                         <option value="<?=$modifsPhrase[$i]->modid;?>"> <?=$modifsPhrase[$i]->masc;?></option>
                                     <?php } ?>
@@ -391,7 +391,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Número: </span>
-                                <select id="adjs-numeros" name="adjnumero" size=1 tabindex="1" class="selectbox">
+                                <select id="adjs-numeros" name="adjnumero" onchange="afegirParaula('<?=base_url();?>' ,'adjnumero', 'Adjectiu');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($adjsNumero); $i++) { ?>
                                         <option value="<?=$adjsNumero[$i]->adjid;?>"> <?=$adjsNumero[$i]->masc;?></option>
                                     <?php } ?>
@@ -401,7 +401,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Ordinal: </span>
-                                <select id="adjs-ordinal" name="adjordinal" size=1 tabindex="1" class="selectbox">
+                                <select id="adjs-ordinal" name="adjordinal" onchange="afegirParaula('<?=base_url();?>' ,'adjordinal', 'Adjectiu');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($adjsOrdinal); $i++) { ?>
                                         <option value="<?=$adjsOrdinal[$i]->adjid;?>"> <?=$adjsOrdinal[$i]->masc;?></option>
                                     <?php } ?>
@@ -416,7 +416,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Expresión: </span>
-                                <select id="exprs-complet" name="exprcomplet" size=1 tabindex="1" class="selectbox">
+                                <select id="exprs-complet" name="exprcomplet" onchange="afegirParaula('<?=base_url();?>' ,'exprcomplet', 'Expressions');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($expressions); $i++) { ?>
                                         <option value="<?=$expressions[$i]->exprid;?>"> <?=$expressions[$i]->exprtext;?></option>
                                     <?php } ?>
@@ -431,7 +431,7 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Pregunta: </span>
-                                <select id="parts-pregunta" name="partpregunta" size=1 tabindex="1" class="selectbox">
+                                <select id="parts-pregunta" name="partpregunta" onchange="afegirParaula('<?=base_url();?>' ,'partpregunta', 'PartPregunta');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($partspregunta); $i++) { ?>
                                         <option value="<?=$partspregunta[$i]->questid;?>"> <?=$partspregunta[$i]->parttext;?></option>
                                     <?php } ?>

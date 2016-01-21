@@ -1477,7 +1477,7 @@ class Mypattern {
         
         $string = "+++++++++++BEGIN PATTERN+++++++++++++<br /><br />";
         
-        $string .= "Score: ".$this->puntuaciofinal.'<br /><br />';
+        $string .= "Score: ".$this->puntuaciofinal.' --> Pattern ID: '.$this->id.'<br /><br />';
         
         foreach ($this->slotarray as $keyslot => $slot) {
             
