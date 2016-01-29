@@ -185,12 +185,12 @@
 
                             <div class="grupsubsubclasse">
                                 <span class="titolsubsubclasse">Menjar: </span>
-                                <select id="noms-menjar" name="nommenjar" onchange="afegirParaula('<?=base_url();?>' ,'nomsjoc', 'Nom');" size=1 tabindex="1" class="selectbox">
+                                <select id="noms-menjar" name="nommenjar" onchange="afegirParaula('<?=base_url();?>' ,'nommenjar', 'Nom');" size=1 tabindex="1" class="selectbox">
                                     <?php for ($i=0; $i<count($nomsMenjar); $i++) { ?>
                                         <option value="<?=$nomsMenjar[$i]->nameid;?>"> <?=$nomsMenjar[$i]->nomtext;?></option>
                                     <?php } ?>
                                 </select>
-                                <span class="botoafegir" onclick="afegirParaula('<?=base_url();?>' ,'nomsjoc', 'Nom');">+</span>
+                                <span class="botoafegir" onclick="afegirParaula('<?=base_url();?>' ,'nommenjar', 'Nom');">+</span>
                             </div> <br /><br />
 
                             <div class="grupsubsubclasse">

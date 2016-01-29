@@ -680,7 +680,10 @@ class Myslot {
                     }
                     
                     // NOM + COORDINACIÓ
-                    if ($plural) $elementaux[0] = $nucli->propietats->plural;
+                    if ($plural) {
+                        if ($nucli->propietats->mf != "fem" && !$masc) $elementaux[0] = $nucli->propietats->fempl;
+                        else $elementaux[0] = $nucli->propietats->plural;
+                    }
                     else if ($masc && !$plural) $elementaux[0] = $nucli->propietats->nomtext;
                     else {
                         if ($nucli->propietats->mf == "fem") $elementaux[0] = $nucli->propietats->nomtext;
@@ -1578,7 +1581,10 @@ class Myslot {
                     }
                     
                     // NOM + COORDINACIÓ
-                    if ($plural) $elementaux[0] = $nucli->propietats->plural;
+                    if ($plural) {
+                        if ($nucli->propietats->mf != "fem" && !$masc) $elementaux[0] = $nucli->propietats->fempl;
+                        else $elementaux[0] = $nucli->propietats->plural;
+                    }
                     else if ($masc && !$plural) $elementaux[0] = $nucli->propietats->nomtext;
                     else {
                         if ($nucli->propietats->mf == "fem") $elementaux[0] = $nucli->propietats->nomtext;
