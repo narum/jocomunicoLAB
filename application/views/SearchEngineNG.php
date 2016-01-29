@@ -11,7 +11,6 @@
 <link href="<?= base_url();?>css/projecte.css" rel="stylesheet" type="text/css" />
 <script src="<?= base_url();?>js/angular/jquery-2.2.0.min.js" type="text/javascript"></script>
 <script src="<?= base_url();?>js/angular/angular.min.js" type="text/javascript"></script>
-<script src="<?= base_url();?>js/angular/angular-bind-html-compile.js" type="text/javascript"></script>
 <script src="<?= base_url();?>js/angular/interface.js" type="text/javascript"></script>
 <script src="<?= base_url();?>js/angular/angular-sanitize.min.js" type="text/javascript"></script>
 
@@ -21,21 +20,12 @@
 
 <body ng-controller="SearchController" ng-init="baseurl='<?=base_url();?>'">
 
-    <div id="cos">
+    <div id="cos" style="background-color: lightblue;">
 
-                <span class="titolsubsubclasse">Noms filtrats: </span>
-                <select id="noms-filtered" ng-model="nomsfiltered" ng-change="searchPictogram();" size=1 tabindex="1" class="selectbox">
-                    <?php for ($i=0; $i<count($nomsFiltrats); $i++) { ?>
-                        <option value="<?=$nomsFiltrats[$i]->nameid;?>"> <?=$nomsFiltrats[$i]->nomtext;?> </option>
-                    <?php } ?>
-                </select>
+        <span class="spansbonics"> PAGE 2 </span>
                 
-                <div id="picto-container" ng-show="mostrapicto" bind-html-compile="pictoimg" >
-
-                   <!-- <img src="<?=base_url();?>img/pictos/{{ pictoimg }}" /> -->
-
-                    {{pictoimg}}
-
+                <div id="picto-container" ng-include="'<?=base_url();?>application/views/TemplatePanels.html'">
+                                        
                 </div>
 
     </div>

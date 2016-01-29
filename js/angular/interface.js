@@ -1,4 +1,4 @@
-var jocomunicoApp = angular.module('jocomunicoApp', ['ngSanitize']);
+var jocomunicoApp = angular.module('jocomunicoApp', ['ngSanitize', 'angular-bind-html-compile']);
 
 /* jocomunicoApp.config(function ($routeProvider) {
 
@@ -26,6 +26,10 @@ jocomunicoApp.controller('SearchController', function($scope, $http) {
             $scope.mostrapicto = true;
             $scope.pictoimg = data;
             
+           // $('picto-container').update(data);
+            // $scope.pictocontainer.innerHTML = data;
+            // $scope.apply();
+            
         }).error(function(data){
             
             $scope.mostrapicto = false;
@@ -34,7 +38,7 @@ jocomunicoApp.controller('SearchController', function($scope, $http) {
         });
     };
     
-    $scope.guru = function() {
+    $scope.clickAlert = function() {
         alert($scope.nomsfiltered);
     }
     

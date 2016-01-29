@@ -17,7 +17,20 @@ class PictogramSearch extends CI_Controller {
             }
             else {
                 $data['nomsFiltrats'] = $this->ForInterface->getNomsSearch("m");
+                
                 $this->load->view('SearchEngine', $data);
+            }
+	}
+        
+        public function secondpage()
+	{
+            // CHECK COOKIES
+            if (!$this->session->userdata('uname')) {
+                redirect(base_url(), 'location');
+            }
+            else {
+                $data['nomsFiltrats'] = $this->ForInterface->getNomsSearch("m");
+                $this->load->view('SearchEngineNG', $data);
             }
 	}
         
@@ -32,13 +45,14 @@ class PictogramSearch extends CI_Controller {
             
             if ($pictoimg != null) {
                 $data['pictoimg'] = $pictoimg;
+                
             }
             else {
                 $data['pictoimg'] = "triste.png";
             }
-            echo $data['pictoimg'];
+            // echo $data['pictoimg'];
             
-            // $this->load->view('PictogramImg', $data);
+            $this->load->view('PictogramImg', $data);
             
         }
 
