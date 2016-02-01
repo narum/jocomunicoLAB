@@ -156,6 +156,10 @@ class Myexpander {
             $bestpatternpunts = -1000;
 
             for ($i=0; $i<count($this->puntsallpatterns); $i++) {
+                
+                // PER VEURE LES PUNTUACIONS DE TOTS ELS PATRONS QUE HA PROVAT 
+                // echo "Patró ".$i.": ".$this->puntsallpatterns[$i]." </br ><br />";
+                
                 if ($this->puntsallpatterns[$i] > $bestpatternpunts) {
                     $bestpatternpunts = $this->puntsallpatterns[$i];
                     $bestpatternindex = $i;

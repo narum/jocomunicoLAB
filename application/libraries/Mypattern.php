@@ -1383,9 +1383,11 @@ class Mypattern {
     public function calcPuntsFinalPattern()
     {
         foreach ($this->slotarray as $slot) {
-            
+                        
             if ($slot->full) {
-                $this->puntuaciofinal -= $slot->puntsfinal;
+                // compensem que si un slot obligatori és un perfect fill, que el triï sobre un slot opt d'un altre patró
+                if ($slot->grade == '1' && $slot->puntsfinal == 0) $this->puntuaciofinal += 1;
+                else $this->puntuaciofinal -= $slot->puntsfinal;
                 
                 // echo $slot->category.": ".$slot->puntsfinal.'<br />';
                 // punts de coordinacions
