@@ -1,0 +1,606 @@
+CREATE DATABASE jocomunico
+    DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE Languages (
+	languageid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	languageabbr VARCHAR(20)
+) ENGINE=INNODB;
+
+CREATE TABLE User (
+	userid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	uname VARCHAR(50),
+	pswd VARCHAR(32),
+	realname VARCHAR(200),
+	surnames VARCHAR(300),
+	email VARCHAR(300),
+	ulanguage INT,
+	cfgExpansionOnOff ENUM('0', '1') DEFAULT '1',
+	cfgPredOnOff ENUM('0', '1') DEFAULT '1',
+	cfgPredBarUpDown ENUM('0', '1') DEFAULT '1',
+	cfgPredBarNumPred INT DEFAULT '5',
+	cfgScanningOnOff ENUM('0', '1') DEFAULT '0',
+	cfgScanningRowColCustom ENUM('0', '1', '2') DEFAULT '0',
+	cfgMenuUpDownRightLeft ENUM('0', '1', '2', '3') DEFAULT '2',
+	cfgMenuSize INT DEFAULT '10',
+	cfgFeedbackVoiceOnOff ENUM('0', '1') DEFAULT '0',
+	cfgFeedbackVoice VARCHAR(150),
+	cfgOutputVoice VARCHAR(150),
+	cfgBlackOnWhiteVSWhiteOnBlack ENUM('0', '1') DEFAULT '0',
+	INDEX ULanguage (ulanguage),
+	FOREIGN KEY (ulanguage) REFERENCES Languages (languageid) ON DELETE SET NULL
+) ENGINE=INNODB;
+
+CREATE TABLE Boards (
+	boardid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	boardname VARCHAR(150),
+	numPictoPerRow INT DEFAULT '5',
+	numPictoPerCol INT DEFAULT '5'
+) ENGINE=INNODB;
+
+CREATE TABLE UserBoards (
+	userid INT,	
+	boardid INT,
+	defaultboard ENUM('0', '1') DEFAULT '0',
+	PRIMARY KEY (userid, boardid),
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE CASCADE,
+	INDEX BoardId (boardid),
+	FOREIGN KEY (boardid) REFERENCES Boards (boardid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE Pictograms (
+	pictoid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	pictotype VARCHAR(100),
+	pictoimg VARCHAR(300)
+) ENGINE=INNODB;
+
+CREATE TABLE PictogramsLanguage (
+	pictoid INT,	
+	languageid INT,
+	insertdate DATE,
+	pictotext VARCHAR(200),
+	pictofreq FLOAT,
+	PRIMARY KEY (pictoid, languageid),
+	INDEX PictoId (pictoid),
+	FOREIGN KEY (pictoid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE,
+	INDEX LanguageId (languageid),
+	FOREIGN KEY (languageid) REFERENCES Languages (languageid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE ScanBlockInBoard (
+	blockid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,	
+	boardid INT,
+	blockorderinboard INT,
+	blockname VARCHAR(200),
+	blockfeedbackvoice VARCHAR(300),
+	UNIQUE (blockorderinboard, boardid),
+	INDEX BoardId (boardid),
+	FOREIGN KEY (boardid) REFERENCES Boards (boardid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE PictoInBoard (
+	pictoid INT,	
+	boardid INT,
+	positioninboard INT,
+	scanningblock INT NULL,
+	celltype ENUM('picto', 'toboard') DEFAULT 'picto',
+	textcategorytoboard VARCHAR(200),
+	nestedboardid INT NULL,
+	activecell ENUM('0', '1') DEFAULT '1',
+	PRIMARY KEY (pictoid, boardid),
+	INDEX PictoId (pictoid),
+	FOREIGN KEY (pictoid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE,
+	INDEX BoardId (boardid),
+	FOREIGN KEY (boardid) REFERENCES Boards (boardid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE Functions (
+	functionid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	functionname VARCHAR(200),
+	functiondescr TEXT,
+	functionislist ENUM('0', '1') DEFAULT '0'
+) ENGINE=INNODB;
+
+CREATE TABLE ListForFunction (
+	functionid INT,
+	orderinlist INT,
+	listtext VARCHAR(300),	
+	PRIMARY KEY (functionid, orderinlist),
+	INDEX FunctionId (functionid),
+	FOREIGN KEY (functionid) REFERENCES Functions (functionid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE PictoInBoardFunctions (
+	pictoid INT,	
+	boardid INT,
+	functionid INT,
+	PRIMARY KEY (pictoid, boardid, functionid),
+	INDEX PictoId (pictoid),
+	FOREIGN KEY (pictoid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE,
+	INDEX BoardId (boardid),
+	FOREIGN KEY (boardid) REFERENCES Boards (boardid) ON DELETE CASCADE,
+	INDEX FunctionId (functionid),
+	FOREIGN KEY (functionid) REFERENCES Functions (functionid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE Sentences (
+	sentenceid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	userid INT,
+	sentencetype VARCHAR(20) DEFAULT 'enunciativa',
+	isnegative ENUM('0', '1') DEFAULT '0',
+	sentencetense VARCHAR(20) DEFAULT 'default',
+	sentencedate DATE,
+	sentencefinished ENUM('0', '1') DEFAULT '0',
+	intendedsentence VARCHAR(500) NULL,
+	inputwords VARCHAR(500) NULL,
+	parsescore INT NULL,
+	parsestring TEXT NULL,
+	generatorscore INT NULL,
+	generatorstring VARCHAR(500) NULL,
+	comments TEXT NULL,
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE SET NULL 
+) ENGINE=INNODB;
+
+CREATE TABLE SentencePictograms (
+	sentencepictoid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	sentenceid INT,
+	pictoid INT,
+	isplural ENUM('0', '1') DEFAULT '0',
+	isfem ENUM('0', '1') DEFAULT '0',
+	coordinated ENUM('0', '1') DEFAULT '0',
+	INDEX SentenceId (sentenceid),
+	FOREIGN KEY (sentenceid) REFERENCES Sentences (sentenceid) ON DELETE CASCADE,
+	INDEX PictoId (pictoid),
+	FOREIGN KEY (pictoid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE SentencePictogramsProv (
+	sentencepictoid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	sentenceid INT NULL,
+	pictoid INT,
+	isplural ENUM('0', '1') DEFAULT '0',
+	isfem ENUM('0', '1') DEFAULT '0',
+	coordinated ENUM('0', '1') DEFAULT '0',
+	userid INT,
+	INDEX SentenceId (sentenceid),
+	FOREIGN KEY (sentenceid) REFERENCES Sentences (sentenceid) ON DELETE CASCADE,
+	INDEX PictoId (pictoid),
+	FOREIGN KEY (pictoid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE,
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE Folders (
+	folderid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	userid INT,
+	foldername VARCHAR(300),
+	folderfeedbackvoice VARCHAR(300),
+	parentfolder INT NULL,
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE CASCADE 
+) ENGINE=INNODB;
+
+CREATE TABLE SentenceInFolder (
+	sentenceid INT,
+	folderid INT,
+	PRIMARY KEY (sentenceid, folderid),
+	INDEX SentenceId (sentenceid),
+	FOREIGN KEY (sentenceid) REFERENCES Sentences (sentenceid) ON DELETE CASCADE,
+	INDEX FolderId (folderid),
+	FOREIGN KEY (folderid) REFERENCES Folders (folderid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE PreRecordedSentences (
+	prerecsentenceid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	userid INT,
+	folderid INT,
+	prerecsentencetext TEXT,
+	prerecsentencefile VARCHAR(300),
+	sentencedate DATE,
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE SET NULL,
+	INDEX FolderId (folderid),
+	FOREIGN KEY (folderid) REFERENCES Folders (folderid) ON DELETE SET NULL
+) ENGINE=INNODB;
+
+CREATE TABLE StatsUserPicto (
+	userid INT,
+	pictoid INT,
+	numx1 INT,
+	PRIMARY KEY (userid, pictoid),
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE CASCADE,
+	INDEX PictoId (pictoid),
+	FOREIGN KEY (pictoid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE StatsUserPictox2 (
+	userid INT,
+	picto1id INT,
+	picto2id INT,
+	numx2 INT,
+	PRIMARY KEY (userid, picto1id, picto2id),
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE CASCADE,
+	INDEX Picto1Id (picto1id),
+	FOREIGN KEY (picto1id) REFERENCES Pictograms (pictoid) ON DELETE CASCADE,
+	INDEX Picto2Id (picto2id),
+	FOREIGN KEY (picto2id) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE StatsUserPictox3 (
+	userid INT,
+	picto1id INT,
+	picto2id INT,
+	picto3id INT,
+	numx3 INT,
+	PRIMARY KEY (userid, picto1id, picto2id, picto3id),
+	INDEX UserId (userid),
+	FOREIGN KEY (userid) REFERENCES User (userid) ON DELETE CASCADE,
+	INDEX Picto1Id (picto1id),
+	FOREIGN KEY (picto1id) REFERENCES Pictograms (pictoid) ON DELETE CASCADE,
+	INDEX Picto2Id (picto2id),
+	FOREIGN KEY (picto2id) REFERENCES Pictograms (pictoid) ON DELETE CASCADE,
+	INDEX Picto3Id (picto3id),
+	FOREIGN KEY (picto3id) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE VerbCA (
+	verbid INT NOT NULL PRIMARY KEY,
+	verbtext VARCHAR(50),
+	actiu ENUM('0', '1'),
+	INDEX verbText (verbtext),
+	INDEX VerbId (verbid),
+	FOREIGN KEY (verbid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE VerbConjugationCA (
+	verbid INT,
+	tense VARCHAR(50),
+	pers INT,
+	singpl ENUM('sing', 'pl'),
+	verbconj VARCHAR(50),
+	PRIMARY KEY (verbid, tense, pers, singpl),
+	INDEX VerbId (verbid),
+	FOREIGN KEY (verbid) REFERENCES VerbCA (verbid) ON DELETE CASCADE 
+) ENGINE=INNODB;
+
+CREATE TABLE VerbPatternCA (
+	patternid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	verbid INT,
+	pronominal ENUM('0', '1'),
+	pseudoimpersonal ENUM('0', '1'),
+	tipusfrase ENUM('enunciativa', 'peticio', 'ordre', 'pregunta', 'resposta'),
+	defaulttense ENUM('present', 'pperfet', 'pperifrastic', 'futur', 'imperatiu', 'infinitiu', 'verbless'),
+	verbpeticio VARCHAR(50),
+	subj VARCHAR(20),
+	subjdef VARCHAR(30),
+	theme ENUM('1', '0', 'opt'),
+	themetipus VARCHAR(20) NULL,
+	themedef VARCHAR(30) NULL,
+	themeprep VARCHAR(15) NULL,
+	receiver ENUM('1', '0', 'opt'),
+	receiverdef VARCHAR(30) NULL,
+	receiverprep VARCHAR(15) NULL,
+	benef ENUM('1', '0', 'opt'),
+	beneftipus VARCHAR(20) NULL,
+	benefdef VARCHAR(30) NULL,
+	benefprep VARCHAR(15) NULL,
+	acomp ENUM('1', '0', 'opt'),
+	acompdef VARCHAR(30) NULL,
+	acompprep VARCHAR(15) NULL,
+	tool ENUM('1', '0', 'opt'),
+	tooldef VARCHAR(30) NULL,
+	toolprep VARCHAR(15) NULL,
+	manera ENUM('1', '0', 'opt'),
+	maneradef VARCHAR(30) NULL,
+	maneratipus VARCHAR(20) NULL,
+	locto ENUM('1', '0', 'opt'),
+	loctotipus VARCHAR(20) NULL,
+	loctodef VARCHAR(30) NULL,
+	loctoprep VARCHAR(15) NULL,
+	locfrom ENUM('1', '0', 'opt'),
+	locfromtipus VARCHAR(20) NULL,	
+	locfromdef VARCHAR(30) NULL,
+	locfromprep VARCHAR(15) NULL,
+	locat ENUM('1', '0', 'opt'),
+	locatdef VARCHAR(30) NULL,
+	locatprep VARCHAR(15) NULL,
+	time ENUM('1', '0', 'opt'),
+	expressio VARCHAR(50) NULL,
+	subverb ENUM('0', '1'),
+	exemple TEXT,
+	INDEX VerbId (verbid),
+	FOREIGN KEY (verbid) REFERENCES VerbCA (verbid) ON DELETE SET NULL
+) ENGINE=INNODB;
+
+CREATE TABLE PatternOrdreCA (
+	patternid INT PRIMARY KEY,
+	subject INT DEFAULT '1000',
+	theme INT DEFAULT '1000',
+	receiver INT DEFAULT '1000',
+	benef INT DEFAULT '1000',
+	acomp INT DEFAULT '1000',
+	tool INT DEFAULT '1000',
+	manera INT DEFAULT '1000',
+	locto INT DEFAULT '1000',
+	locfrom INT DEFAULT '1000',
+	locat INT DEFAULT '1000',
+	time INT DEFAULT '1000',
+	INDEX PatternId (patternid),
+	FOREIGN KEY (patternid) REFERENCES VerbPatternCA (patternid) ON DELETE CASCADE 
+) ENGINE=INNODB;
+
+CREATE TABLE NameCA (
+	nameid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nomtext VARCHAR(50),
+	mf ENUM('masc', 'fem'),
+	singpl ENUM('sing', 'pl'),
+	contabincontab ENUM('contable', 'incontable'),
+	determinat ENUM('0', '1', 'sense'),
+	plural VARCHAR(50) NULL,
+	femeni VARCHAR(50) NULL,
+	fempl VARCHAR(50) NULL,
+	INDEX NameId (nameid),
+	FOREIGN KEY (nameid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE NameClassCA (
+	nameid INT,
+	class VARCHAR(20) DEFAULT 'noun',
+	INDEX NameId (nameid),
+	FOREIGN KEY (nameid) REFERENCES NameCA (nameid) ON DELETE CASCADE,
+	PRIMARY KEY (nameid, class)
+) ENGINE=INNODB;
+
+CREATE TABLE AdjectiveCA (
+	adjid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	masc VARCHAR(50),
+	fem VARCHAR(50),
+	mascpl VARCHAR(50),
+	fempl VARCHAR(50),
+	INDEX AjdId (adjid),
+	FOREIGN KEY (adjid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE AdjClassCA (
+	adjid INT,
+	class VARCHAR(20) DEFAULT 'noun',
+	INDEX AdjId (adjid),
+	FOREIGN KEY (adjid) REFERENCES AdjectiveCA (adjid) ON DELETE CASCADE,
+	PRIMARY KEY (adjid, class)
+) ENGINE=INNODB;
+
+CREATE TABLE AdverbCA (
+	advid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	advtext VARCHAR(50),
+	INDEX AjvId (advid),
+	FOREIGN KEY (advid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE AdvTypeCA (
+	advid INT,
+	type VARCHAR(20) DEFAULT 'manera',
+	INDEX AdvId (advid),
+	FOREIGN KEY (advid) REFERENCES AdverbCA (advid) ON DELETE CASCADE,
+	PRIMARY KEY (advid, type)
+) ENGINE=INNODB;
+
+CREATE TABLE ModifierCA (
+	modid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	masc VARCHAR(50),
+	fem VARCHAR(50) NULL,
+	mascpl VARCHAR(50) NULL,
+	fempl VARCHAR(50) NULL,
+	negatiu ENUM('0', '1'),
+	type VARCHAR(20) NULL,
+	scope VARCHAR(20) DEFAULT 'phrase',
+	INDEX ModId (modid),
+	FOREIGN KEY (modid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE ExpressionsCA (
+	exprid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	exprtext VARCHAR(100),
+	negatiu ENUM('0', '1'),
+	INDEX ExprId (exprid),
+	FOREIGN KEY (exprid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE ExprTypeCA (
+	exprid INT,
+	type VARCHAR(20) DEFAULT 'frase',
+	INDEX ExprId (exprid),
+	FOREIGN KEY (exprid) REFERENCES ExpressionsCA (exprid) ON DELETE CASCADE,
+	PRIMARY KEY (exprid, type)
+) ENGINE=INNODB;
+
+CREATE TABLE QuestionPartCA (
+	questid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	parttext VARCHAR(100),
+	complement1 VARCHAR(20) DEFAULT 'theme',
+	complement2 VARCHAR(20) NULL,
+	INDEX QuestId (questid),
+	FOREIGN KEY (questid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE VerbES (
+	verbid INT NOT NULL PRIMARY KEY,
+	verbtext VARCHAR(50),
+	actiu ENUM('0', '1'),
+	INDEX verbText (verbtext),
+	INDEX VerbId (verbid),
+	FOREIGN KEY (verbid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE VerbConjugationES (
+	verbid INT,
+	tense VARCHAR(50),
+	pers INT,
+	singpl ENUM('sing', 'pl'),
+	verbconj VARCHAR(50),
+	PRIMARY KEY (verbid, tense, pers, singpl),
+	INDEX VerbId (verbid),
+	FOREIGN KEY (verbid) REFERENCES VerbCA (verbid) ON DELETE CASCADE 
+) ENGINE=INNODB;
+
+CREATE TABLE VerbPatternES (
+	patternid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	verbid INT,
+	pronominal ENUM('0', '1'),
+	pseudoimpersonal ENUM('0', '1'),
+	tipusfrase ENUM('enunciativa', 'peticio', 'ordre', 'pregunta', 'resposta'),
+	defaulttense ENUM('present', 'pperfet', 'pperifrastic', 'futur', 'imperatiu', 'infinitiu', 'verbless'),
+	verbpeticio VARCHAR(50),
+	subj VARCHAR(20),
+	subjdef VARCHAR(30),
+	theme ENUM('1', '0', 'opt'),
+	themetipus VARCHAR(20) NULL,
+	themedef VARCHAR(30) NULL,
+	themeprep VARCHAR(15) NULL,
+	receiver ENUM('1', '0', 'opt'),
+	receiverdef VARCHAR(30) NULL,
+	receiverprep VARCHAR(15) NULL,
+	benef ENUM('1', '0', 'opt'),
+	beneftipus VARCHAR(20) NULL,
+	benefdef VARCHAR(30) NULL,
+	benefprep VARCHAR(15) NULL,
+	acomp ENUM('1', '0', 'opt'),
+	acompdef VARCHAR(30) NULL,
+	acompprep VARCHAR(15) NULL,
+	tool ENUM('1', '0', 'opt'),
+	tooldef VARCHAR(30) NULL,
+	toolprep VARCHAR(15) NULL,
+	manera ENUM('1', '0', 'opt'),
+	maneradef VARCHAR(30) NULL,
+	maneratipus VARCHAR(20) NULL,
+	locto ENUM('1', '0', 'opt'),
+	loctotipus VARCHAR(20) NULL,
+	loctodef VARCHAR(30) NULL,
+	loctoprep VARCHAR(15) NULL,
+	locfrom ENUM('1', '0', 'opt'),
+	locfromtipus VARCHAR(20) NULL,	
+	locfromdef VARCHAR(30) NULL,
+	locfromprep VARCHAR(15) NULL,
+	locat ENUM('1', '0', 'opt'),
+	locatdef VARCHAR(30) NULL,
+	locatprep VARCHAR(15) NULL,
+	time ENUM('1', '0', 'opt'),
+	expressio VARCHAR(50) NULL,
+	subverb ENUM('0', '1'),
+	exemple TEXT,
+	INDEX VerbId (verbid),
+	FOREIGN KEY (verbid) REFERENCES VerbCA (verbid) ON DELETE SET NULL
+) ENGINE=INNODB;
+
+CREATE TABLE PatternOrdreES (
+	patternid INT PRIMARY KEY,
+	subject INT DEFAULT '1000',
+	theme INT DEFAULT '1000',
+	receiver INT DEFAULT '1000',
+	benef INT DEFAULT '1000',
+	acomp INT DEFAULT '1000',
+	tool INT DEFAULT '1000',
+	manera INT DEFAULT '1000',
+	locto INT DEFAULT '1000',
+	locfrom INT DEFAULT '1000',
+	locat INT DEFAULT '1000',
+	time INT DEFAULT '1000',
+	INDEX PatternId (patternid),
+	FOREIGN KEY (patternid) REFERENCES VerbPatternCA (patternid) ON DELETE CASCADE 
+) ENGINE=INNODB;
+
+CREATE TABLE NameES (
+	nameid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nomtext VARCHAR(50),
+	mf ENUM('masc', 'fem'),
+	singpl ENUM('sing', 'pl'),
+	contabincontab ENUM('contable', 'incontable'),
+	determinat ENUM('0', '1', 'sense'),
+	plural VARCHAR(50) NULL,
+	femeni VARCHAR(50) NULL,
+	fempl VARCHAR(50) NULL,
+	INDEX NameId (nameid),
+	FOREIGN KEY (nameid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE NameClassES (
+	nameid INT,
+	class VARCHAR(20) DEFAULT 'noun',
+	INDEX NameId (nameid),
+	FOREIGN KEY (nameid) REFERENCES NameCA (nameid) ON DELETE CASCADE,
+	PRIMARY KEY (nameid, class)
+) ENGINE=INNODB;
+
+CREATE TABLE AdjectiveES (
+	adjid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	masc VARCHAR(50),
+	fem VARCHAR(50),
+	mascpl VARCHAR(50),
+	fempl VARCHAR(50),
+	INDEX AjdId (adjid),
+	FOREIGN KEY (adjid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE AdjClassES (
+	adjid INT,
+	class VARCHAR(20) DEFAULT 'noun',
+	INDEX AdjId (adjid),
+	FOREIGN KEY (adjid) REFERENCES AdjectiveCA (adjid) ON DELETE CASCADE,
+	PRIMARY KEY (adjid, class)
+) ENGINE=INNODB;
+
+CREATE TABLE AdverbES (
+	advid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	advtext VARCHAR(50),
+	INDEX AjvId (advid),
+	FOREIGN KEY (advid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE AdvTypeES (
+	advid INT,
+	type VARCHAR(20) DEFAULT 'manera',
+	INDEX AdvId (advid),
+	FOREIGN KEY (advid) REFERENCES AdverbCA (advid) ON DELETE CASCADE,
+	PRIMARY KEY (advid, type)
+) ENGINE=INNODB;
+
+CREATE TABLE ModifierES (
+	modid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	masc VARCHAR(50),
+	fem VARCHAR(50) NULL,
+	mascpl VARCHAR(50) NULL,
+	fempl VARCHAR(50) NULL,
+	negatiu ENUM('0', '1'),
+	type VARCHAR(20) NULL,
+	scope VARCHAR(20) DEFAULT 'phrase',
+	INDEX ModId (modid),
+	FOREIGN KEY (modid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE ExpressionsES (
+	exprid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	exprtext VARCHAR(100),
+	negatiu ENUM('0', '1'),
+	INDEX ExprId (exprid),
+	FOREIGN KEY (exprid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
+CREATE TABLE ExprTypeES (
+	exprid INT,
+	type VARCHAR(20) DEFAULT 'frase',
+	INDEX ExprId (exprid),
+	FOREIGN KEY (exprid) REFERENCES ExpressionsCA (exprid) ON DELETE CASCADE,
+	PRIMARY KEY (exprid, type)
+) ENGINE=INNODB;
+
+CREATE TABLE QuestionPartES (
+	questid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	parttext VARCHAR(100),
+	complement1 VARCHAR(20) DEFAULT 'theme',
+	complement2 VARCHAR(20) NULL,
+	INDEX QuestId (questid),
+	FOREIGN KEY (questid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
+) ENGINE=INNODB;
+
