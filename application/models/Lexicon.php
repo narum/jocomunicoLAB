@@ -800,6 +800,10 @@ class Lexicon extends CI_Model {
         // a Elements Seleccionats, just abans de prémer Generar
         $paraulesFrase = $this->recuperarFrase($idusu);
         $inputwords = "";
+        
+        // Hi afegirem també els ids, modifs, tipus de frases i tenses a l'string
+        // per imprimir per pantalla per DEBUG
+        $inputids = "";
 
         for ($i=0; $i<count($paraulesFrase); $i++) {
 
@@ -808,6 +812,41 @@ class Lexicon extends CI_Model {
 
 
                 $inputwords .= $word->text;
+                $inputids .= $word->id;
+                
+                /*switch($word->pictotype)
+                {
+                    case 'name':
+                        $inputids .= $word->nameid;
+                        break;
+                    case 'verb':
+                        $inputids .= $word->verbid;
+                        break;
+                    case 'adj':
+                        $inputids .= $word->adjid;
+                        break;
+                    case 'adv':
+                        $inputids .= $word->advid;
+                        break;
+                    case 'expression':
+                        $inputids .= $word->exprid;
+                        break;
+                    case 'modifier':
+                        $inputids .= $word->modid;
+                        break;
+                    case 'questpart':
+                        $inputids .= $word->questid;
+                        break;
+                    default:
+                        $inputids .= "";
+                        break;
+                }*/
+                
+                // SEGUIR AQUÍ AMB ELS PL FEM COORD I TIPUS DE FRASE I TENSES
+                if ($word->plural) $inputids .= " / \$pl";
+                if ($word->fem) $inputids .= " / \$fem";
+                if ($word->coord) $inputids .= " / \$i";
+                
                 if($word->plural || $word->fem || $word->coord) {
                     $inputwords .= '(';
                     if ($word->plural) $inputwords .= 'pl';
@@ -818,9 +857,15 @@ class Lexicon extends CI_Model {
                     $inputwords .= ')';
                 } 
                 if ($i < (count($paraulesFrase) - 1)) $inputwords .= " / ";
+                if ($i < (count($paraulesFrase) - 1)) $inputids .= " / ";
             }
         }
 
+        $inputids .= " / #".$this->input->post('tipusfrase', true);
+        $inputids .= " / @".$this->input->post('tense', true);
+        if ($negativa) $inputids .= " / %no";
+        
+        $inputwords .="<br /><br />".$inputids;
 
         $data = array(
             'userid' => $idusu,
