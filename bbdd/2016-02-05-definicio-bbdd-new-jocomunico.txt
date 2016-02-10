@@ -27,7 +27,7 @@ CREATE TABLE SuperUser (
 	cfgPredBarNumPred INT DEFAULT '5',
 	cfgScanningOnOff ENUM('0', '1') DEFAULT '0',
 	cfgScanningRowColCustom ENUM('0', '1', '2') DEFAULT '0',
-	cfgScanningAutoOnOff ENUM('0', '1') DEFAULT ‘0’,
+	cfgScanningAutoOnOff ENUM('0', '1') DEFAULT '0',
 	cfgTimeScanning INT DEFAULT '1000',
 	cfgMenuUpDown ENUM('0', '1') DEFAULT '1',
 	cfgMenuSize INT DEFAULT '10',
@@ -37,6 +37,12 @@ CREATE TABLE SuperUser (
 	cfgBlackOnWhiteVSWhiteOnBlack ENUM('0', '1') DEFAULT '0'
 ) ENGINE=INNODB;
 
+
+
+CREATE TABLE Organization (
+	ID_Org INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	orgName VARCHAR(300)
+) ENGINE=INNODB;
 
 
 CREATE TABLE User (
@@ -90,7 +96,7 @@ CREATE TABLE Boards (
 # (ID_PUser: per defecte serà de l’usuari 0 que tindrà el vocab per defecte)
 CREATE TABLE Pictograms (
 	pictoid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	ID_PUser INT DEFAULT '0',
+	ID_PUser INT DEFAULT ‘1’,
 	pictoType VARCHAR(100),
 	supportsExpansion ENUM('0', '1') DEFAULT '1',
 	imgPicto VARCHAR(300),
@@ -427,7 +433,7 @@ CREATE TABLE PatternCA (
 	themetipus VARCHAR(20) NULL,
 	themedef VARCHAR(30) NULL,
 	themeprep VARCHAR(15) NULL,
-	themeart ENUM('0', '1', 'sense', NULL) NULL,
+	themeart ENUM('0', '1', 'sense') NULL,
 	receiver ENUM('1', '0', 'opt'),
 	receiverdef VARCHAR(30) NULL,
 	receiverprep VARCHAR(15) NULL,
@@ -519,7 +525,7 @@ CREATE TABLE AdjectiveCA (
 	mascpl VARCHAR(50),
 	fempl VARCHAR(50),
 	serestar ENUM('0', '1') DEFAULT '1',
-	subjdef VARCHAR(30),
+	subjdef VARCHAR(30) DEFAULT '1',
 	INDEX AjdId (adjid),
 	FOREIGN KEY (adjid) REFERENCES Pictograms (pictoid) ON DELETE CASCADE
 ) ENGINE=INNODB;
@@ -621,7 +627,7 @@ CREATE TABLE PatternES (
 	themetipus VARCHAR(20) NULL,
 	themedef VARCHAR(30) NULL,
 	themeprep VARCHAR(15) NULL,
-	themeart ENUM('0', '1', 'sense', NULL) NULL,
+	themeart ENUM('0', '1', 'sense') NULL,
 	receiver ENUM('1', '0', 'opt'),
 	receiverdef VARCHAR(30) NULL,
 	receiverprep VARCHAR(15) NULL,
