@@ -1,0 +1,54 @@
+MILLORES I AMPLIACIONS AL SISTEMA D’EXPANSIÓ
+
+IMPORTANT: POSAR PICTOGRAMA DE “FALTA PICTOGRAMA”. Si el rep el sistema d’expansió, que aleshores el sistema es desactivi i retorni la frase telegràficament.
+
+Posar columna ser/estar a la taula d'adjectius i codificar-ho a l’algoritme pels verbless patterns i pel sistema de predicció.
+
+Fer una taula que relacioni verbs amb patterns per poder reaprofitar patterns ja fets per nous verbs. // O dir que un verb funciona com un sinònim d'un altre i fa servir els mateixos patterns.
+
+Fer que mostri tots els millors patterns generats i que l'usuari triï. OPCIÓ PER DESACTIVAR-HO.
+
+Millorar els tipus de noms, més detallats, tant donant més classes als noms com als patterns especificar més cada tipus d'slot. PENSAR SI GENERARÀ MÉS O MENYS ERRORS.
+
+Afegir el passat pel subjuntiu a tots els verbs.
+
+IMPORTANT: Afegir llistat de noms propis.
+
+Millorar el parsing del subjecte i el theme dels pseudoimpersonals perquè s'assembli més a la manera intuïtiva -> Jo agradar X. VEURE-HO AMB L’ÚS DELS USUARIS.
+
+IMPORTANT: Repassar l’algoritme que posa articles, per la tendència a posar-ne d’indeterminats.
+
+IMPORTANT: Els articles dels receptors de verbs pseudoimpersonals han de ser determinats. Ex: El cocinero gusta a la chica. --> I encara millor seria que diguÈs: A la chica le gusta el cocinero. -> General: Que els Receivers dels patters de verbs pseudoimpersonals com l'agradar portin article determinat.
+
+Afegir un modificador com el de femení i plural per dir que el nom porti article determinat o indeterminat. PENSAR-HO BÉ.
+
+Poder dir hores. Quart, mitja, 3/4, etc.
+
+Per respostes, a l'hora de fer el parse, tenir en compte el context de la frase anterior. Els slots que a la frase anterior no s'havien omplert podrien tenir preferència… Millora a llarg plaç. (LOW PRIORITY)
+
+IMPORTANT: Afegir patterns estil Fa sol. Fa fred. És divertit. -> Ja hi ha: És+nom.
+
+Que accepti frases com: Els meus tres amics. => Possessiu i número
+
+Que en cas d'empat entre dues paraules per fer fit a un slot, que si l'slot és de Subjecte es quedi preferentment amb el pronom, si n'hi ha.
+
+Per les expressions, separar-les en dos grups. Les que van a l'inici i al final de la frase.
+
+Participis dels verbs com a adjectius. REVISAR SI CAL.
+
+Quan és resposta que canviï els complements obligatoris pels pronoms corresponents: Hi aniré, Ho faré, etc.
+
+Fer patterns per frases de l'estil, "És meu". Potser s'hauran de posar per separat els pictogrames dels possessius.
+
+
+MILLORAR PARSER PER FER-LO MÉS LANGUAGE INDEPENDENT
+
+- Posar features pels idiomes: SVO, SOV… Bàsicament si el verb està al principi, al mig o al final
+
+- Posició relativa d’adjectius amb noms: Adj+N o N+Adj
+
+- Posició relativa dels noms que complementen a un altre nom: home de mar, sea man, umi no hito…
+
+- Hi ha info language dependent a la llibreria Myslot, a la funció NounFitsSlot. Posa la preposició "de" pels complements de nom. En català i castellà va bé, però en altres idiomes no. Canviar pel futur. També passa a la funció AdvFitsSlot, que posa un "de". En principi hi és per frases de l'estil "El ordenador está debajo de la mesa". Mirar com està al generador perquè surt sense el "de" i ja està bé.
+
+- Mirar d'introduir frases subordinades amb connectors com "perquè” o “però”. —> PROV: Posar-los al principi de frase i que l’usuari separi la frase en dos.
