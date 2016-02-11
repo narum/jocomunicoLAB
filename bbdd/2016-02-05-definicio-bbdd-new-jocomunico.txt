@@ -8,7 +8,8 @@ CREATE DATABASE jocomunicoapp
 CREATE TABLE Languages (
 	ID_Language INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	languageabbr VARCHAR(20),
-	languageName VARCHAR(100)
+	languageName VARCHAR(100),
+	expansionAllowed ENUM('0', '1') DEFAULT '1'
 ) ENGINE=INNODB;
 
 

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class PictogramSearch extends CI_Controller {
+class PictogramSearch extends REST_Controller {
 
 	public function __construct()
         {
@@ -9,7 +9,7 @@ class PictogramSearch extends CI_Controller {
             $this->load->model('ForInterface');
         }
 
-	public function index()
+	public function index_get()
 	{
             // CHECK COOKIES
             if (!$this->session->userdata('uname')) {
@@ -34,7 +34,7 @@ class PictogramSearch extends CI_Controller {
             }
 	}
         
-        function searchPictogram() {
+        function searchPictogram_post() {
             
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata);
