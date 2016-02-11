@@ -1,0 +1,37 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.row{
+    overflow: hidden;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.container-fluid
+{
+    padding-right: 0px;
+    padding-left: 0px;
+}
+[class*="col-"]{
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.fullhegith{
+    height:100%;
+}
+
+#mainboard{
+    height:100vh;
+}
+
+#header{
+    height:10%;
+}
+
+#footer{
+    height:30%;
+}
+
+#userview{
+    height:60%;
+}
