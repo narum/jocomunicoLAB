@@ -43,6 +43,7 @@ class Mymatching {
         "Q" => "l'",
         "R" => "els ",
         "S" => "les ",
+        "T" => "en ",
     );
     
     

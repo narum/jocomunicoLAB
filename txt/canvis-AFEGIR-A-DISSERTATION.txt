@@ -1,0 +1,5 @@
+- Algoritme articles en catalˆ: nova regla ÒmÓ per afegir lÕarticle ÔenÕ pels noms propis -> i.e. ÒEn JoanÓ.
+
+- Columnes afegides a NameXX -> ispropernoun
+
+- Als adjectius seriestar i subjdef.
