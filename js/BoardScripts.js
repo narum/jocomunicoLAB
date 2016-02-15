@@ -131,6 +131,7 @@ app.controller('myCtrl', function ($scope, $http) {
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
+            $scope.data = response.data;
             alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
@@ -143,6 +144,7 @@ app.controller('myCtrl', function ($scope, $http) {
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
+            $scope.data = response.data;
             alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
@@ -155,6 +157,7 @@ app.controller('myCtrl', function ($scope, $http) {
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
+            $scope.data = response.data;
             alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
@@ -168,7 +171,7 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns + " data:" + $scope.data);
+            alert("R: " + $scope.rows + " C: " + $scope.columns + " data:" + $scope.data[1].imgPicto);
         });
     };
     $scope.range = function (max) {

@@ -35,3 +35,9 @@
 #userview{
     height:60%;
 }
+
+.emptyImg{
+    height: 100%;
+    width: 100%;
+    background-color: white;
+}
