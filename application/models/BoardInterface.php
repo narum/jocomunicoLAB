@@ -39,4 +39,17 @@ class BoardInterface extends CI_Model
         return $output;
     }
     
+    function getCellsBoard($id)
+    {
+        $output = array();
+        
+       //Codigo para acceder a la tabla no se exactamente cual es.
+        //for ($i = 0; $i < 5; $i++){
+            for ($j = 0; $j < 5; $j++){
+                $output[$j] = "/img/intgris.gif"; 
+            }
+        //}
+        
+        return $output;
+    }
 }

@@ -1,5 +1,5 @@
-var app = angular.module('mySearch', ['ngSanitize',"angular-bind-html-compile"]);
-app.controller('myCtrl', function($scope,$http) {
+var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile"]);
+app.controller('myCtrl', function ($scope, $http) {
     $scope.config = function (boardconf)
     {
         if (boardconf === 1)
@@ -18,15 +18,15 @@ app.controller('myCtrl', function($scope,$http) {
         {
             $scope.showmid();
         }
-        
+
         /*$scope.grid1hide = false;
-        $scope.grid2hide = false;
-        $scope.grid3hide = false;
-        $scope.grid1 = 2;
-        $scope.grid2 = 8;
-        $scope.grid3 = 2;*/
+         $scope.grid2hide = false;
+         $scope.grid3hide = false;
+         $scope.grid1 = 2;
+         $scope.grid2 = 8;
+         $scope.grid3 = 2;*/
     };
-    $scope.showall = function()
+    $scope.showall = function ()
     {
         $scope.grid1hide = false;
         $scope.grid2hide = false;
@@ -34,8 +34,8 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.grid1 = 2;
         $scope.grid2 = 8;
         $scope.grid3 = 2;
-    };  
-    $scope.showright = function()
+    };
+    $scope.showright = function ()
     {
         $scope.grid1hide = true;
         $scope.grid2hide = false;
@@ -44,7 +44,7 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.grid2 = 10;
         $scope.grid3 = 2;
     };
-    $scope.showleft = function()
+    $scope.showleft = function ()
     {
         $scope.grid1hide = false;
         $scope.grid2hide = false;
@@ -53,7 +53,7 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.grid2 = 10;
         $scope.grid3 = 0;
     };
-    $scope.showmid = function()
+    $scope.showmid = function ()
     {
         $scope.grid1hide = true;
         $scope.grid2hide = false;
@@ -62,8 +62,8 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.grid2 = 12;
         $scope.grid3 = 0;
     };
-    
-    $scope.showupdown = function()
+
+    $scope.showupdown = function ()
     {
         $scope.subgrid1hide = false;
         $scope.subgrid2hide = false;
@@ -71,8 +71,8 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.subgrid1 = 20;
         $scope.subgrid2 = 60;
         $scope.subgrid3 = 20;
-    };  
-    $scope.showup = function()
+    };
+    $scope.showup = function ()
     {
         $scope.subgrid1hide = true;
         $scope.subgrid2hide = false;
@@ -81,7 +81,7 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.subgrid2 = 80;
         $scope.subgrid3 = 20;
     };
-    $scope.showdown = function()
+    $scope.showdown = function ()
     {
         $scope.subgrid1hide = false;
         $scope.subgrid2hide = false;
@@ -90,7 +90,7 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.subgrid2 = 80;
         $scope.subgrid3 = 0;
     };
-    $scope.showmiddle = function()
+    $scope.showmiddle = function ()
     {
         $scope.subgrid1hide = true;
         $scope.subgrid2hide = false;
@@ -99,8 +99,8 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.subgrid2 = 100;
         $scope.subgrid3 = 0;
     };
-    
-    $scope.edit = function()
+
+    $scope.edit = function ()
     {
         $scope.grid1hide = false;
         $scope.grid2hide = false;
@@ -109,50 +109,73 @@ app.controller('myCtrl', function($scope,$http) {
         $scope.grid2 = 8;
         $scope.grid3 = 0;
     };
-    
-    $scope.addColumn = function()
+
+    $scope.addColumn = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard/1/0";
+        var url = $scope.baseurl + "Board/drawCellboard";
+        var postdata = {r: '0', c: '1'};
         
-        $http.post(url).then(function(response)
-            {
-              $scope.cellboard = response.data;
-            });
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.columns = response.col;
+            $scope.rows = response.row;
+            alert("R: " + $scope.rows + " C: " + $scope.columns);
+        });
     };
-    $scope.removeColumn = function()
+    $scope.removeColumn = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard/-1/0";
+        var url = $scope.baseurl + "Board/drawCellboard";
+        var postdata = {r: '0', c: '-1'};
         
-        $http.post(url).then(function(response)
-            {
-              $scope.cellboard = response.data;
-            });
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.columns = response.col;
+            $scope.rows = response.row;
+            alert("R: " + $scope.rows + " C: " + $scope.columns);
+        });
     };
-    $scope.addRow = function()
+    $scope.addRow = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard/0/1";
+        var url = $scope.baseurl + "Board/drawCellboard";
+        var postdata = {r: '1', c: '0'};
         
-        $http.post(url).then(function(response)
-            {
-              $scope.cellboard = response.data;
-            });
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.columns = response.col;
+            $scope.rows = response.row;
+            alert("R: " + $scope.rows + " C: " + $scope.columns);
+        });
     };
-    $scope.removeRow = function()
+    $scope.removeRow = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard/0/-1";
+        var url = $scope.baseurl + "Board/drawCellboard";
+        var postdata = {r: '-1', c: '0'};
         
-        $http.post(url).then(function(response)
-            {
-              $scope.cellboard = response.data;
-            });
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.columns = response.col;
+            $scope.rows = response.row;
+            alert("R: " + $scope.rows + " C: " + $scope.columns);
+        });
     };
-    $scope.showBoard = function()
+    $scope.showBoard = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard/0/0";
+        var url = $scope.baseurl + "Board/drawCellboard";
+        var postdata = {r: '0', c: '0'};
         
-        $http.post(url).then(function(response)
-            {
-              $scope.cellboard = response.data;
-            });
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.columns = response.col;
+            $scope.rows = response.row;
+            $scope.data = response.data;
+            alert("R: " + $scope.rows + " C: " + $scope.columns + " data:" + $scope.data);
+        });
+    };
+    $scope.range = function (max) {
+        var input = [];
+        for (var i = 0; i < max; i ++) {
+            input.push(i);
+        }
+        return input;
     };
 });
