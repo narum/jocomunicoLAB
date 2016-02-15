@@ -2,4 +2,4 @@
 /application/config/
 /system/
 /user_guide/
-.htaccess
+/.htaccess
