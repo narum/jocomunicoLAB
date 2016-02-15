@@ -28,6 +28,7 @@ class Board extends REST_Controller {
         $r = $request->r;
         //$c = $this->post('c');
         //$r = $this->post('r');
+        $array = array();
         
         // "1" es el numero de id de la "board"
         $output = $this->BoardInterface->getNumCR(1);

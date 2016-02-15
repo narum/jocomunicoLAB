@@ -39,19 +39,17 @@
                             <h4>UNKNOWN.PHP</h4>
                         </div>
                     </div>
-                    <div class="col-xs-{{grid2}} fullhegith" ng-init="" style="background-color: Red;">
+                    <div class="col-xs-{{grid2}} fullhegith" ng-init="data=[]" style="background-color: Red;">
                         <div id="board" class="fullhegith">
                             <!-- todos los style en css, estos tres no por que dependeran de una variable -->
                             <div class="row" ng-hide="subgrid1hide" style="height:{{subgrid1}}%">
                                 <h4>SENTENCEBOARD.PHP</h4>
                             </div>
-                            <div class="container-fluid" bind-html-compile="data" ng-init="showBoard()" style="height:{{subgrid2}}%">
-                                <div class="row" style="height:100%;" ng-init="datas = <?= $data ?>">
+                            <div class="container-fluid" ng-init="showBoard()" style="height:{{subgrid2}}%">
+                                <div class="row" style="height:100%;" >
                                     <ul>
-                                        <li ng-repeat="imagen in datas">
-                                            <div class="col-xs-2">
-                                            <p>{{imagen}}</p>
-                                                </div>
+                                        <li ng-repeat="imagenol in data">
+                                            <p>{{imagenol.ID_User}}</p>
                                         </li>
                                     </ul>
                                     
