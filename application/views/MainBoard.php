@@ -46,9 +46,9 @@
                                 <h4>SENTENCEBOARD.PHP</h4>
                             </div>
                             <div class="container-fluid" bind-html-compile="data" ng-init="showBoard()" style="height:{{subgrid2}}%">
-                                <div class="row" style="height:100%;">
+                                <div class="row" style="height:100%;" ng-init="datas = <?= $data ?>">
                                     <ul>
-                                        <li ng-repeat="imagen in data">
+                                        <li ng-repeat="imagen in datas">
                                             <div class="col-xs-2">
                                             <p>{{imagen}}</p>
                                                 </div>
