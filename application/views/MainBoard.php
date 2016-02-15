@@ -48,8 +48,10 @@
                             <div class="container-fluid" bind-html-compile="data" ng-init="showBoard()" style="height:{{subgrid2}}%">
                                 <div class="row" style="height:100%;">
                                     <ul>
-                                        <li ng-repeat="i in data">
-                                            <p>{{i}} hoka que tal<p>
+                                        <li ng-repeat="imagen in data">
+                                            <div class="col-xs-2">
+                                            <p>{{imagen}}</p>
+                                                </div>
                                         </li>
                                     </ul>
                                     
