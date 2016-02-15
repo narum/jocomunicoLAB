@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require APPPATH . '/libraries/REST_Controller.php';
+        
 class PictogramSearch extends REST_Controller {
 
 	public function __construct()
@@ -16,7 +18,9 @@ class PictogramSearch extends REST_Controller {
                 redirect(base_url(), 'location');
             }
             else {
-                $data['nomsFiltrats'] = $this->ForInterface->getNomsSearch("m");
+                $noms = $this->ForInterface->getNomsSearch("m");
+                
+                $data['nomsFiltrats'] = $noms;
                 
                 $this->load->view('SearchEngine', $data);
             }
@@ -50,7 +54,14 @@ class PictogramSearch extends REST_Controller {
             else {
                 $data['pictoimg'] = "triste.png";
             }
+            
+            $response = [
+              'pictoimg' => $pictoimg  
+            ];
+            
             // echo $data['pictoimg'];
+            
+            // $this->response($response, REST_Controller::HTTP_OK);
             
             $this->load->view('PictogramImg', $data);
             

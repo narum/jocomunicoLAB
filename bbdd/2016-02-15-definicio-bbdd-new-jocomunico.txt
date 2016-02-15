@@ -9,7 +9,7 @@ CREATE TABLE Languages (
 	ID_Language INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	languageabbr VARCHAR(20),
 	languageName VARCHAR(100),
-	expansionAllowed ENUM('0', '1') DEFAULT '1'
+	canExpand ENUM('0', '1') DEFAULT '1'
 ) ENGINE=INNODB;
 
 
@@ -20,6 +20,7 @@ CREATE TABLE SuperUser (
 	realname VARCHAR(200),
 	surnames VARCHAR(300),
 	email VARCHAR(300),
+	cfgDefLanguage INT DEFAULT '1',
 	cfgAppConfUsageMouseOneCTwoC ENUM('0', '1', '2') DEFAULT '0',
 	cfgTimeClick INT DEFAULT '1000',
 	cfgExpansionOnOff ENUM('0', '1') DEFAULT '1',
@@ -35,7 +36,9 @@ CREATE TABLE SuperUser (
 	cfgSentenceBarUpDown ENUM('0', '1') DEFAULT '0',
 	cfgTextInCell ENUM('0', '1') DEFAULT '1',
 	cfgHistOnOff ENUM('0', '1') DEFAULT '1',
-	cfgBlackOnWhiteVSWhiteOnBlack ENUM('0', '1') DEFAULT '0'
+	cfgBlackOnWhiteVSWhiteOnBlack ENUM('0', '1') DEFAULT ‘0’,
+	INDEX DefLanguage (cfgDefLanguage),
+	FOREIGN KEY (cfgDefLanguage) REFERENCES Languages (ID_Language) ON DELETE SET NULL
 ) ENGINE=INNODB;
 
 
@@ -54,12 +57,15 @@ CREATE TABLE User (
 	cfgOutputVoice VARCHAR(150),
 	cfgFeedbackVoiceOnOff ENUM('0', '1') DEFAULT '0',
 	cfgFeedbackVoice VARCHAR(150),	
+	cfgExpansionLanguage INT DEFAULT '1',
 	INDEX USuperUser (ID_USU),
 	FOREIGN KEY (ID_USU) REFERENCES SuperUser (ID_SU) ON DELETE SET NULL,
 	INDEX ULanguage (ID_ULanguage),
 	FOREIGN KEY (ID_ULanguage) REFERENCES Languages (ID_Language) ON DELETE SET NULL,
 	INDEX UOrg (ID_UOrg),
-	FOREIGN KEY (ID_UOrg) REFERENCES Organization (ID_Org) ON DELETE SET NULL
+	FOREIGN KEY (ID_UOrg) REFERENCES Organization (ID_Org) ON DELETE SET NULL,
+	INDEX ExpansionLanguage (cfgExpansionLanguage),
+	FOREIGN KEY (cfgExpansionLanguage) REFERENCES Languages (ID_Language) ON DELETE SET NULL
 ) ENGINE=INNODB;
 
 
@@ -88,6 +94,7 @@ CREATE TABLE Boards (
 	Bname VARCHAR(200),
 	width INT,
 	height INT,
+	autoReturn cfgFeedbackVoiceOnOff ENUM('0', '1') DEFAULT ‘1’,
 	INDEX GBBoard (ID_GBBoard),
 	FOREIGN KEY (ID_GBBoard) REFERENCES GroupBoards (ID_GB) ON DELETE SET NULL
 ) ENGINE=INNODB;	

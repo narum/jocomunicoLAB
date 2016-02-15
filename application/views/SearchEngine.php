@@ -24,10 +24,9 @@
     <div id="cos">
 
                 <span class="titolsubsubclasse">Noms filtrats: </span>
-                <select id="noms-filtered" ng-model="nomsfiltered" ng-change="searchPictogram();" size=1 tabindex="1" class="selectbox">
-                    <?php for ($i=0; $i<count($nomsFiltrats); $i++) { ?>
-                        <option value="<?=$nomsFiltrats[$i]->nameid;?>"> <?=$nomsFiltrats[$i]->nomtext;?> </option>
-                    <?php } ?>
+                <select id="noms-filtered" ng-model="nomsfiltered" ng-init="noms = <?php echo htmlspecialchars(json_encode($nomsFiltrats)); ?>"
+                        ng-change="searchPictogram();" size=1 tabindex="1" class="selectbox">
+                    <option ng-repeat="nom in noms" value="{{nom.nameid}}"> {{nom.nomtext}} </option>
                 </select>
                 
                 <div id="picto-container" ng-show="mostrapicto" bind-html-compile="pictoimg" >

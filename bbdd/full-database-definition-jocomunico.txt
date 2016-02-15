@@ -34,7 +34,7 @@ CREATE TABLE Boards (
 	boardid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	boardname VARCHAR(150),
 	numPictoPerRow INT DEFAULT '5',
-	numPictoPerCol INT DEFAULT '5'
+	numPictoPerCol INT DEFAULT Ô5Õ
 ) ENGINE=INNODB;
 
 CREATE TABLE UserBoards (
