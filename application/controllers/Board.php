@@ -40,7 +40,7 @@ class Board extends REST_Controller {
         $response = [
             'col'  => $columns,
             'row'  => $rows,
-            'data' => htmlspecialchars(json_encode($array))
+            'data' => $array
         ];
         $this->response($response, REST_Controller::HTTP_OK);
     }
