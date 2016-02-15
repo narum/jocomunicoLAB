@@ -1,6 +1,0 @@
-retorn automàtic al panell principal -> afegir variable als panells
-
-
-idioma en el que ho vols generar
-
-a la taula idiomes, un check de si és idioma d’expansió

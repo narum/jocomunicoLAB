@@ -24,7 +24,7 @@ jocomunicoApp.controller('SearchController', function($scope, $http) {
        $http.post($scope.baseurl+'PictogramSearch/searchPictogram', postdata).success(function(data){
             
             $scope.mostrapicto = true;
-            $scope.pictoimg = data;
+            $scope.imgPicto = data;
             
            // $('picto-container').update(data);
             // $scope.pictocontainer.innerHTML = data;
@@ -33,7 +33,7 @@ jocomunicoApp.controller('SearchController', function($scope, $http) {
         }).error(function(data){
             
             $scope.mostrapicto = false;
-            $scope.pictoimg = data;
+            $scope.imgPicto = data;
             
         });
     };

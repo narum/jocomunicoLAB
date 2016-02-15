@@ -29,11 +29,11 @@
                     <option ng-repeat="nom in noms" value="{{nom.nameid}}"> {{nom.nomtext}} </option>
                 </select>
                 
-                <div id="picto-container" ng-show="mostrapicto" bind-html-compile="pictoimg" >
+                <div id="picto-container" ng-show="mostrapicto" bind-html-compile="imgPicto" >
 
-                   <!-- <img src="<?=base_url();?>img/pictos/{{ pictoimg }}" /> -->
+                   <!-- <img src="<?=base_url();?>img/pictos/{{ imgPicto }}" /> -->
 
-                    {{pictoimg}}
+                    {{imgPicto}}
 
                 </div>
 

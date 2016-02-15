@@ -40,7 +40,7 @@ class ForInterface extends CI_Model {
         if ($query->num_rows() > 0) {
             $aux = array();
             $aux = $query->result();
-            $output = $aux[0]->pictoimg;
+            $output = $aux[0]->imgPicto;
         }
         else {
             $output = null;

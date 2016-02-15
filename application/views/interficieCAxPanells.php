@@ -513,7 +513,7 @@
     <div>
         <?php for ($i=0; $i<count($adjsAll); $i++) { ?>
         
-            PICTURE="<?=$adjsAll[$i]->pictoimg;?>" CAPTION="<?=strtoupper($adjsAll[$i]->masc);?>" READ="<?=strtoupper($adjsAll[$i]->masc);?>" LINK="#inici.pla" MC="5" FCHARSET="0" FCOLOR="0" FHEIGHT="-16" FNAME="Arial" FSIZE="12" FNEGRETA="NO" FITALICA="NO" FSUBR="NO" FTATXAT="NO" <br />
+            PICTURE="<?=$adjsAll[$i]->imgPicto;?>" CAPTION="<?=strtoupper($adjsAll[$i]->masc);?>" READ="<?=strtoupper($adjsAll[$i]->masc);?>" LINK="#inici.pla" MC="5" FCHARSET="0" FCOLOR="0" FHEIGHT="-16" FNAME="Arial" FSIZE="12" FNEGRETA="NO" FITALICA="NO" FSUBR="NO" FTATXAT="NO" <br />
 
         <?php } ?>
             
@@ -521,7 +521,7 @@
             
         <?php for ($i=0; $i<count($adjsAnimat); $i++) { ?>
         
-            PICTURE="<?=$adjsAnimat[$i]->pictoimg;?>" CAPTION="<?=strtoupper($adjsAnimat[$i]->masc);?>" READ="<?=strtoupper($adjsAnimat[$i]->masc);?>" LINK="#inici.pla" MC="5" FCHARSET="0" FCOLOR="0" FHEIGHT="-16" FNAME="Arial" FSIZE="12" FNEGRETA="NO" FITALICA="NO" FSUBR="NO" FTATXAT="NO" <br />
+            PICTURE="<?=$adjsAnimat[$i]->imgPicto;?>" CAPTION="<?=strtoupper($adjsAnimat[$i]->masc);?>" READ="<?=strtoupper($adjsAnimat[$i]->masc);?>" LINK="#inici.pla" MC="5" FCHARSET="0" FCOLOR="0" FHEIGHT="-16" FNAME="Arial" FSIZE="12" FNEGRETA="NO" FITALICA="NO" FSUBR="NO" FTATXAT="NO" <br />
 
         <?php } ?>
             
@@ -529,7 +529,7 @@
             
         <?php for ($i=0; $i<count($adjsObjecte); $i++) { ?>
         
-            PICTURE="<?=$adjsObjecte[$i]->pictoimg;?>" CAPTION="<?=strtoupper($adjsObjecte[$i]->masc);?>" READ="<?=strtoupper($adjsObjecte[$i]->masc);?>" LINK="#inici.pla" MC="5" FCHARSET="0" FCOLOR="0" FHEIGHT="-16" FNAME="Arial" FSIZE="12" FNEGRETA="NO" FITALICA="NO" FSUBR="NO" FTATXAT="NO" <br />
+            PICTURE="<?=$adjsObjecte[$i]->imgPicto;?>" CAPTION="<?=strtoupper($adjsObjecte[$i]->masc);?>" READ="<?=strtoupper($adjsObjecte[$i]->masc);?>" LINK="#inici.pla" MC="5" FCHARSET="0" FCOLOR="0" FHEIGHT="-16" FNAME="Arial" FSIZE="12" FNEGRETA="NO" FITALICA="NO" FSUBR="NO" FTATXAT="NO" <br />
 
         <?php } ?>
             

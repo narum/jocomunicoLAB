@@ -45,21 +45,21 @@ class PictogramSearch extends REST_Controller {
             $pictoid = $request->pictoid;
                         
             $data = array();
-            $pictoimg = $this->ForInterface->getPicto($pictoid);
+            $imgPicto = $this->ForInterface->getPicto($pictoid);
             
-            if ($pictoimg != null) {
-                $data['pictoimg'] = $pictoimg;
+            if ($imgPicto != null) {
+                $data['imgPicto'] = $imgPicto;
                 
             }
             else {
-                $data['pictoimg'] = "triste.png";
+                $data['imgPicto'] = "triste.png";
             }
             
             $response = [
-              'pictoimg' => $pictoimg  
+              'imgPicto' => $imgPicto  
             ];
             
-            // echo $data['pictoimg'];
+            // echo $data['imgPicto'];
             
             // $this->response($response, REST_Controller::HTTP_OK);
             

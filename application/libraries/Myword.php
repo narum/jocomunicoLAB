@@ -39,16 +39,17 @@ class Myword {
     
     function __construct() {}
     
-    public function initialise($paraula, $infobbdd, $order, $beforeverb, $beforeverb2) 
+    public function initialise($paraula, $infobbdd, $order, $beforeverb, $beforeverb2, $prov) 
     {
         $this->inputorder = $order;
         $this->beforeverb = $beforeverb;
         $this->beforeverb2 = $beforeverb2;
         
         $this->id = $paraula->pictoid;
-        $this->identry = $paraula->sentencepictoid;
-        $this->tipus = $paraula->pictotype;
-        $this->img = $paraula->pictoimg;
+        if ($prov) $this->identry = $paraula->ID_RSTPSentencePicto;
+        else $this->identry = $paraula->ID_RSHPSentence;
+        $this->tipus = $paraula->pictoType;
+        $this->img = $paraula->imgPicto;
         
         if ($paraula->isplural == '1') $this->plural = true;
         else $this->plural = false;
@@ -129,7 +130,7 @@ class Myword {
         $this->coord = false;
         
         $this->text = $infobbdd[0]->verbtext;
-        $this->img = $infobbdd[0]->pictoimg;
+        $this->img = $infobbdd[0]->imgPicto;
         foreach ($infobbdd as $row) {
             array_push($this->patterns, $row);
         }
