@@ -15,8 +15,19 @@ class Board extends REST_Controller {
         // CHECK COOKIES
         if (!$this->session->userdata('uname')) {
             redirect(base_url(), 'location');
-        } else {
-            $this->load->view('MainBoard', true);
+        } 
+        else 
+        {
+            if(!$this->session->userdata('cfguser'))
+            {
+                $this->BoardInterface->loadCFG($this->session->userdata('uname'));
+                $this->load->view('MainBoard', true);
+            }
+            else 
+            {
+                $this->load->view('MainBoard', true);
+            }
+                
         }
     }
     //Para mostrar solo hace falta eloutput y el array, lo demas es para añadir o restar
