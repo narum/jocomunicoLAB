@@ -71,24 +71,38 @@ class Board extends REST_Controller {
     }
 
     public function addColumns($columns, $rows,  $idBoard ,$columnsToAdd){
-        $currentPos = 1;
-        $oldCurrentPos = 1;
+        $currentPos = ($columns + $columnsToAdd) * $rows;
+        $oldCurrentPos = $columns * $rows;
         for ($row = 0;$row < $rows;$row++) {
-            for ($column = 0; $column < $columns; $column++) {
-                $this->BoardInterface->updateCell($oldCurrentPos, $currentPos, $idBoard);
-                $currentPos++;
-                $oldCurrentPos++;
-            }
             for ($i = $columns; $i < $columns + $columnsToAdd; $i++) {
                 $this->BoardInterface->newCell($currentPos,  $idBoard);
-                $currentPos++;
+                $currentPos--;
+            }
+            for ($column = 0; $column < $columns; $column++) {
+                $this->BoardInterface->updateCell($oldCurrentPos, $currentPos, $idBoard);
+                $currentPos--;
+                $oldCurrentPos--;
             }
         }
+//        $currentPos = 1;
+//        $oldCurrentPos = 1;
+//        for ($row = 0;$row < $rows;$row++) {
+//            for ($column = 0; $column < $columns; $column++) {
+//                $this->BoardInterface->updateCell($oldCurrentPos, $currentPos, $idBoard);
+//                $currentPos++;
+//                $oldCurrentPos++;
+//            }
+//            for ($i = $columns; $i < $columns + $columnsToAdd; $i++) {
+//                $this->BoardInterface->newCell($currentPos,  $idBoard);
+//                $currentPos++;
+//            }
+//        }
     }
     
     public function removeColumns($columns, $rows,  $idBoard ,$columnsToSub){
         $currentPos = 1;
         $oldCurrentPos = 1;
+        //We can add a start trans and commit at the end?
         for ($row = 0;$row < $rows;$row++) {
             for ($column = 0; $column < $columns - $columnsToSub; $column++) {
                 $this->BoardInterface->updateCell($oldCurrentPos, $currentPos, $idBoard);
