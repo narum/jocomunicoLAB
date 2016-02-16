@@ -55,4 +55,19 @@ class BoardInterface extends CI_Model
         
         return $output;
     }
+    
+    function loadCFG($user)
+    {
+        
+        $newdata = array(
+            'cfguser' => 1,
+            'cfgExpansionOnOff' => 1,
+            'cfgPredOnOff' => 1,
+            'cfgPredBarVertHor' => 0,
+            'cfgSentenceBarUpDown' => 1
+            );
+
+        $this->session->set_userdata($newdata);
+    }
+        
 }
