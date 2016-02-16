@@ -60,12 +60,12 @@
 
 
                                 <br/><br/><br/><br/>
-                            </div>
+                        </div>
                             <div class="row" ng-hide="subgrid3hide" style="height:{{subgrid3}}%">
                                 <h4>SENTENCEBOARD1.PHP</h4>
                             </div>
-                        </div>
                     </div>
+                </div>
                     <div ng-hide="grid3hide" class="col-xs-{{grid3}} fullhegith" style="background-color: Blue;">
                         <div>
                             <h4>UNKNOWN.PHP</h4>

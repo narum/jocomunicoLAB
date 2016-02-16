@@ -39,16 +39,17 @@ class Myword {
     
     function __construct() {}
     
-    public function initialise($paraula, $infobbdd, $order, $beforeverb, $beforeverb2) 
+    public function initialise($paraula, $infobbdd, $order, $beforeverb, $beforeverb2, $prov) 
     {
         $this->inputorder = $order;
         $this->beforeverb = $beforeverb;
         $this->beforeverb2 = $beforeverb2;
         
         $this->id = $paraula->pictoid;
-        $this->identry = $paraula->sentencepictoid;
-        $this->tipus = $paraula->pictotype;
-        $this->img = $paraula->pictoimg;
+        if ($prov) $this->identry = $paraula->ID_RSTPSentencePicto;
+        else $this->identry = $paraula->ID_RSHPSentence;
+        $this->tipus = $paraula->pictoType;
+        $this->img = $paraula->imgPicto;
         
         if ($paraula->isplural == '1') $this->plural = true;
         else $this->plural = false;
@@ -129,7 +130,7 @@ class Myword {
         $this->coord = false;
         
         $this->text = $infobbdd[0]->verbtext;
-        $this->img = $infobbdd[0]->pictoimg;
+        $this->img = $infobbdd[0]->imgPicto;
         foreach ($infobbdd as $row) {
             array_push($this->patterns, $row);
         }
@@ -467,59 +468,63 @@ class Myword {
                     else return $matching->answers["S"];
             }
             else {
-                // c -> We use regular expressions to verify the condition        
-                if (preg_match('/^[bcdfgjklmnpqrstvwxyz]/', $wordlowerednoaccents) == '1') {
+                // m -> New rule: if it's a proper noun, the article is "en"
+                if ($this->propietats->ispropernoun == '1') return $matching->answers["T"];
+                else { 
+                    // c -> We use regular expressions to verify the condition        
+                    if (preg_match('/^[bcdfgjklmnpqrstvwxyz]/', $wordlowerednoaccents) == '1') {
 
-                    // d
-                    if ($masc)  return $matching->answers["O"];
-                    else return $matching->answers["P"];
-                }
-                // e -> We use regular expressions to verify the condition
-                else if (preg_match('/^([aeo]|[h][aeo])/', $wordlowerednoaccents) == '1') {
-                    
-                    //f
-                    if (isset($matching->listB[$wordlowered]) || isset($matching->listD[$wordlowered]) || isset($matching->listF[$wordlowered])) {
-                        return $matching->answers["P"];
-                    }
-                    else return $matching->answers["Q"];
-                }
-                // g -> We use regular expressions to verify the condition
-                else if (preg_match('/^([iu]|[h][iu])/', $wordlowerednoaccents) == '1') {
-                    // see if the i or u are unstressed   
-                    
-                    $aux = $this->StressedOrNonVocalic($wordlowered);
-                    $stressed = $aux[0];
-                    $nonvocalic = $aux[1];
-                    
-                    // h
-                    if (!$stressed) {
                         // d
-                        if ($masc) {
-                            // i&m
-                            if ($nonvocalic && !isset($matching->listH[$wordlowered])) return $matching->answers["O"];
-                            else return $matching->answers["Q"];
-                        }
+                        if ($masc)  return $matching->answers["O"];
                         else return $matching->answers["P"];
                     }
-                    else {
-                        
-                        // j
-                        if (isset($matching->listA[$wordlowered]) || isset($matching->listE[$wordlowered])) return $matching->answers["P"];
-                        
-                        // k
-                        else if (isset($matching->listG[$wordlowered])) {
-                            // d
-                            if ($masc) return $matching->answers["O"];
-                            else return $matching->answers["P"];
+                    // e -> We use regular expressions to verify the condition
+                    else if (preg_match('/^([aeo]|[h][aeo])/', $wordlowerednoaccents) == '1') {
+
+                        //f
+                        if (isset($matching->listB[$wordlowered]) || isset($matching->listD[$wordlowered]) || isset($matching->listF[$wordlowered])) {
+                            return $matching->answers["P"];
                         }
                         else return $matching->answers["Q"];
                     }
-                }
-                
-                else {
-                    // l
-                    if (isset($matching->listC[$wordlowered])) return $matching->answers["Q"];
-                    else return $matching->answers["O"];
+                    // g -> We use regular expressions to verify the condition
+                    else if (preg_match('/^([iu]|[h][iu])/', $wordlowerednoaccents) == '1') {
+                        // see if the i or u are unstressed   
+
+                        $aux = $this->StressedOrNonVocalic($wordlowered);
+                        $stressed = $aux[0];
+                        $nonvocalic = $aux[1];
+
+                        // h
+                        if (!$stressed) {
+                            // d
+                            if ($masc) {
+                                // i&m
+                                if ($nonvocalic && !isset($matching->listH[$wordlowered])) return $matching->answers["O"];
+                                else return $matching->answers["Q"];
+                            }
+                            else return $matching->answers["P"];
+                        }
+                        else {
+
+                            // j
+                            if (isset($matching->listA[$wordlowered]) || isset($matching->listE[$wordlowered])) return $matching->answers["P"];
+
+                            // k
+                            else if (isset($matching->listG[$wordlowered])) {
+                                // d
+                                if ($masc) return $matching->answers["O"];
+                                else return $matching->answers["P"];
+                            }
+                            else return $matching->answers["Q"];
+                        }
+                    }
+
+                    else {
+                        // l
+                        if (isset($matching->listC[$wordlowered])) return $matching->answers["Q"];
+                        else return $matching->answers["O"];
+                    }
                 }
             }
         }

@@ -2504,9 +2504,8 @@ class Myslot {
             // si és un nom
             if ($wordaux != null && $wordaux->isType("name")) {
                 // si no necessita article (perquè té quantificadors a davant) o perquè
-                // és un pronom personal
-                
-                if ($auxstring[5] || $wordaux->isClass("pronoun")) $noarticle = true;
+                // és un pronom personal o un nom propi
+                if ($auxstring[5] || $wordaux->isClass("pronoun") || $wordaux->propietats->ispropernoun == '1') $noarticle = true;
                 // si no té quantificador davant, procedim amb l'algoritme normal
                 else {
                     // si són complements (al nostre sistema no poden tenir possessius)
@@ -2532,7 +2531,7 @@ class Myslot {
                                         // mirar propietats
                                         if ($wordaux->propietats->determinat == 'sense') $noarticle = true;
                                         else $definite = true;
-                                    }
+                                    } 
                                     else $definite = true;
                                 }
                             }

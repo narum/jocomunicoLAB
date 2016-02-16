@@ -23,22 +23,23 @@ class Lexicon extends CI_Model {
         $pass = md5($this->input->post('pass', true));
 
         $output = array();
-        $this->db->where('uname', $usuari);
+        $this->db->where('SUname', $usuari);
         $this->db->where('pswd', $pass);
-        $query = $this->db->get('User');
+        
+        $query = $this->db->get('SuperUser');
         
         if ($query->num_rows() > 0) {
             
             // If the user is found, it fills the COOKIES
             $output = $query->result();
-            $idusu = $output[0]->userid;
-            $ulanguage = $output[0]->ulanguage;
+            $idusu = $output[0]->ID_SU;
+            $ulanguage = $output[0]->cfgDefLanguage;
             $this->session->set_userdata('idusu', $idusu);
             $this->session->set_userdata('uname', $usuari);
             $this->session->set_userdata('ulanguage', $ulanguage);
             
             $output2 = array();
-            $this->db->where('languageid', $ulanguage);  
+            $this->db->where('ID_Language', $ulanguage);  
             $query2 = $this->db->get('Languages');
             
             if ($query2->num_rows() > 0) {
@@ -253,7 +254,7 @@ class Lexicon extends CI_Model {
 
                     $infoparaula = $aux[0];
                 
-                    $taula = $infoparaula->pictotype;
+                    $taula = $infoparaula->pictoType;
 
                     // afegim la paraula a la frase de l'usuari
                     $this->afegirParaula($idusu, $pictoid, $taula);
@@ -333,8 +334,8 @@ class Lexicon extends CI_Model {
                             // si hi ha més d'una paraula que fa match (2), fem les comparacions
                             // per veure amb quina de les dues ens quedem
                             if (count($aux) > 1) {
-                                $type1 = $aux[0]->pictotype;
-                                $type2 = $aux[1]->pictotype;
+                                $type1 = $aux[0]->pictoType;
+                                $type2 = $aux[1]->pictoType;
 
                                 switch ($type1) {
                                     case "name":
@@ -540,7 +541,7 @@ class Lexicon extends CI_Model {
                             }
 
                             $pictoid = $infoparaula->pictoid;
-                            $taula = $infoparaula->pictotype;
+                            $taula = $infoparaula->pictoType;
 
                             $this->afegirParaula($idusu, $pictoid, $taula);
                             $paraulesbones++;
@@ -590,10 +591,10 @@ class Lexicon extends CI_Model {
     {
         $data = array(
             'pictoid' => $idparaula,
-            'userid' => $idusu,
+            'ID_RSTPUser' => $idusu,
         );
 
-        $this->db->insert('SentencePictogramsProv', $data);
+        $this->db->insert('R_S_TempPictograms', $data);
     }
 
     /*
@@ -605,9 +606,9 @@ class Lexicon extends CI_Model {
         $userlanguage = $this->session->userdata('ulangabbr');
         
         $paraules = array();
-        $this->db->where('userid', $idusu);
-        $this->db->join('Pictograms', 'Pictograms.pictoid = SentencePictogramsProv.pictoid', 'left');
-        $query = $this->db->get('SentencePictogramsProv');
+        $this->db->where('ID_RSTPUser', $idusu);
+        $this->db->join('Pictograms', 'Pictograms.pictoid = R_S_TempPictograms.pictoid', 'left');
+        $query = $this->db->get('R_S_TempPictograms');
         $beforeverb = true;
         $beforeverb2 = true;
         $countverb = 0;
@@ -627,7 +628,7 @@ class Lexicon extends CI_Model {
                 // i Adjectius (ja que de vegades poden actuar com a noms). El 5 és per si està coordinat
                 // amb la següent paraula (només si aquesta és del mateix tipus)
 
-                switch($paraules[$i]->pictotype)
+                switch($paraules[$i]->pictoType)
                 {
                     case 'name':
                         $this->db->where('Name'.$userlanguage.'.nameid', $paraules[$i]->pictoid);
@@ -636,7 +637,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2, true);
                             $output[$i] = $word;
                         }
                         else $output[$i] = null;
@@ -650,12 +651,12 @@ class Lexicon extends CI_Model {
                         else if ($countverb == 2) $beforeverb2 = false;
                         
                         $this->db->where('Verb'.$userlanguage.'.verbid', $paraules[$i]->pictoid);
-                        $this->db->join('VerbPattern'.$userlanguage, 'VerbPattern'.$userlanguage.'.verbid = Verb'.$userlanguage.'.verbid', 'left');
+                        $this->db->join('Pattern'.$userlanguage, 'Pattern'.$userlanguage.'.verbid = Verb'.$userlanguage.'.verbid', 'left');
                         $query2 = $this->db->get('Verb'.$userlanguage);
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2, true);
                             $output[$i] = $word;
                         }
                         else $output[$i] = null;
@@ -669,7 +670,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2, true);
                             $output[$i] = $word;
                         }
                         else $output[$i] = null;
@@ -683,7 +684,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2, true);
                             $output[$i] = $word;
                         }
                         else $output[$i] = null;
@@ -697,7 +698,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2, true);
                             $output[$i] = $word;
                         }
                         else $output[$i] = null;
@@ -710,7 +711,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2, true);
                             $output[$i] = $word;
                         }
                         else $output[$i] = null;
@@ -723,7 +724,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $i, $beforeverb, $beforeverb2, true);
                             $output[$i] = $word;
                         }
                         else $output[$i] = null;
@@ -745,8 +746,8 @@ class Lexicon extends CI_Model {
      */
     function eliminarParaula($identry)
     {
-        $this->db->where('sentencepictoid', $identry);
-        $this->db->delete('SentencePictogramsProv');
+        $this->db->where('ID_RSTPSentencePicto', $identry);
+        $this->db->delete('R_S_TempPictograms');
     }
 
     /*
@@ -754,13 +755,13 @@ class Lexicon extends CI_Model {
      */
     function afegirModifNom($idusu, $modif)
     {
-        $this->db->where('userid', $idusu);
-        $query = $this->db->get('SentencePictogramsProv');
+        $this->db->where('ID_RSTPUser', $idusu);
+        $query = $this->db->get('R_S_TempPictograms');
 
         if ($query->num_rows() > 0) {
             $aux = $query->result();
             $nrows = $query->num_rows();
-            $identry = $aux[$nrows-1]->sentencepictoid;
+            $identry = $aux[$nrows-1]->ID_RSTPSentencePicto;
 
             if($modif=='pl') {
                 $data = array(
@@ -778,8 +779,8 @@ class Lexicon extends CI_Model {
                 );
             }
 
-            $this->db->where('sentencepictoid', $identry);
-            $this->db->update('SentencePictogramsProv', $data);
+            $this->db->where('ID_RSTPSentencePicto', $identry);
+            $this->db->update('R_S_TempPictograms', $data);
         }
     }
 
@@ -814,7 +815,7 @@ class Lexicon extends CI_Model {
                 $inputwords .= $word->text;
                 $inputids .= $word->id;
                 
-                /*switch($word->pictotype)
+                /*switch($word->pictoType)
                 {
                     case 'name':
                         $inputids .= $word->nameid;
@@ -868,39 +869,39 @@ class Lexicon extends CI_Model {
         $inputwords .="<br /><br />".$inputids;
 
         $data = array(
-            'userid' => $idusu,
-            'sentencetype' => $this->input->post('tipusfrase', true),
-            'isnegative' => $negativa,
-            'sentencetense' => $this->input->post('tense', true),
-            'sentencedate' => $avui,
-            'intendedsentence' => $this->input->post('fraseobj', true),
-            'sentencefinished' => '1',
-            'inputwords' => $inputwords,
+            'ID_SHUser' => $idusu,
+            'sentenceType' => $this->input->post('tipusfrase', true),
+            'isNegative' => $negativa,
+            'sentenceTense' => $this->input->post('tense', true),
+            'sentenceDate' => $avui,
+            'intendedSentence' => $this->input->post('fraseobj', true),
+            'sentenceFinished' => '1',
+            'inputWords' => $inputwords,
         );
 
-        $this->db->insert('Sentences', $data);
+        $this->db->insert('S_Historic', $data);
         $identry = $this->db->insert_id();
 
-        $this->db->where('userid', $idusu);
-        $query = $this->db->get('SentencePictogramsProv');
+        $this->db->where('ID_RSTPUser', $idusu);
+        $query = $this->db->get('R_S_TempPictograms');
 
         if ($query->num_rows() > 0) {
 
             foreach ($query->result() as $row) {
                 $data2 = array(
-                    'sentenceid' => $identry,
+                    'ID_RSHPSentence' => $identry,
                     'pictoid' => $row->pictoid,
                     'isplural' => $row->isplural,
                     'isfem' => $row->isfem,
                     'coordinated' => $row->coordinated,
                 );
-                $this->db->insert('SentencePictograms', $data2);
+                $this->db->insert('R_S_HistoricPictograms', $data2);
             }
         }
 
         // Eliminar les paraules de la taula provisional
-        $this->db->where('userid', $idusu);
-        $this->db->delete('SentencePictogramsProv');
+        $this->db->where('ID_RSTPUser', $idusu);
+        $this->db->delete('R_S_TempPictograms');
     }
     
     /*
@@ -942,39 +943,39 @@ class Lexicon extends CI_Model {
 
 
         $data = array(
-            'userid' => $idusu,
-            'sentencetype' => $tipusfrase,
-            'isnegative' => $negativa,
-            'sentencetense' => $tempsverbal,
-            'sentencedate' => $avui,
-            'intendedsentence' => "",
-            'sentencefinished' => '1',
-            'inputwords' => $inputwords,
+            'ID_SHUser' => $idusu,
+            'sentenceType' => $tipusfrase,
+            'isNegative' => $negativa,
+            'sentenceTense' => $tempsverbal,
+            'sentenceDate' => $avui,
+            'intendedSentence' => "",
+            'sentenceFinished' => '1',
+            'inputWords' => $inputwords,
         );
 
-        $this->db->insert('Sentences', $data);
+        $this->db->insert('S_Historic', $data);
         $identry = $this->db->insert_id();
 
-        $this->db->where('userid', $idusu);
-        $query = $this->db->get('SentencePictogramsProv');
+        $this->db->where('ID_RSTPUser', $idusu);
+        $query = $this->db->get('R_S_TempPictograms');
 
         if ($query->num_rows() > 0) {
 
             foreach ($query->result() as $row) {
                 $data2 = array(
-                    'sentenceid' => $identry,
+                    'ID_RSHPSentence' => $identry,
                     'pictoid' => $row->pictoid,
                     'isplural' => $row->isplural,
                     'isfem' => $row->isfem,
                     'coordinated' => $row->coordinated,
                 );
-                $this->db->insert('SentencePictograms', $data2);
+                $this->db->insert('R_S_HistoricPictograms', $data2);
             }
         }
 
         // Eliminar les paraules de la taula provisional
-        $this->db->where('userid', $idusu);
-        $this->db->delete('SentencePictogramsProv');
+        $this->db->where('ID_RSTPUser', $idusu);
+        $this->db->delete('R_S_TempPictograms');
     }
 
 
@@ -1003,20 +1004,20 @@ class Lexicon extends CI_Model {
         $itrobada = false;
         $ibona = false;
         
-        $this->db->where('userid', $idusu);
-        $this->db->order_by('sentenceid', 'desc');
-        $query = $this->db->get('Sentences');
+        $this->db->where('ID_SHUser', $idusu);
+        $this->db->order_by('ID_SHistoric', 'desc');
+        $query = $this->db->get('S_Historic');
         
         if ($query->num_rows() > 0) {
             $aux = $query->result();
             
-            $identry = $aux[0]->sentenceid;
+            $identry = $aux[0]->ID_SHistoric;
         }
         else return null;
                 
-        $this->db->where('sentenceid', $identry);
-        $this->db->join('Pictograms', 'Pictograms.pictoid = SentencePictograms.pictoid', 'left');
-        $query = $this->db->get('SentencePictograms');
+        $this->db->where('ID_RSHPSentence', $identry);
+        $this->db->join('Pictograms', 'Pictograms.pictoid = R_S_HistoricPictograms.pictoid', 'left');
+        $query = $this->db->get('R_S_HistoricPictograms');
 
         if ($query->num_rows() > 0) {
             $paraules = $query->result();
@@ -1036,7 +1037,7 @@ class Lexicon extends CI_Model {
                 // amb la següent paraula (només si aquesta és del mateix tipus).
                 // El 10 és per dir si la paraula ja està adjudicada a un slot o no.
 
-                switch($paraules[$i]->pictotype)
+                switch($paraules[$i]->pictoType)
                 {
                     case 'name':
                         $this->db->where('Name'.$userlanguage.'.nameid', $paraules[$i]->pictoid);
@@ -1045,7 +1046,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                              $word = new Myword();
-                             $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2);
+                             $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2, false);
                         }
                         break;
 
@@ -1056,12 +1057,12 @@ class Lexicon extends CI_Model {
                         else if ($countverb == 2) $beforeverb2 = false;
                                                 
                         $this->db->where('Verb'.$userlanguage.'.verbid', $paraules[$i]->pictoid);
-                        $this->db->join('VerbPattern'.$userlanguage, 'VerbPattern'.$userlanguage.'.verbid = Verb'.$userlanguage.'.verbid', 'left');
+                        $this->db->join('Pattern'.$userlanguage, 'Pattern'.$userlanguage.'.verbid = Verb'.$userlanguage.'.verbid', 'left');
                         $query2 = $this->db->get('Verb'.$userlanguage);
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2, false);
                         }
                         break;
                     
@@ -1072,7 +1073,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2, false);
                         }
                         break;
                     
@@ -1083,7 +1084,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2, false);
                         }                        
                         break;
                     
@@ -1094,7 +1095,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2, false);
                         }
                         break;
                     
@@ -1104,7 +1105,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2, false);
                         }
                         break;
                     
@@ -1114,7 +1115,7 @@ class Lexicon extends CI_Model {
 
                         if ($query2->num_rows() > 0) {
                             $word = new Myword();
-                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2);
+                            $word->initialise($paraules[$i], $query2->result(), $ordre, $beforeverb, $beforeverb2, false);
                         }
                         break;
 
@@ -1167,20 +1168,20 @@ class Lexicon extends CI_Model {
         $fraseobjectiu = null;
         $inputwords = null;
         
-        $this->db->where('userid', $idusu);
-        $this->db->order_by('sentenceid', 'desc');
-        $query = $this->db->get('Sentences');
+        $this->db->where('ID_SHUser', $idusu);
+        $this->db->order_by('ID_SHistoric', 'desc');
+        $query = $this->db->get('S_Historic');
         
         if ($query->num_rows() > 0) {
             $aux = $query->result();
             
-            $identry = $aux[0]->sentenceid;
-            $tipusfrase = $aux[0]->sentencetype;
-            if ($aux[0]->isnegative == '1') $negativa = true;
-            $tense = $aux[0]->sentencetense;
-            $dataalta = $aux[0]->sentencedate;
-            $fraseobjectiu = $aux[0]->intendedsentence;
-            $inputwords = $aux[0]->inputwords;
+            $identry = $aux[0]->ID_SHistoric;
+            $tipusfrase = $aux[0]->sentenceType;
+            if ($aux[0]->isNegative == '1') $negativa = true;
+            $tense = $aux[0]->sentenceTense;
+            $dataalta = $aux[0]->sentenceDate;
+            $fraseobjectiu = $aux[0]->intendedSentence;
+            $inputwords = $aux[0]->inputWords;
         }
         
         $output['identry'] = $identry;
@@ -1202,7 +1203,7 @@ class Lexicon extends CI_Model {
         
         $this->db->where('Verb'.$userlanguage.'.verbid', $verbid);
         $this->db->join('Pictograms', 'Pictograms.pictoid = Verb'.$userlanguage.'.verbid', 'left');
-        $this->db->join('VerbPattern'.$userlanguage, 'VerbPattern'.$userlanguage.'.verbid = Verb'.$userlanguage.'.verbid', 'left');
+        $this->db->join('Pattern'.$userlanguage, 'Pattern'.$userlanguage.'.verbid = Verb'.$userlanguage.'.verbid', 'left');
         $query2 = $this->db->get('Verb'.$userlanguage);
         
         if ($query2->num_rows() > 0) {
@@ -1380,8 +1381,8 @@ class Lexicon extends CI_Model {
                 'generatorstring' => $frasefinal,
             );
 
-            $this->db->where('sentenceid', $identry);
-            $this->db->update('Sentences', $data);  
+            $this->db->where('ID_SHistoric', $identry);
+            $this->db->update('S_Historic', $data);  
         }    
     }
     
@@ -1396,8 +1397,8 @@ class Lexicon extends CI_Model {
             'comments' => $comments,
         );
 
-        $this->db->where('sentenceid', $identry);
-        $this->db->update('Sentences', $data);  
+        $this->db->where('ID_SHistoric', $identry);
+        $this->db->update('S_Historic', $data);  
     }
 }
 
