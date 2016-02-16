@@ -43,14 +43,11 @@ class BoardInterface extends CI_Model
     {
         $output = array();
         
-       //Codigo para acceder a la tabla no se exactamente cual es.
-        //for ($i = 0; $i < 5; $i++){
-//            for ($j = 0; $j < 5; $j++){
-//                $output[$j] = "hola"; 
-//            }
-        //}
+        $this->db->join('Cell', 'R_BoardCell.ID_RCell = Cell.ID_Cell');
+        //Este tiene que ser left, si pictograms.picto id = null significa que esta vacia
+        $this->db->join('Pictograms', 'Cell.ID_CPicto = Pictograms.pictoid', 'left');
         
-        $query = $this->db->get('User');
+        $query = $this->db->get('R_BoardCell');
         if ($query->num_rows() > 0) {
             $output = $query->result();
         }

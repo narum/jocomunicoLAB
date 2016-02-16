@@ -47,11 +47,12 @@
                             </div>
                             <div class="container-fluid" ng-init="showBoard()" style="height:{{subgrid2}}%">
                                 <div class="row" style="height:100%;" >
-                                    <ul>
-                                        <li ng-repeat="imagenol in data">
-                                            <p>{{imagenol.ID_User}}</p>
-                                        </li>
-                                    </ul>
+                                        <div class="col-sm-12" ng-repeat="imagenol in data" ng-style="{'width':'{{100/columns}}%','height':'{{100/rows}}%'}">
+                                            
+                                            <img ng-if="imagenol.imgPicto" width="100%" height="100%" src="<?=base_url();?>img/pictos/{{imagenol.imgPicto}}" />
+                                            <div ng-if="!imagenol.imgPicto" class="emptyImg fullhegith"/></div>
+                                        </div>
+                                 
                                     
 
 
