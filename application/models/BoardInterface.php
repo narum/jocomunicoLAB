@@ -123,4 +123,12 @@ class BoardInterface extends CI_Model {
         $this->db->where('ID_Cell', $id);
         $this->db->delete('Cell');
     }
+    
+    function initTrans() {
+        $this->db->trans_start();        
+    }
+    
+    function commitTrans() {
+        $this->db->trans_complete();        
+    }
 }

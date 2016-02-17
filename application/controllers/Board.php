@@ -32,6 +32,7 @@ class Board extends REST_Controller {
     }
     //Para mostrar solo hace falta eloutput y el array, lo demas es para añadir o restar
     public function drawCellboard_post() {
+        $this->BoardInterface->initTrans();
         
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
@@ -67,6 +68,7 @@ class Board extends REST_Controller {
             'row'  => $rows,
             'data' => $array
         ];
+        $this->BoardInterface->commitTrans();
         $this->response($response, REST_Controller::HTTP_OK);
     }
 
