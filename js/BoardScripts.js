@@ -175,11 +175,34 @@ app.controller('myCtrl', function ($scope, $http) {
             alert("R: " + $scope.rows + " C: " + $scope.columns + " data:" + $scope.data);
         });
     };
-    $scope.range = function (max) {
-        var input = [];
-        for (var i = 0; i < max; i ++) {
-            input.push(i);
-        }
-        return input;
+    
+    // Desde aqui son del div de sentencias
+    $scope.addToSentence = function (id) {
+        
+        var url = $scope.baseurl + "Board/addWord";
+        var postdata = {id: id};
+ 
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.dataTemp = response.data;
+        });
+    };
+    $scope.deleteLast = function () {
+        
+        var url = $scope.baseurl + "Board/deleteLastWord";
+ 
+         $http.post(url).success(function (response)
+        {
+            $scope.dataTemp = response.data;
+        });
+    };
+    $scope.deleteAll = function () {
+        
+        var url = $scope.baseurl + "Board/deleteAllWords";
+ 
+         $http.post(url).success(function (response)
+        {
+            $scope.dataTemp = response.data;
+        });
     };
 });

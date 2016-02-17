@@ -9,6 +9,7 @@ class Board extends REST_Controller {
         parent::__construct();
 
         $this->load->model('BoardInterface');
+        $this->load->model('Lexicon');
     }
 
     public function index_get() {
@@ -72,6 +73,11 @@ class Board extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK);
     }
 
+    
+    /*
+     * Estos van en otro controlador que seria el de edicion, pero aun no estan hechos
+     */
+    
     public function addColumns($columns, $rows,  $idBoard ,$columnsToAdd){
         $currentPos = ($columns + $columnsToAdd) * $rows;
         $oldCurrentPos = $columns * $rows;
@@ -86,19 +92,6 @@ class Board extends REST_Controller {
                 $oldCurrentPos--;
             }
         }
-//        $currentPos = 1;
-//        $oldCurrentPos = 1;
-//        for ($row = 0;$row < $rows;$row++) {
-//            for ($column = 0; $column < $columns; $column++) {
-//                $this->BoardInterface->updateCell($oldCurrentPos, $currentPos, $idBoard);
-//                $currentPos++;
-//                $oldCurrentPos++;
-//            }
-//            for ($i = $columns; $i < $columns + $columnsToAdd; $i++) {
-//                $this->BoardInterface->newCell($currentPos,  $idBoard);
-//                $currentPos++;
-//            }
-//        }
     }
     
     public function removeColumns($columns, $rows,  $idBoard ,$columnsToSub){
@@ -142,5 +135,46 @@ class Board extends REST_Controller {
         }
     }
 
+    
+    public function addWord_post() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $id = $request->id;
 
+        $this->Lexicon->afegirParaula(1, $id, null);
+
+        $data = $this->Lexicon->recuperarFrase(1);
+
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
+    public function deleteLastWord_post() {
+
+        $id = $this->BoardInterface->getLastWord(1);
+        
+        $this->Lexicon->eliminarParaula($id->ID_RSTPSentencePicto);
+
+        $data = $this->Lexicon->recuperarFrase(1);
+
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+
+    public function deleteAllWords_post() {
+
+        //1 es usuario
+        $this->BoardInterface->removeSentence(1);
+
+        $data = $this->Lexicon->recuperarFrase(1);
+
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
 }

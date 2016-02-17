@@ -38,8 +38,9 @@ class BoardInterface extends CI_Model {
 
     function getCellsBoard($id) {
         $output = array();
-
-
+        
+        $this->db->where('R_BoardCell.ID_RBoard', $id);
+        $this->db->order_by('R_BoardCell.posInBoard', 'asc');
         $this->db->join('Cell', 'R_BoardCell.ID_RCell = Cell.ID_Cell');
         //Este tiene que ser left, si pictograms.picto id = null significa que esta vacia
         $this->db->join('Pictograms', 'Cell.ID_CPicto = Pictograms.pictoid', 'left');
@@ -124,6 +125,8 @@ class BoardInterface extends CI_Model {
         $this->db->delete('Cell');
     }
     
+    
+    //Hasta aqui
     function initTrans() {
         $this->db->trans_start();        
     }
@@ -131,4 +134,25 @@ class BoardInterface extends CI_Model {
     function commitTrans() {
         $this->db->trans_complete();        
     }
+    
+    function getLastWord($idusu) {
+        $output = array();
+
+        $this->db->where('ID_RSTPUser', $idusu);
+        $this->db->order_by('ID_RSTPSentencePicto', 'desc');
+        
+        $query = $this->db->get('R_S_TempPictograms');
+        if ($query->num_rows() > 0) {
+            $output = $query->result();
+        } else
+            $output = null;
+
+        return $output[0];
+    }
+    
+    function removeSentence($idusu) {
+        $this->db->where('ID_RSTPUser', $idusu);
+        $this->db->delete('R_S_TempPictograms');
+    }
+
 }
