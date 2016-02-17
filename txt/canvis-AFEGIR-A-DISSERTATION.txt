@@ -3,3 +3,5 @@
 - Columnes afegides a NameXX -> ispropernoun
 
 - Als adjectius seriestar i subjdef.
+
+- Algoritme articles en castellˆ: els noms propis no porten article.
