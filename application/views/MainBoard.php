@@ -32,13 +32,26 @@
                     <br />
                 </div>
             </div>
-            <div id="userview" class="container-fluid" ng-init="config(2)">
+            <div id="userview" class="container-fluid" ng-init="config(3)">
                 <div class="row fullhegith">
                     <div ng-hide="grid1hide" class="col-xs-{{grid1}} fullhegith" style="background-color: Blue;">
                         <div>
-                            <h4>UNKNOWN.PHP</h4>
+                            <div id="board" class="fullhegith">
+                               <div class="row">
+                                    <h4>TRASH.PHP</h4>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <h4>SEARCH.PHP</h4>
+                                        <div class="col-sm-12">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+        
                     <div class="col-xs-{{grid2}} fullhegith" ng-init="data=[]" style="background-color: Red;">
                         <div id="board" class="fullhegith">
                             <!-- todos los style en css, estos tres no por que dependeran de una variable -->
@@ -47,18 +60,13 @@
                             </div>
                             <div class="container-fluid" ng-init="showBoard()" style="height:{{subgrid2}}%">
                                 <div class="row" style="height:100%;" >
-                                        <div class="col-sm-12" ng-repeat="imagenol in data" ng-style="{'width':'{{100/columns}}%','height':'{{100/rows}}%'}">
-                                            
-                                            <img ng-if="imagenol.imgPicto" width="100%" height="100%" src="<?=base_url();?>img/pictos/{{imagenol.imgPicto}}" />
-                                            <div ng-if="!imagenol.imgPicto" class="emptyImg fullhegith"/></div>
-                                        </div>
-                                 
-                                    
+                                    <div class="col-sm-12" ng-repeat="imagenol in data" ng-style="{'width':'{{100/columns}}%','height':'{{100/rows}}%'}">
 
-
+                                        <img ng-if="imagenol.imgPicto" width="100%" height="100%" src="<?=base_url();?>img/pictos/{{imagenol.imgPicto}}" />
+                                        <div ng-if="!imagenol.imgPicto" class="emptyImg fullhegith"/>
+                                    </div>
                                 </div>
-
-
+                            </div>
                                 <br/><br/><br/><br/>
                         </div>
                             <div class="row" ng-hide="subgrid3hide" style="height:{{subgrid3}}%">
