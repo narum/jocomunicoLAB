@@ -205,4 +205,13 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.dataTemp = response.data;
         });
     };
+    $scope.generate = function () {
+        
+        var url = $scope.baseurl + "Board/generate";
+ 
+         $http.post(url).success(function (response)
+        {
+            $scope.dataTemp = response.data;
+        });
+    };
 });

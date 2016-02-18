@@ -177,4 +177,16 @@ class Board extends REST_Controller {
         ];
         $this->response($response, REST_Controller::HTTP_OK);
     }
+    
+    public function generate_post() {
+
+        $this->Lexicon->insertarFrase(1);
+
+        $data = $this->Lexicon->recuperarFrase(1);
+        
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
 }

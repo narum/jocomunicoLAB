@@ -36,7 +36,19 @@
                 <div class="row fullheight">
                     <div ng-hide="grid1hide" class="col-xs-{{grid1}} fullheight" style="background-color: Blue;">
                         <div>
-                            <h4>UNKNOWN.PHP</h4>
+                            <div id="board" class="fullhegith">
+                               <div class="row">
+                                    <h4>TRASH.PHP</h4>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <h4>SEARCH.PHP</h4>
+                                        <div class="col-sm-12">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xs-{{grid2}} fullheight" ng-init="data = []" style="background-color: Red;">
@@ -45,7 +57,7 @@
                                 <div class="row fullheight">
                                     
                                     <div class="col-xs-1 speakButton">
-                                        speak
+                                        <button class="btn-success" ng-click="generate()">generate</button>
                                     </div>
                                     
                                     <div class="col-xs-9 prediction" >
