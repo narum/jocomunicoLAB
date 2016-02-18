@@ -1,5 +1,5 @@
 var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile"]);
-app.controller('myCtrl', function ($scope, $http) {
+app.controller('myCtrl', function ($scope, $http) {  
     $scope.config = function (boardconf)
     {
         if (boardconf === 1)
@@ -120,7 +120,6 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
     $scope.removeColumn = function ()
@@ -133,7 +132,6 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
     $scope.addRow = function ()
@@ -146,7 +144,6 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
     $scope.removeRow = function ()
@@ -159,7 +156,6 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
     $scope.showBoard = function ()
@@ -172,7 +168,6 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns + " data:" + $scope.data);
         });
     };
     
@@ -212,6 +207,22 @@ app.controller('myCtrl', function ($scope, $http) {
          $http.post(url).success(function (response)
         {
             $scope.dataTemp = response.data;
+        });
+    };
+    $scope.openMenu = function ($id) {
+        
+        open($scope.baseurl + 'editMenu.html','','top=300,left=300,width=300,height=300') ; 
+    };
+});
+//Add a directive in order to recognize the right click
+app.directive('ngRightClick', function($parse) {
+    return function(scope, element, attrs) {
+        var fn = $parse(attrs.ngRightClick);
+        element.bind('contextmenu', function(event) {
+            scope.$apply(function() {
+                event.preventDefault();
+                fn(scope, {$event:event});
+            });
         });
     };
 });

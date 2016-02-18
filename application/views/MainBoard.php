@@ -23,7 +23,7 @@
     <title>Jo Comunico Beta</title>
 
 
-    <body ng-controller="myCtrl" ng-init="baseurl = '<?= base_url(); ?>'">
+    <body ng-controller="myCtrl" ng-init="baseurl = '<?= base_url(); ?>'" oncontextmenu="return false">
         <div id="mainboard">
             <div id="header" class="container-fluid text-center row">
                 <div style="background-color: Green;height:100%;">
@@ -81,7 +81,7 @@
 
                                     <div class="col-xs-12" ng-repeat="picto in data" ng-style="{'width':'{{100 / columns}}%','height':'{{100 / rows}}% '}">
 
-                                        <img ng-if="picto.imgPicto" width="100%" height="100%" src="<?= base_url(); ?>img/pictos/{{picto.imgPicto}}"  ng-click="addToSentence(picto.pictoid);"/>
+                                        <img ng-if="picto.imgPicto" width="100%" height="100%" src="<?= base_url(); ?>img/pictos/{{picto.imgPicto}}"  ng-click="addToSentence(picto.pictoid);" ng-right-click="openMenu(picto.pictoid);"/>
                                         
                                         
                                         
@@ -136,6 +136,6 @@
             </div>
 
         </div>
-        </div>
-    </body>
+   
+        </body>
 </html>

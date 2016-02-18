@@ -76,3 +76,7 @@
     padding-right: 5%;
     align-items: center;
 }
+
+.menu{
+    position:relative;
+}
