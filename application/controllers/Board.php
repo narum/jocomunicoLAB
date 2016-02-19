@@ -31,19 +31,51 @@ class Board extends REST_Controller {
                 
         }
     }
-    //Para mostrar solo hace falta eloutput y el array, lo demas es para añadir o restar
-    public function drawCellboard_post() {
+    /*
+     * Get de cells of the boards that will be displayed and the 
+     * number of rows and columns in order to set the proportion
+     */
+    public function showCellboard_post() {
+        $this->BoardInterface->initTrans();
+        
+        $array = array();
+        
+        // "1" es el numero de id de la "board"
+        $output = $this->BoardInterface->getNumCR(1);
+        $columns = $output[0]->width;
+        $rows = $output[0]->height;
+        
+        $array = $this->BoardInterface->getCellsBoard(1);
+
+        
+        $response = [
+            'col'  => $columns,
+            'row'  => $rows,
+            'data' => $array
+        ];
+
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
+    /*
+     * Estos van en otro controlador que seria el de edicion, pero aun no estan hechos
+     */
+    /*
+     * Returns de cells of the boards that will be displayed and the 
+     * number of rows and columns in order to set the proportion
+     * Modify the number of rows and columns and add or remove cells.
+     */
+    public function modifyCellboard_post() {
         $this->BoardInterface->initTrans();
         
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $c = $request->c;
         $r = $request->r;
-        //$c = $this->post('c');
-        //$r = $this->post('r');
         $array = array();
         
         // "1" es el numero de id de la "board"
+        
         $output = $this->BoardInterface->getNumCR(1);
         $columns = $output[0]->width + $c;
         $rows = $output[0]->height + $r;
@@ -72,12 +104,15 @@ class Board extends REST_Controller {
         $this->BoardInterface->commitTrans();
         $this->response($response, REST_Controller::HTTP_OK);
     }
-
     
     /*
-     * Estos van en otro controlador que seria el de edicion, pero aun no estan hechos
+     * Add one or more columns to the board. Each cell keeps his physical position
+     * currentPos: Cell position in the new "array"
+     * oldCurrentPos: Cell position in the old "array"
+     * For each row: We create one cell for each column to add
+     *             : We move up the other cells in that row
+     * We go backwards through the array
      */
-    
     public function addColumns($columns, $rows,  $idBoard ,$columnsToAdd){
         $currentPos = ($columns + $columnsToAdd) * $rows;
         $oldCurrentPos = $columns * $rows;
@@ -94,6 +129,10 @@ class Board extends REST_Controller {
         }
     }
     
+    /*
+     * Remove one or more columns in the board. Each cell keeps his physical position
+     * The same than adding columns. We move down and remove instead.
+     */
     public function removeColumns($columns, $rows,  $idBoard ,$columnsToSub){
         $currentPos = 1;
         $oldCurrentPos = 1;
@@ -112,9 +151,12 @@ class Board extends REST_Controller {
         }
     }
     
-    
+    /*
+     * Add one or more rows to the board. Each cell keeps his physical position
+     * currentPos: The last position + 1 (the position where the cell will be added)
+     * For each row we add one cell for each column the board has
+     */
     public function addRows($columns, $rows, $idBoard, $rowsToAdd) {
-        //size + 1 to know the next position to put the cell in
         $currentPos = $columns * $rows + 1;
         for ($row = 0; $row < $rowsToAdd; $row++) {
             for ($column = 0; $column < $columns; $column++) {
@@ -123,7 +165,10 @@ class Board extends REST_Controller {
             }
         }
     }
-    
+     /*
+     * Remove one or more rows in the board. Each cell keeps his physical position
+     * The same than adding rows. We remove instead.
+     */
     public function removeRows($columns, $rows, $idBoard, $rowsToSub) {
         $currentPos = $columns * $rows;
         for ($row = 0; $row < $rowsToSub; $row++) {
@@ -135,8 +180,12 @@ class Board extends REST_Controller {
         }
     }
 
-    
+    /*
+     * Add the clicked word (pictogram) in the S_Temp database table.
+     * Then, get the entire sentence from this table.
+     */
     public function addWord_post() {
+        //To get the parameters
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $id = $request->id;
@@ -151,8 +200,12 @@ class Board extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK);
     }
     
+    /*
+     * Remove the last word (pictogram) added in the S_Temp database table.
+     * Then, get the entire sentence from this table.
+     */
     public function deleteLastWord_post() {
-
+        
         $id = $this->BoardInterface->getLastWord(1);
         
         $this->Lexicon->eliminarParaula($id->ID_RSTPSentencePicto);
@@ -165,6 +218,9 @@ class Board extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK);
     }
 
+    /*
+     * Remove the entire phrase (pictograms) in the S_Temp database table.
+     */
     public function deleteAllWords_post() {
 
         //1 es usuario
@@ -178,6 +234,10 @@ class Board extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK);
     }
     
+    /*
+     * Copy the S_Temp table to the S_Historic table and all this dependecies. 
+     * Also remove the entire phrase (pictograms) in the S_Temp database table.
+     */
     public function generate_post() {
 
         $this->Lexicon->insertarFrase(1);

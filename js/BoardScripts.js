@@ -99,7 +99,20 @@ app.controller('myCtrl', function ($scope, $http) {
         $scope.subgrid2 = 100;
         $scope.subgrid3 = 0;
     };
+    $scope.showBoard = function ()
+    {
+        var url = $scope.baseurl + "Board/showCellboard";
+        var postdata = {r: '0', c: '0'};
+        
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.columns = response.col;
+            $scope.rows = response.row;
+            $scope.data = response.data;
+        });
+    };
 
+    //Controladores de editar
     $scope.edit = function ()
     {
         $scope.grid1hide = false;
@@ -112,7 +125,7 @@ app.controller('myCtrl', function ($scope, $http) {
 
     $scope.addColumn = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '0', c: '1'};
         
          $http.post(url, postdata).success(function (response)
@@ -124,7 +137,7 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     $scope.removeColumn = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '0', c: '-1'};
         
          $http.post(url, postdata).success(function (response)
@@ -136,7 +149,7 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     $scope.addRow = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '1', c: '0'};
         
          $http.post(url, postdata).success(function (response)
@@ -148,7 +161,7 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     $scope.removeRow = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '-1', c: '0'};
         
          $http.post(url, postdata).success(function (response)
@@ -158,17 +171,9 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.data = response.data;
         });
     };
-    $scope.showBoard = function ()
-    {
-        var url = $scope.baseurl + "Board/drawCellboard";
-        var postdata = {r: '0', c: '0'};
+    $scope.openMenu = function ($id) {
         
-         $http.post(url, postdata).success(function (response)
-        {
-            $scope.columns = response.col;
-            $scope.rows = response.row;
-            $scope.data = response.data;
-        });
+        open($scope.baseurl + 'editMenu.html','','top=300,left=300,width=300,height=300') ; 
     };
     
     // Desde aqui son del div de sentencias
@@ -208,10 +213,6 @@ app.controller('myCtrl', function ($scope, $http) {
         {
             $scope.dataTemp = response.data;
         });
-    };
-    $scope.openMenu = function ($id) {
-        
-        open($scope.baseurl + 'editMenu.html','','top=300,left=300,width=300,height=300') ; 
     };
 });
 //Add a directive in order to recognize the right click
