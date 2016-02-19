@@ -239,14 +239,17 @@ class Board extends REST_Controller {
      * Also remove the entire phrase (pictograms) in the S_Temp database table.
      */
     public function generate_post() {
-
+        //1 user
+        $paraules = $this->Lexicon->recuperarFrase(1);
+        $this->BoardInterface->addStatsX1($paraules, 1);
+        $this->BoardInterface->addStatsX2($paraules, 1);
+        $this->BoardInterface->addStatsX3($paraules, 1);
+        
         $this->Lexicon->insertarFrase(1);
 
-        $data = $this->Lexicon->recuperarFrase(1);
         
-        $response = [
-            'data' => $data
-        ];
+        
+        $response = NULL;
         $this->response($response, REST_Controller::HTTP_OK);
     }
 }
