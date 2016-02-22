@@ -35,16 +35,15 @@ class DBwords extends CI_Model {
         $output = array();
       
         $this->db->select('nameid as id, nomtext as text, imgPicto');// seleccionem els camps que ens interessa retornar
-        $this->db->from('name'. $language);// Seleccionem la taula nameca o namees
-        $this->db->join('pictograms', 'name' . $language . '.nameid = pictograms.pictoid', 'left'); // ajuntem les columnes de les dos taules
+        $this->db->from('Name'. $language);// Seleccionem la taula nameca o namees
+        $this->db->join('Pictograms', 'Name' . $language . '.nameid = Pictograms.pictoid', 'left'); // ajuntem les columnes de les dos taules
         $this->db->like('nomtext', $startswith, 'after');// Seleccionem els noms de la taula que comencen per $startswith
-        $this->db->order_by('name' . $language . '.nomtext', 'asc'); // ordenem de manera ascendent tota la taula en funció del nomtext
+        $this->db->order_by('Name' . $language . '.nomtext', 'asc'); // ordenem de manera ascendent tota la taula en funció del nomtext
         $query = $this->db->get();// Fem la query i la guardem a la variable query
               
         if ($query->num_rows() > 0) {
             $output = $query->result_array();
         }
-        else $output = null;
         return $output;
     }
 
@@ -55,17 +54,16 @@ class DBwords extends CI_Model {
         $output = array();
       
         $this->db->select('verbid as id,verbtext as text, imgPicto');
-        $this->db->from('verb'.$language);
-        $this->db->join('Pictograms', 'verb'.$language.'.verbid = Pictograms.pictoid', 'left');
+        $this->db->from('Verb'.$language);
+        $this->db->join('Pictograms', 'Verb'.$language.'.verbid = Pictograms.pictoid', 'left');
         $this->db->where('actiu', '1');
         $this->db->like('verbtext', $startswith, 'after');
-        $this->db->order_by('verb'.$language.'.verbtext', 'asc');
+        $this->db->order_by('Verb'.$language.'.verbtext', 'asc');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             $output = $query->result_array();
         }
-        else $output = null;
 
         return $output;
     }

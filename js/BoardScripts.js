@@ -214,6 +214,21 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.dataTemp = response.data;
         });
     };
+    
+    //Search controllers
+    $scope.search = function()
+    {
+        var postdata = {id: $scope.Name};
+        var URL = $scope.baseurl+"TestSearchWord/getDBAll";
+        
+        
+        $http.post(URL,postdata).
+            success(function(response)
+            {
+              $scope.statusWord = response.status;
+              $scope.dataWord = response.data;
+            });
+    };
 });
 //Add a directive in order to recognize the right click
 app.directive('ngRightClick', function($parse) {

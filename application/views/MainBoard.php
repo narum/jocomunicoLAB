@@ -27,29 +27,25 @@
         <div id="mainboard">
             <div id="header" class="container-fluid text-center row">
                 <div style="background-color: Green;height:100%;">
-                    <br />
-                    Search: <input type="text" ng-model="Lletra" ng-keyup="search();"/>
-                    <br />
+                    
                 </div>
             </div>
             <div id="userview" class="container-fluid" ng-init="config(2)">
                 <div class="row fullheight">
                     <div ng-hide="grid1hide" class="col-xs-{{grid1}} fullheight" style="background-color: Blue;">
-                        <div>
-                            <div id="board" class="fullhegith">
-                               <div class="row">
+                            <div id="board" class="fullheight">
+                               <div id="trashView" class="row">
                                     <h4>TRASH.PHP</h4>
                                 </div>
-                                <div class="container-fluid">
+                                <div id="searchView" class="container-fluid">
                                     <div class="row">
                                         <h4>SEARCH.PHP</h4>
                                         <div class="col-sm-12">
-                                            
+                                            <div ng-include="'http://localhost/jocomunico/EditView.html'"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     <div class="col-xs-{{grid2}} fullheight" ng-init="data = []" style="background-color: Red;">
                         <div id="board" class="fullheight">

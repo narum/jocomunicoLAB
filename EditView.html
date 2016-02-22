@@ -1,0 +1,11 @@
+
+<div class="fullheight" ng-app="mySearch" ng-controller="myCtrl">
+    <input type="text" ng-model="Name" ng-keyup="search();" placeholder="Escriba para filtar"/><br>
+    <p>http status code: {{statusWord}}</p>
+    <div class='row fullheight'>
+        <div class='col-xs-4' ng-repeat="picto in dataWord| limitTo: 6">
+            <img width="100%" height="100%" src="{{picto.imgPicto}}"/>
+        </div>
+    </div>
+
+</div>
