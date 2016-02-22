@@ -1,5 +1,5 @@
 var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile"]);
-app.controller('myCtrl', function ($scope, $http) {
+app.controller('myCtrl', function ($scope, $http) {  
     $scope.config = function (boardconf)
     {
         if (boardconf === 1)
@@ -99,7 +99,20 @@ app.controller('myCtrl', function ($scope, $http) {
         $scope.subgrid2 = 100;
         $scope.subgrid3 = 0;
     };
+    $scope.showBoard = function ()
+    {
+        var url = $scope.baseurl + "Board/showCellboard";
+        var postdata = {r: '0', c: '0'};
+        
+         $http.post(url, postdata).success(function (response)
+        {
+            $scope.columns = response.col;
+            $scope.rows = response.row;
+            $scope.data = response.data;
+        });
+    };
 
+    //Controladores de editar
     $scope.edit = function ()
     {
         $scope.grid1hide = false;
@@ -112,7 +125,7 @@ app.controller('myCtrl', function ($scope, $http) {
 
     $scope.addColumn = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '0', c: '1'};
         
          $http.post(url, postdata).success(function (response)
@@ -120,12 +133,11 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
     $scope.removeColumn = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '0', c: '-1'};
         
          $http.post(url, postdata).success(function (response)
@@ -133,12 +145,11 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
     $scope.addRow = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '1', c: '0'};
         
          $http.post(url, postdata).success(function (response)
@@ -146,12 +157,11 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
     $scope.removeRow = function ()
     {
-        var url = $scope.baseurl + "Board/drawCellboard";
+        var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '-1', c: '0'};
         
          $http.post(url, postdata).success(function (response)
@@ -159,27 +169,61 @@ app.controller('myCtrl', function ($scope, $http) {
             $scope.columns = response.col;
             $scope.rows = response.row;
             $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns);
         });
     };
-    $scope.showBoard = function ()
-    {
-        var url = $scope.baseurl + "Board/drawCellboard";
-        var postdata = {r: '0', c: '0'};
+    $scope.openMenu = function ($id) {
         
+        open($scope.baseurl + 'editMenu.html','','top=300,left=300,width=300,height=300') ; 
+    };
+    
+    // Desde aqui son del div de sentencias
+    $scope.addToSentence = function (id) {
+        
+        var url = $scope.baseurl + "Board/addWord";
+        var postdata = {id: id};
+ 
          $http.post(url, postdata).success(function (response)
         {
-            $scope.columns = response.col;
-            $scope.rows = response.row;
-            $scope.data = response.data;
-            alert("R: " + $scope.rows + " C: " + $scope.columns + " data:" + $scope.data);
+            $scope.dataTemp = response.data;
         });
     };
-    $scope.range = function (max) {
-        var input = [];
-        for (var i = 0; i < max; i ++) {
-            input.push(i);
-        }
-        return input;
+    $scope.deleteLast = function () {
+        
+        var url = $scope.baseurl + "Board/deleteLastWord";
+ 
+         $http.post(url).success(function (response)
+        {
+            $scope.dataTemp = response.data;
+        });
+    };
+    $scope.deleteAll = function () {
+        
+        var url = $scope.baseurl + "Board/deleteAllWords";
+ 
+         $http.post(url).success(function (response)
+        {
+            $scope.dataTemp = response.data;
+        });
+    };
+    $scope.generate = function () {
+        
+        var url = $scope.baseurl + "Board/generate";
+ 
+         $http.post(url).success(function (response)
+        {
+            $scope.dataTemp = response.data;
+        });
+    };
+});
+//Add a directive in order to recognize the right click
+app.directive('ngRightClick', function($parse) {
+    return function(scope, element, attrs) {
+        var fn = $parse(attrs.ngRightClick);
+        element.bind('contextmenu', function(event) {
+            scope.$apply(function() {
+                event.preventDefault();
+                fn(scope, {$event:event});
+            });
+        });
     };
 });

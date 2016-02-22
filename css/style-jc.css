@@ -16,7 +16,7 @@
     padding-left: 0px;
 }
 
-.fullhegith{
+.fullheight{
     height:100%;
 }
 
@@ -40,4 +40,43 @@
     height: 100%;
     width: 100%;
     background-color: white;
+}
+
+.prediction{
+    height: 100%;
+    text-align: center;
+    align-self: center;
+    background-color: white;
+}
+
+.speakButton{
+    height: 100%;
+    text-align: center;
+    align-self: center;
+    background-color: purple;
+}
+
+.deleteLastButton{
+    height: 100%;
+    text-align: center;
+    align-self: center;
+    background-color: blue;
+}
+
+.deleteAllButton{
+    height: 100%;
+    text-align: center;
+    align-self: center;
+    background-color: orangered;
+}
+.content-prediction{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 5%;
+    padding-right: 5%;
+    align-items: center;
+}
+
+.menu{
+    position:relative;
 }

@@ -23,7 +23,7 @@
     <title>Jo Comunico Beta</title>
 
 
-    <body ng-controller="myCtrl" ng-init="baseurl = '<?= base_url(); ?>'">
+    <body ng-controller="myCtrl" ng-init="baseurl = '<?= base_url(); ?>'" oncontextmenu="return false">
         <div id="mainboard">
             <div id="header" class="container-fluid text-center row">
                 <div style="background-color: Green;height:100%;">
@@ -32,9 +32,9 @@
                     <br />
                 </div>
             </div>
-            <div id="userview" class="container-fluid" ng-init="config(3)">
-                <div class="row fullhegith">
-                    <div ng-hide="grid1hide" class="col-xs-{{grid1}} fullhegith" style="background-color: Blue;">
+            <div id="userview" class="container-fluid" ng-init="config(2)">
+                <div class="row fullheight">
+                    <div ng-hide="grid1hide" class="col-xs-{{grid1}} fullheight" style="background-color: Blue;">
                         <div>
                             <div id="board" class="fullhegith">
                                <div class="row">
@@ -51,68 +51,91 @@
                             </div>
                         </div>
                     </div>
-        
-                    <div class="col-xs-{{grid2}} fullhegith" ng-init="data=[]" style="background-color: Red;">
-                        <div id="board" class="fullhegith">
-                            <!-- todos los style en css, estos tres no por que dependeran de una variable -->
-                            <div class="row" ng-hide="subgrid1hide" style="height:{{subgrid1}}%">
-                                <h4>SENTENCEBOARD.PHP</h4>
+                    <div class="col-xs-{{grid2}} fullheight" ng-init="data = []" style="background-color: Red;">
+                        <div id="board" class="fullheight">
+                            <div class="container-fluid" ng-hide="subgrid1hide" style="height:{{subgrid1}}%">
+                                <div class="row fullheight">
+                                    
+                                    <div class="col-xs-1 speakButton">
+                                        <button class="btn-success" ng-click="generate()">generate</button>
+                                    </div>
+                                    
+                                    <div class="col-xs-9 prediction" >
+                                        <div class="col-xs-1" ng-repeat="picto in dataTemp" >
+                                            <img width="100%" height="100%" src="<?= base_url(); ?>img/pictos/{{picto.img}}"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-xs-1 deleteLastButton">
+                                        <button class="btn-success" ng-click="deleteLast()">delete last</button>
+                                    </div>
+                                    
+                                    <div class="col-xs-1  deleteAllButton">
+                                        <button class="btn-success" ng-click="deleteAll()">delete all</button>
+                                    </div>
+                                    
+                                </div>
                             </div>
                             <div class="container-fluid" ng-init="showBoard()" style="height:{{subgrid2}}%">
                                 <div class="row" style="height:100%;" >
-                                    <div class="col-sm-12" ng-repeat="imagenol in data" ng-style="{'width':'{{100/columns}}%','height':'{{100/rows}}%'}">
 
-                                        <img ng-if="imagenol.imgPicto" width="100%" height="100%" src="<?=base_url();?>img/pictos/{{imagenol.imgPicto}}" />
-                                        <div ng-if="!imagenol.imgPicto" class="emptyImg fullhegith"/>
+                                    <div class="col-xs-12" ng-repeat="picto in data" ng-style="{'width':'{{100 / columns}}%','height':'{{100 / rows}}% '}">
+
+                                        <img ng-if="picto.imgPicto" width="100%" height="100%" src="<?= base_url(); ?>img/pictos/{{picto.imgPicto}}"  ng-click="addToSentence(picto.pictoid);" ng-right-click="openMenu(picto.pictoid);"/>
+                                        
+                                        
+                                        
+                                        <div ng-if="!picto.imgPicto" class="emptyImg"/>
                                     </div>
                                 </div>
+
                             </div>
-                                <br/><br/><br/><br/>
+                            <br/><br/><br/><br/>
                         </div>
-                            <div class="row" ng-hide="subgrid3hide" style="height:{{subgrid3}}%">
-                                <h4>SENTENCEBOARD1.PHP</h4>
-                            </div>
+                        <div class="row" ng-hide="subgrid3hide" style="height:{{subgrid3}}%">
+                            <h4>SENTENCEBOARD1.PHP</h4>
+                        </div>
                     </div>
                 </div>
-                    <div ng-hide="grid3hide" class="col-xs-{{grid3}} fullhegith" style="background-color: Blue;">
-                        <div>
-                            <h4>UNKNOWN.PHP</h4>
-                        </div>
+                <div ng-hide="grid3hide" class="col-xs-{{grid3}} fullheight" style="background-color: Blue;">
+                    <div>
+                        <h4>UNKNOWN.PHP</h4>
                     </div>
-
                 </div>
 
             </div>
-            <div id="footer" class="container-fluid text-center row">
-                <div style="background-color: orange">
-                    <br />
-                    <button class="btn-success" ng-click="showall()">2:8:2</button>
-                    <button class="btn-success" ng-click="showright()">10:2</button>
-                    <button class="btn-success" ng-click="showleft()">2:10</button>
-                    <button class="btn-success" ng-click="showmid()">12</button>
-                    <button class="btn-success" ng-click="showupdown()">2:8:2</button>
-                    <button class="btn-success" ng-click="showup()">10:2</button>
-                    <button class="btn-success" ng-click="showdown()">2:10</button>
-                    <button class="btn-success" ng-click="showmiddle()">12</button>
-                    <br />
-                </div>
-                <div style="background-color: yellow">
-                    <br />
-                    <button class="btn-success" ng-click="edit()">edit</button>
-                    <br />
-                </div>
-                <div style="background-color: grey">
-                    <br />
-                    <button class="btn-success" ng-click="addColumn()">addColumn</button>
-                    <button class="btn-success" ng-click="addRow()">addRow</button>
-                    <br />
-                    <br />
-                    <button class="btn-success" ng-click="removeColumn()">removeColumn</button>
-                    <button class="btn-success" ng-click="removeRow()">removeRow</button>
-                    <br />
-                </div>
 
-            </div>
         </div>
-    </body>
+        <div id="footer" class="container-fluid text-center row">
+            <div style="background-color: orange">
+                <br />
+                <button class="btn-success" ng-click="showall()">2:8:2</button>
+                <button class="btn-success" ng-click="showright()">10:2</button>
+                <button class="btn-success" ng-click="showleft()">2:10</button>
+                <button class="btn-success" ng-click="showmid()">12</button>
+                <button class="btn-success" ng-click="showupdown()">2:8:2</button>
+                <button class="btn-success" ng-click="showup()">10:2</button>
+                <button class="btn-success" ng-click="showdown()">2:10</button>
+                <button class="btn-success" ng-click="showmiddle()">12</button>
+                <br />
+            </div>
+            <div style="background-color: yellow">
+                <br />
+                <button class="btn-success" ng-click="edit()">edit</button>
+                <br />
+            </div>
+            <div style="background-color: grey">
+                <br />
+                <button class="btn-success" ng-click="addColumn()">addColumn</button>
+                <button class="btn-success" ng-click="addRow()">addRow</button>
+                <br />
+                <br />
+                <button class="btn-success" ng-click="removeColumn()">removeColumn</button>
+                <button class="btn-success" ng-click="removeRow()">removeRow</button>
+                <br />
+            </div>
+
+        </div>
+   
+        </body>
 </html>
