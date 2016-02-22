@@ -26,7 +26,6 @@ class DBwords extends CI_Model {
         if ($query->num_rows() > 0) {
             $output = $query->result_array();
         }
-        else $output = null;
         return $output;
     }
 
@@ -64,94 +63,93 @@ class DBwords extends CI_Model {
         if ($query->num_rows() > 0) {
             $output = $query->result_array();
         }
-
+        
         return $output;
     }
 
-    function getDBAdj()
+    function getDBAdjLike($startswith, $language)
     {
         $output = array();
-        $userlanguage = $this->session->userdata('ulangabbr');
 
-        $this->db->order_by('Adjective'.$userlanguage.'.masc', 'asc');
-        $this->db->join('AdjClass'.$userlanguage, 'AdjClass'.$userlanguage.'.adjid = Adjective'.$userlanguage.'.adjid', 'left');
-        $this->db->join('Pictograms', 'Adjective'.$userlanguage.'.adjid = Pictograms.pictoid', 'left');
-        $query = $this->db->get('Adjective'.$userlanguage);
+        $this->db->select('adjid as id,masc as text, imgPicto');
+        $this->db->from('Adjective'.$language);
+        $this->db->join('Pictograms', 'Adjective'.$language.'.adjid = Pictograms.pictoid', 'left');
+        $this->db->like('masc', $startswith, 'after');
+        $this->db->order_by('Adjective'.$language.'.masc', 'asc');
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $output = $query->result();
+            $output = $query->result_array();
         }
-        else $output = null;
-
         return $output;
     }
-
-    function getAdvs()
+    function getDBExprsLike($startswith, $language)
     {
         $output = array();
-        $userlanguage = $this->session->userdata('ulangabbr');
 
-        $this->db->order_by('Adverb'.$userlanguage.'.advtext', 'asc');
-        $this->db->join('AdvType'.$userlanguage, 'AdvType'.$userlanguage.'.advid = Adverb'.$userlanguage.'.advid', 'left');
-        $this->db->join('Pictograms', 'Adverb'.$userlanguage.'.advid = Pictograms.pictoid', 'left');
-        $query = $this->db->get('Adverb'.$userlanguage);
+        $this->db->select('exprid as id,exprtext as text, imgPicto');
+        $this->db->from('Expressions'.$language);
+        $this->db->join('Pictograms', 'Expressions'.$language.'.exprid = Pictograms.pictoid', 'left');
+        $this->db->like('exprtext', $startswith, 'after');
+        $this->db->order_by('Expressions'.$language.'.exprtext', 'asc');
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $output = $query->result();
+            $output = $query->result_array();
         }
-        else $output = null;
-
         return $output;
     }
 
-    function getModifs()
+    function getDBAdvsLike($startswith, $language)
     {
         $output = array();
-        $userlanguage = $this->session->userdata('ulangabbr');
-
-        $this->db->order_by('masc', 'asc');
-        $this->db->join('Pictograms', 'Modifier'.$userlanguage.'.modid = Pictograms.pictoid', 'left');
-        $query = $this->db->get('Modifier'.$userlanguage);
+        $this->db->select('advid as id,advtext as text, imgPicto');
+        $this->db->from('Adverb'.$language);
+        $this->db->join('Pictograms', 'Adverb'.$language.'.advid = Pictograms.pictoid', 'left');
+        $this->db->like('advtext', $startswith, 'after');
+        $this->db->order_by('Adverb'.$language.'.advtext', 'asc');
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $output = $query->result();
+            $output = $query->result_array();
         }
-        else $output = null;
 
         return $output;
     }
 
-    function getExprs()
+    function getDBModifsLike($startswith, $language)
     {
         $output = array();
-        $userlanguage = $this->session->userdata('ulangabbr');
 
-        $this->db->order_by('Expressions'.$userlanguage.'.exprtext', 'asc');
-        $this->db->join('ExprType'.$userlanguage, 'ExprType'.$userlanguage.'.exprid = Expressions'.$userlanguage.'.exprid', 'left');
-        $this->db->join('Pictograms', 'Expressions'.$userlanguage.'.exprid = Pictograms.pictoid', 'left');
-        $query = $this->db->get('Expressions'.$userlanguage);
-
+        $this->db->select('modid as id,masc as text, imgPicto');
+        $this->db->from('Modifier'.$language);
+        $this->db->join('Pictograms', 'Modifier'.$language.'.modid = Pictograms.pictoid', 'left');
+        $this->db->like('masc', $startswith, 'after');        
+        $this->db->order_by('Modifier'.$language.'.masc', 'asc');
+        $query = $this->db->get();
+        
         if ($query->num_rows() > 0) {
-            $output = $query->result();
+            $output = $query->result_array();
         }
-        else $output = null;
 
         return $output;
     }
 
-    function getPartPregunta()
+
+
+    function getDBQuestionPartLike($startswith, $language)
     {
         $output = array();
-        $userlanguage = $this->session->userdata('ulangabbr');
-
+        $this->db->select('questid as id,parttext as text, imgPicto');
+        $this->db->from('QuestionPart'.$language);
+        $this->db->join('Pictograms', 'QuestionPart'.$language.'.questid = Pictograms.pictoid', 'left');
+        $this->db->like('parttext', $startswith, 'after'); 
         $this->db->order_by('parttext', 'asc');
-        $this->db->join('Pictograms', 'QuestionPart'.$userlanguage.'.questid = Pictograms.pictoid', 'left');
-        $query = $this->db->get('QuestionPart'.$userlanguage);
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $output = $query->result();
+            $output = $query->result_array();
         }
-        else $output = null;
 
         return $output;
     }
