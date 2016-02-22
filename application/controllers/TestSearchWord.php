@@ -27,7 +27,7 @@ class TestSearchWord extends REST_Controller {
 
         
         // Llamamos al modelo
-        $names = $this->DBwords->getDBNamesLike($startswith, $language);
+        $names1 = $this->DBwords->getDBNamesLike($startswith, $language);
         $names2 = $this->DBwords->getDBVerbsLike($startswith, $language);
         $names3 = $this->DBwords->getDBAdjLike($startswith, $language);
         $names4 = $this->DBwords->getDBExprsLike($startswith, $language);
@@ -35,7 +35,7 @@ class TestSearchWord extends REST_Controller {
         $names6 = $this->DBwords->getDBModifsLike($startswith, $language);
         $names7 = $this->DBwords->getDBQuestionPartLike($startswith, $language);
         
-        $names8 = array_merge($names, $names2, $names3, $names4, $names5, $names6, $names7);
+        $names8 = array_merge($names1, $names2, $names3, $names4, $names5, $names6, $names7);
         $response = [
             "data" => $this->create_paths($names8)
         ];
@@ -63,6 +63,90 @@ class TestSearchWord extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 
     }
+    public function getDBVerbs_post()
+    {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $startswith = $request->id;
+        //$languageNum = $request->language;
+        $languageNum = 2;
+        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+        $language = $this->switch_language($languageNum);
+
+        
+        // Llamamos al modelo
+        $names = $this->DBwords->getDBVerbsLike($startswith, $language);
+        $response = [
+            "data" => $this->create_paths($names)
+        ];
+        
+        $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+
+    }
+    public function getDBAdj_post()
+    {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $startswith = $request->id;
+        //$languageNum = $request->language;
+        $languageNum = 2;
+        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+        $language = $this->switch_language($languageNum);
+
+        
+        // Llamamos al modelo
+        $names = $this->DBwords->getDBAdjLike($startswith, $language);
+        $response = [
+            "data" => $this->create_paths($names)
+        ];
+        
+        $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+
+    }
+    public function getDBExprs_post()
+    {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $startswith = $request->id;
+        //$languageNum = $request->language;
+        $languageNum = 2;
+        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+        $language = $this->switch_language($languageNum);
+
+        
+        // Llamamos al modelo
+        $names = $this->DBwords->getDBExprsLike($startswith, $language);
+        $response = [
+            "data" => $this->create_paths($names)
+        ];
+        
+        $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+
+    }
+    public function getDBOthers_post()
+    {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $startswith = $request->id;
+        //$languageNum = $request->language;
+        $languageNum = 2;
+        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+        $language = $this->switch_language($languageNum);
+
+        
+        // Llamamos al modelo
+        $names1 = $this->DBwords->getDBAdvsLike($startswith, $language);
+        $names2 = $this->DBwords->getDBModifsLike($startswith, $language);
+        $names3 = $this->DBwords->getDBQuestionPartLike($startswith, $language);
+        
+        $names4 = array_merge($names1, $names2, $names3);
+        $response = [
+            "data" => $this->create_paths($names4)
+        ];
+        
+        $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+
+    }
     function create_paths($names8){
         function concat_path($row)
         {
@@ -75,7 +159,7 @@ class TestSearchWord extends REST_Controller {
     function switch_language($languageNum)
     {
         if ($languageNum == 1){
-            $language = "ca";
+            $language = "CA";
         } else if($languageNum == 2) {
             $language = "ES";
         }
