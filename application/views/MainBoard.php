@@ -17,13 +17,14 @@
     <script src="<?= base_url(); ?>js/angular/angular.min.js" type="text/javascript"></script>
     <script src="<?= base_url(); ?>js/angular/angular-bind-html-compile.js" type="text/javascript"></script>
     <script src="<?= base_url(); ?>js/angular/angular-sanitize.min.js" type="text/javascript"></script>
+    <script src="<?= base_url(); ?>js/angular/ngDraggable.js" type="text/javascript"></script>
     <script src="<?= base_url(); ?>js/BoardScripts.js" type="text/javascript"></script>
 
 
     <title>Jo Comunico Beta</title>
 
 
-    <body ng-controller="myCtrl" ng-init="baseurl = '<?= base_url(); ?>'" oncontextmenu="return false">
+    <body ng-controller="myCtrl" ng-init="baseurl = '<?= base_url(); ?>'" oncontextmenu="return false" ng-drop="true">
         <div id="mainboard">
             <div id="header" class="container-fluid text-center row">
                 <div style="background-color: Green;height:100%;">
@@ -50,7 +51,7 @@
                         <div id="board" class="fullheight">
                             <div class="container-fluid" ng-hide="subgrid1hide" style="height:{{subgrid1}}%">
                                 <div class="row fullheight">
-                                    
+                                    <!--Hacer un view propia?-->
                                     <div class="col-xs-1 speakButton">
                                         <button class="btn-success" ng-click="generate()">generate</button>
                                     </div>
@@ -69,6 +70,7 @@
                                         <button class="btn-success" ng-click="deleteAll()">delete all</button>
                                     </div>
                                     
+                                    
                                 </div>
                             </div>
                             <div class="container-fluid" ng-init="showBoard()" style="height:{{subgrid2}}%">
@@ -76,11 +78,11 @@
 
                                     <div class="col-xs-12" ng-repeat="picto in data" ng-style="{'width':'{{100 / columns}}%','height':'{{100 / rows}}% '}">
 
-                                        <img ng-if="picto.imgPicto" width="100%" height="100%" src="<?= base_url(); ?>img/pictos/{{picto.imgPicto}}"  ng-click="addToSentence(picto.pictoid);" ng-right-click="openMenu(picto.pictoid);"/>
+                                        <img ng-if="picto.imgPicto" width="100%" height="100%" src="{{baseurl}}img/pictos/{{picto.imgPicto}}"  ng-click="addToSentence(picto.pictoid);" ng-right-click="openMenu(picto.pictoid);" ng-drop="true" ng-drop-success="onDropSwap({{picto.posInBoard}},$data,$event)" ng-drag="true" ng-drag-data="{posInBoardPicto:'{{picto.posInBoard}}'}" data-allow-transform="true"/>
                                         
                                         
                                         
-                                        <div ng-if="!picto.imgPicto" class="emptyImg"/>
+                                        <div ng-drop="true" ng-drop-success="onDropSwap({{picto.posInBoard}},$data,$event)" ng-if="!picto.imgPicto" class="emptyImg" />
                                     </div>
                                 </div>
 
@@ -109,8 +111,8 @@
                 <button class="btn-success" ng-click="showleft()">2:10</button>
                 <button class="btn-success" ng-click="showmid()">12</button>
                 <button class="btn-success" ng-click="showupdown()">2:8:2</button>
-                <button class="btn-success" ng-click="showup()">10:2</button>
-                <button class="btn-success" ng-click="showdown()">2:10</button>
+                <button class="btn-success" ng-click="showup()">2:10</button>
+                <button class="btn-success" ng-click="showdown()">10:2</button>
                 <button class="btn-success" ng-click="showmiddle()">12</button>
                 <br />
             </div>

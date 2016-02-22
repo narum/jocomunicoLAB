@@ -1,7 +1,8 @@
-var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile"]);
+var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile", 'ngDraggable']);
 app.controller('myCtrl', function ($scope, $http) {  
     $scope.config = function (boardconf)
     {
+         $scope.inEdit = false;
         if (boardconf === 1)
         {
             $scope.showall();
@@ -18,7 +19,7 @@ app.controller('myCtrl', function ($scope, $http) {
         {
             $scope.showmid();
         }
-
+        $scope.showup();
         /*$scope.grid1hide = false;
          $scope.grid2hide = false;
          $scope.grid3hide = false;
@@ -72,7 +73,7 @@ app.controller('myCtrl', function ($scope, $http) {
         $scope.subgrid2 = 60;
         $scope.subgrid3 = 20;
     };
-    $scope.showup = function ()
+    $scope.showdown = function ()
     {
         $scope.subgrid1hide = true;
         $scope.subgrid2hide = false;
@@ -81,7 +82,7 @@ app.controller('myCtrl', function ($scope, $http) {
         $scope.subgrid2 = 80;
         $scope.subgrid3 = 20;
     };
-    $scope.showdown = function ()
+    $scope.showup = function ()
     {
         $scope.subgrid1hide = false;
         $scope.subgrid2hide = false;
@@ -115,6 +116,7 @@ app.controller('myCtrl', function ($scope, $http) {
     //Controladores de editar
     $scope.edit = function ()
     {
+        $scope.inEdit = true;
         $scope.grid1hide = false;
         $scope.grid2hide = false;
         $scope.grid3hide = true;
@@ -228,6 +230,64 @@ app.controller('myCtrl', function ($scope, $http) {
               $scope.statusWord = response.status;
               $scope.dataWord = response.data;
             });
+    };
+    
+    //Dragndrop events
+    $scope.centerAnchor = true;
+    $scope.toggleCenterAnchor = function () {
+        $scope.centerAnchor = !$scope.centerAnchor
+    };
+    var onDraggableEvent = function (evt, data) {
+        console.log("128", "onDraggableEvent", evt, data);
+        if (evt.name === "draggable:start"){
+            $scope.hide = false;
+        }else if(evt.name === "draggable:end"){
+            $scope.hide = true;
+        }
+    };
+    $scope.$on('draggable:start', onDraggableEvent);
+    // $scope.$on('draggable:move', onDraggableEvent);
+    $scope.$on('draggable:end', onDraggableEvent);
+    $scope.onDropSwap = function (posInBoard,data, evt) {
+        var URL = "";
+        //Significa que no hay que hacer swap, solo medio swap...
+        if (data.idpicto){
+            URL = $scope.baseurl+"Board/addPicto";
+            var postdata = {id: data.idpicto, pos: posInBoard};
+        }else{
+            var postdata = {pos1: data.posInBoardPicto, pos2: posInBoard};
+            URL = $scope.baseurl + "Board/swapPicto";
+        }
+        //Mirar otra forma de pasar parametros
+        $http.post(URL,postdata).
+            success(function(response)
+            {
+              $scope.statusWord = response.status;
+              $scope.data = response.data;
+            });
+    };
+    $scope.onDropRemove = function (data, evt) {
+        var url = $scope.url + "PictogramSearch/removePicto";
+        var id = data.idhistory;
+        alert(id);
+        $http.post(url, id).then(function (response)
+        {
+            $scope.statusWord = response.status;
+            $scope.history = response.data;
+        }, function (response)
+        {
+            $scope.history = "Request failed";
+            $scope.statusWord = response.status;
+        });
+    };
+    $scope.onDragSuccess1 = function (data, evt) {
+        console.log("133", "$scope", "onDragSuccess1", "", evt);
+        alert(data);
+        var index = $scope.droppedObjects1.indexOf(data);
+        alert(index);
+        if (index > -1) {
+            $scope.droppedObjects1.splice(index, 1);
+        }
     };
 });
 //Add a directive in order to recognize the right click

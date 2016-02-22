@@ -130,7 +130,7 @@ class Board extends REST_Controller {
                 $currentPos--;
             }
             for ($column = 0; $column < $columns; $column++) {
-                $this->BoardInterface->updateCell($oldCurrentPos, $currentPos, $idBoard);
+                $this->BoardInterface->updatePosCell($oldCurrentPos, $currentPos, $idBoard);
                 $currentPos--;
                 $oldCurrentPos--;
             }
@@ -148,7 +148,7 @@ class Board extends REST_Controller {
         //We can add a start trans and commit at the end?
         for ($row = 0; $row < $rows; $row++) {
             for ($column = 0; $column < $columns - $columnsToSub; $column++) {
-                $this->BoardInterface->updateCell($oldCurrentPos, $currentPos, $idBoard);
+                $this->BoardInterface->updatePosCell($oldCurrentPos, $currentPos, $idBoard);
                 $oldCurrentPos++;
                 $currentPos++;
             }
@@ -278,4 +278,43 @@ class Board extends REST_Controller {
         }
     }
 
+     public function addPicto_post() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $id = $request->id;
+        $pos = $request->pos;
+        //$boardid = $request->boardid;
+
+        //1 es la board
+        $cell = $this->BoardInterface->getIDCell($pos,1);
+        $this->BoardInterface->updateDataCell($id,$cell[0]->ID_RCell);
+        
+        $data = $this->BoardInterface->getCellsBoard(1);
+
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
+    public function swapPicto_post() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $pos1 = $request->pos1;
+        $pos2 = $request->pos2;
+        //$boardid = $request->boardid;
+
+        //1 es la board
+        $this->BoardInterface->updatePosCell($pos1,-1,1);  
+        $this->BoardInterface->updatePosCell($pos2, $pos1,1);
+        $this->BoardInterface->updatePosCell(-1, $pos2,1);
+        
+        $data = $this->BoardInterface->getCellsBoard(1);
+
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
 }

@@ -67,12 +67,22 @@ class BoardInterface extends CI_Model {
         $this->session->set_userdata($newdata);
     }
 
-    function updateCell($oldPos, $newPos, $idBoard) {
+    function updatePosCell($oldPos, $newPos, $idBoard) {
         $output = array();
 
         $this->db->where('posInBoard', $oldPos);
         $this->db->where('ID_RBoard', $idBoard);
         $this->db->update('R_BoardCell', array('posInBoard' => $newPos));
+
+
+        return $output;
+    }
+    
+    function updateDataCell($idpicto, $cell) {
+        $output = array();
+
+        $this->db->where('ID_Cell', $cell);
+        $this->db->update('Cell', array('ID_CPicto' => $idpicto));
 
 
         return $output;
@@ -275,5 +285,5 @@ class BoardInterface extends CI_Model {
             }
         }
     }
-
+  
 }
