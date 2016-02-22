@@ -13,35 +13,6 @@ class TestSearchWord extends REST_Controller {
         
     public function index_get()
     {
-        $startswith = $this->query("startswith");
-        $languageNum = $this->query("language");
-        
-        $startswith = "a";
-        $languageNum = 2;
-
-        // Comprobamos si llegan parametros del get   
-        if($startswith == NULL || $startswith == "") {
-            $this->response("missing argument startswith", 400);
-            return;
-        }
-
-        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
-        if ($languageNum == 1){
-            $language = "ca";
-        } else if($languageNum == 2) {
-            $language = "ES";
-        }
-         
-
-        // Llamamos al modelo
-        $names = $this->DBwords->getDBVerbsLike($startswith, $language);
-        $names2 = $this->DBwords->getDBNamesLike($startswith, $language);
-        $names = $names + $names2;
-        $response = [
-            "data" => array_map("concat_path", $names)
-        ];
-        
-        $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 
     }
     public function getDBAll_post()
@@ -75,15 +46,22 @@ class TestSearchWord extends REST_Controller {
         }
 
         // Llamamos al modelo
-        $names = $this->DBwords->getDBVerbsLike($startswith, $language);
-        $names2 = $this->DBwords->getDBNamesLike($startswith, $language);
-        $names = $names + $names2;
+        $names = $this->DBwords->getDBNamesLike($startswith, $language);
+        $names2 = $this->DBwords->getDBVerbsLike($startswith, $language);
+        $names3 = $this->DBwords->getDBAdjLike($startswith, $language);
+        $names4 = $this->DBwords->getDBExprsLike($startswith, $language);
+        $names5 = $this->DBwords->getDBAdvsLike($startswith, $language);
+        $names6 = $this->DBwords->getDBModifsLike($startswith, $language);
+        $names7 = $this->DBwords->getDBQuestionPartLike($startswith, $language);
+        
+        $names8 = array_merge($names, $names2, $names3, $names4, $names5, $names6, $names7);
         $response = [
-            "data" => array_map("concat_path", $names)
+            "data" => array_map("concat_path", $names8)
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 
     }
+    
 }
 

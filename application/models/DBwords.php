@@ -12,22 +12,6 @@ class DBwords extends CI_Model {
     /*
      * GETS THE NOUNS OF THE TYPE $type FROM THE DATABASE
      */
-    function getDBAllLike($startswith, $language)
-    {
-        $output = array();
-      
-        $this->db->select('nameid as id, nomtext as text, imgPicto');// seleccionem els camps que ens interessa retornar
-        $this->db->from('name'. $language);// Seleccionem la taula nameca o namees
-        $this->db->join('pictograms', 'name' . $language . '.nameid = pictograms.pictoid', 'left'); // ajuntem les columnes de les dos taules
-        $this->db->like('nomtext', $startswith, 'after');// Seleccionem els noms de la taula que comencen per $startswith
-        $this->db->order_by('name' . $language . '.nomtext', 'asc'); // ordenem de manera ascendent tota la taula en funció del nomtext
-        $query = $this->db->get();// Fem la query i la guardem a la variable query
-              
-        if ($query->num_rows() > 0) {
-            $output = $query->result_array();
-        }
-        return $output;
-    }
 
     function getDBNamesLike($startswith, $language)
     {
