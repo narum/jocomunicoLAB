@@ -44,6 +44,14 @@
     height:35%;
 }
 
+#boarCellSearch{
+    height: 65%;
+}
+
+.cellSearch{
+    height: 50%;
+}
+
 .emptyImg{
     height: 100%;
     width: 100%;
