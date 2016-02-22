@@ -356,7 +356,7 @@ class Myexpander {
     {
         $pattern = new Mypattern();
         $pattern = $patternfinal;
-
+        
         // Indiquem que si el temps per defecte és l'imperatiu, que la frase és una ordre
         // a no ser que estigui activat el modificador de desig o permís que tenen preferència o
         // que hi hagi una partícula de pregunta.
@@ -366,6 +366,9 @@ class Myexpander {
             $propietatsfrase['tipusfrase'] = "ordre";
         }
         else if ($partpreguntaposada) $propietatsfrase['tipusfrase'] = "pregunta";
+        
+        // Si el tipus de frase triat era per defecte, ara el tipus de frase és el per defecte del patró
+        if ($propietatsfrase['tipusfrase'] == "defecte") $propietatsfrase['tipusfrase'] = $pattern->tipusfrase;
 
         // 1. Ordenem els slots segons el tipus de frase
         $pattern->ordenarSlotsFrase($propietatsfrase);
@@ -409,6 +412,9 @@ class Myexpander {
             $propietatsfrase['tipusfrase'] = "ordre";
         }
         else if ($partpreguntaposada) $propietatsfrase['tipusfrase'] = "pregunta";
+        
+        // Si el tipus de frase triat era per defecte, ara el tipus de frase és el per defecte del patró
+        if ($propietatsfrase['tipusfrase'] == "defecte") $propietatsfrase['tipusfrase'] = $pattern->tipusfrase;
 
         // 1. Ordenem els slots segons el tipus de frase
         $pattern->ordenarSlotsFraseES($propietatsfrase);

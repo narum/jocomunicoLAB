@@ -94,7 +94,8 @@ CREATE TABLE Boards (
 	Bname VARCHAR(200),
 	width INT,
 	height INT,
-	autoReturn cfgFeedbackVoiceOnOff ENUM('0', '1') DEFAULT ‘1’,
+	autoReturn ENUM('0', '1') DEFAULT '1',
+	autoReadSentence ENUM('0', '1') DEFAULT '0',
 	INDEX GBBoard (ID_GBBoard),
 	FOREIGN KEY (ID_GBBoard) REFERENCES GroupBoards (ID_GB) ON DELETE SET NULL
 ) ENGINE=INNODB;	
@@ -131,15 +132,19 @@ CREATE TABLE Cell (
 	isFixedInGroupBoards ENUM('0', '1') DEFAULT '0',
 	imgCell VARCHAR(300),
 	ID_CPicto INT NULL,
+	ID_CSentence INT NULL,
+	sentenceFolder INT NULL,
 	boardLink INT NULL,
 	color VARCHAR(100),
 	ID_CFunction INT NULL,
 	textInCell VARCHAR(100),
 	textInCellTextOnOff  ENUM('0', '1') DEFAULT '1',
-	cellType ENUM('picto', 'link', 'funct') NULL,
+	cellType ENUM('picto', 'link', 'funct', 'sentence', 'sfolder') NULL,
 	activeCell ENUM('0', '1') DEFAULT '1',
 	INDEX CPicto (ID_CPicto),
 	FOREIGN KEY (ID_CPicto) REFERENCES Pictograms (pictoid) ON DELETE SET NULL,
+	INDEX CSentence (ID_CSentence),
+	FOREIGN KEY (ID_CSentence) REFERENCES S_Sentence (ID_SSentence) ON DELETE SET NULL,
 	INDEX CFunction (ID_CFunction),
 	FOREIGN KEY (ID_CFunction) REFERENCES Function (ID_Function) ON DELETE SET NULL
 ) ENGINE=INNODB;
@@ -150,7 +155,10 @@ CREATE TABLE R_BoardCell (
 	posInBoard INT,
 	isMenu ENUM('0', '1') DEFAULT '0',
 	posInMenu INT,
-	customScanBlock INT DEFAULT '1',
+	customScanBlock1 INT DEFAULT '1',
+	customScanBlockText1 VARCHAR(200) NULL,
+	customScanBlock2 INT NULL,
+	customScanBlockText2 VARCHAR(200) NULL,
 	PRIMARY KEY (ID_RBoard, ID_RCell),
 	INDEX RBoard (ID_RBoard),
 	FOREIGN KEY (ID_RBoard) REFERENCES Boards (ID_Board) ON DELETE CASCADE,
@@ -245,6 +253,7 @@ CREATE TABLE S_Folder (
 	ID_SFUser INT,
 	folderName VARCHAR(200),
 	folderDescr TEXT,
+	imgSFolder VARCHAR(300),
 	INDEX SFUser (ID_SFUser),
 	FOREIGN KEY (ID_SFUser) REFERENCES User (ID_User) ON DELETE SET NULL
 ) ENGINE=INNODB;	

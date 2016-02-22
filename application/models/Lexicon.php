@@ -224,7 +224,7 @@ class Lexicon extends CI_Model {
         $numparaules = count($paraules)-1;
         $paraulesbones = 0;
         
-        $tipusfrase = "enunciativa";
+        $tipusfrase = "defecte";
         $tempsverbal = "defecte";
         $negativa = false;
         
@@ -1161,7 +1161,7 @@ class Lexicon extends CI_Model {
     {
         $output = array();
         $identry = 0;
-        $tipusfrase = "enunciativa";
+        $tipusfrase = "defecte";
         $negativa = false;
         $tense = "defecte";
         $dataalta = null;

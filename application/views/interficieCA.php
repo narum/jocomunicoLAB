@@ -450,7 +450,8 @@
                     
                     <div id="contenidor-tipus-frase">
                         <span class="titolsubclasse">Tipus de frase </span>
-                        <input type="radio" name="tipusfrase" value="enunciativa" checked><span class="radiobottom">Enunciativa</span></input>
+                        <input type="radio" name="tipusfrase" value="defecte" checked><span class="radiobottom">Defecte</span></input>
+                        <input type="radio" name="tipusfrase" value="enunciativa"><span class="radiobottom">Enunciativa</span></input>
                         <input type="radio" name="tipusfrase" value="desig"><span class="radiobottom">Desig</span></input>
                         <input type="radio" name="tipusfrase" value="permis"><span class="radiobottom">Demanar permís</span></input>
                         <input type="radio" name="tipusfrase" value="ordre"><span class="radiobottom">Ordre</span></input> <br />
