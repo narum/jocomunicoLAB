@@ -38,10 +38,9 @@
                                     <h4>TRASH.PHP</h4>
                                 </div>
                                 <div id="searchView" class="container-fluid">
-                                    <div class="row">
-                                        <h4>SEARCH.PHP</h4>
-                                        <div class="col-sm-12">
-                                            <div ng-include="'http://localhost/jocomunico/EditView.html'"></div>
+                                    <div class="row fullheight">
+                                        <div class="col-sm-12 fullheight" ng-include="'http://localhost/jocomunico/EditView.html'">
+                                         
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="container-fluid" ng-init="showBoard()" style="height:{{subgrid2}}%">
-                                <div class="row" style="height:100%;" >
+                                <div class="row fullheight" >
 
                                     <div class="col-xs-12" ng-repeat="picto in data" ng-style="{'width':'{{100 / columns}}%','height':'{{100 / rows}}% '}">
 
