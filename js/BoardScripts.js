@@ -222,6 +222,7 @@ app.controller('myCtrl', function ($scope, $http) {
     $scope.search = function($Searchtype)
     {
         var postdata = {id: $scope.Name};
+        //Radio button function parameter, to set search type
         switch ($Searchtype)
         {
             case "Tots":
@@ -261,7 +262,7 @@ app.controller('myCtrl', function ($scope, $http) {
     //Dragndrop events
     $scope.centerAnchor = true;
     $scope.toggleCenterAnchor = function () {
-        $scope.centerAnchor = !$scope.centerAnchor
+        $scope.centerAnchor = !$scope.centerAnchor;
     };
     var onDraggableEvent = function (evt, data) {
         console.log("128", "onDraggableEvent", evt, data);

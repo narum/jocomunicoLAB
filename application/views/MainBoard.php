@@ -36,7 +36,11 @@
                     <div ng-hide="grid1hide" class="col-xs-{{grid1}} fullheight" style="background-color: Blue;">
                             <div id="board" class="fullheight">
                                <div id="trashView" class="row">
-                                    <h4>TRASH.PHP</h4>
+                                    <div class="row fullheight">
+                                        <div class="col-sm-12 fullheight" ng-include="'http://localhost/jocomunico/EditViewTrash.html'">
+                                         
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="searchView" class="container-fluid">
                                     <div class="row fullheight">

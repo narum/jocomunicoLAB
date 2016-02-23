@@ -37,7 +37,7 @@ class TestSearchWord extends REST_Controller {
         
         $names8 = array_merge($names1, $names2, $names3, $names4, $names5, $names6, $names7);
         $response = [
-            "data" => $this->create_paths($names8)
+            "data" => $names8
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -57,7 +57,7 @@ class TestSearchWord extends REST_Controller {
         // Llamamos al modelo
         $names = $this->DBwords->getDBNamesLike($startswith, $language);
         $response = [
-            "data" => $this->create_paths($names)
+            "data" => $names
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -77,7 +77,7 @@ class TestSearchWord extends REST_Controller {
         // Llamamos al modelo
         $names = $this->DBwords->getDBVerbsLike($startswith, $language);
         $response = [
-            "data" => $this->create_paths($names)
+            "data" => $names
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -97,7 +97,7 @@ class TestSearchWord extends REST_Controller {
         // Llamamos al modelo
         $names = $this->DBwords->getDBAdjLike($startswith, $language);
         $response = [
-            "data" => $this->create_paths($names)
+            "data" => $names
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -117,7 +117,7 @@ class TestSearchWord extends REST_Controller {
         // Llamamos al modelo
         $names = $this->DBwords->getDBExprsLike($startswith, $language);
         $response = [
-            "data" => $this->create_paths($names)
+            "data" => $names
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -141,7 +141,7 @@ class TestSearchWord extends REST_Controller {
         
         $names4 = array_merge($names1, $names2, $names3);
         $response = [
-            "data" => $this->create_paths($names4)
+            "data" => $names4
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
