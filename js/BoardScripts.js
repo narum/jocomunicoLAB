@@ -2,6 +2,7 @@ var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile",
 app.controller('myCtrl', function ($scope, $http) {  
     $scope.config = function (boardconf)
     {
+        $scope.SearchType = "Tots";
          $scope.inEdit = false;
         if (boardconf === 1)
         {
@@ -218,10 +219,35 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     
     //Search controllers
-    $scope.search = function()
+    $scope.search = function($Searchtype)
     {
         var postdata = {id: $scope.Name};
-        var URL = $scope.baseurl+"TestSearchWord/getDBAll";
+        switch ($Searchtype)
+        {
+            case "Tots":
+                var URL = $scope.baseurl+"TestSearchWord/getDBAll";
+                break;
+            case "Noms":
+                var URL = $scope.baseurl+"TestSearchWord/getDBNames";
+                break;
+            case "Verb":
+                var URL = $scope.baseurl+"TestSearchWord/getDBVerbs";
+                break;
+            case "Adj":
+                var URL = $scope.baseurl+"TestSearchWord/getDBAdj";
+                break;
+            case "Exp":
+                var URL = $scope.baseurl+"TestSearchWord/getDBExprs";
+                break;
+            case "Altres":
+                var URL = $scope.baseurl+"TestSearchWord/getDBOthers";
+                break;
+            default:
+                var URL = $scope.baseurl+"TestSearchWord/getDBAll";    
+        }
+        
+        
+        
         
         
         $http.post(URL,postdata).
