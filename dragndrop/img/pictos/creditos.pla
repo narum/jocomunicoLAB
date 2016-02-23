@@ -1,0 +1,24 @@
+PLAPHOONS (C)Jordi Lagares Roset -  Projecte FRESSA JAVA
+COLUMNES=1
+FILES=1
+COLOR=1
+CAPTION CENTRAT = SÍ
+Font Charset = 0
+Font Color = 0
+Font Height = -16
+Font Name = Arial
+Font Size = 12
+Font Negreta = NO
+Font Itàlica = NO
+Font Subrratllat = NO
+Font Tatxat = NO
+BARRA BOTONS = NO
+BARRA MISSATGE = NO
+WORDWRAP = SÍ
+NÓMES LLETRES = NO
+ENVIAR FINESTRA EXTERNA = NO
+POSICIO LEFT = 0
+POSICIO WIDTH = 1281
+POSICIO TOP = 22
+POSICIO HEIGHT = 995
+PICTURE="Créditos.png" CAPTION="" READ="" LINK="general.pla" MC="4" FCHARSET="0" FCOLOR="0" FHEIGHT="-16" FNAME="Arial" FSIZE="12" FNEGRETA="NO" FITALICA="NO" FSUBR="NO" FTATXAT="NO"
