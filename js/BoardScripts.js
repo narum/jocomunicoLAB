@@ -215,6 +215,8 @@ app.controller('myCtrl', function ($scope, $http) {
         $http.post(url).success(function (response)
         {
             $scope.dataTemp = response.data;
+            $scope.info = response.info;
+            alert($scope.dataTemp);
         });
     };
 

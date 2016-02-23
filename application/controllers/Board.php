@@ -13,6 +13,7 @@ class Board extends REST_Controller {
 
         $this->load->model('BoardInterface');
         $this->load->model('Lexicon');
+            $this->load->library('Myexpander');
     }
 
     public function index_get() {
@@ -242,6 +243,8 @@ class Board extends REST_Controller {
         $this->BoardInterface->removeSentence(1);
 
         $data = $this->Lexicon->recuperarFrase(1);
+        
+        
 
         $response = [
             'data' => $data
@@ -269,11 +272,16 @@ class Board extends REST_Controller {
 
         if ($this->BoardInterface->statusTrans() === FALSE) {
             $response = [
-                'error' => "errorText"
+                'dataTemp' => "eeee"
             ];
-            $this->response($response, 500);
+            $this->response($response, 400);
         } else {
-            $response = NULL;
+            
+            
+            $response = [
+                "info" => $info
+            ];
+            
             $this->response($response, REST_Controller::HTTP_OK);
         }
     }

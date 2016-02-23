@@ -54,27 +54,7 @@
                     <div class="col-xs-{{grid2}} fullheight" ng-init="data = []" style="background-color: Red;">
                         <div id="board" class="fullheight">
                             <div class="container-fluid" ng-hide="subgrid1hide" style="height:{{subgrid1}}%">
-                                <div class="row fullheight">
-                                    <!--Hacer un view propia?-->
-                                    <div class="col-xs-1 speakButton">
-                                        <button class="btn-success" ng-click="generate()">generate</button>
-                                    </div>
-                                    
-                                    <div class="col-xs-9 prediction" >
-                                        <div class="col-xs-1" ng-repeat="picto in dataTemp" >
-                                            <img width="100%" height="100%" src="<?= base_url(); ?>img/pictos/{{picto.img}}"/>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-xs-1 deleteLastButton">
-                                        <button class="btn-success" ng-click="deleteLast()">delete last</button>
-                                    </div>
-                                    
-                                    <div class="col-xs-1  deleteAllButton">
-                                        <button class="btn-success" ng-click="deleteAll()">delete all</button>
-                                    </div>
-                                    
-                                    
+                                <div class="row fullheight" ng-include="'http://localhost/jocomunico/SentenceView.html'">                     
                                 </div>
                             </div>
                             <div class="container-fluid" ng-init="showBoard()" style="height:{{subgrid2}}%">
