@@ -317,4 +317,22 @@ class Board extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK);
     }
     
+    public function removePicto_post() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $pos = $request->pos;
+        //$boardid = $request->boardid;
+
+        //1 es la board
+        $cell = $this->BoardInterface->getIDCell($pos,1);  
+        $this->BoardInterface->updateDataCell(NULL,$cell[0]->ID_RCell);       
+      
+        $data = $this->BoardInterface->getCellsBoard(1);
+
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
 }
