@@ -34,7 +34,6 @@ class ResultatsBoard extends REST_Controller {
             $expander = new Myexpander();
             $expander->expand();
             $info = $expander->info;
-            $message['frasefinal'] = $info->frasefinal;
             $response = [
                 "info" => $info
             ];

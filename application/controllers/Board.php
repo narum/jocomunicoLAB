@@ -13,7 +13,10 @@ class Board extends REST_Controller {
 
         $this->load->model('BoardInterface');
         $this->load->model('Lexicon');
-            $this->load->library('Myexpander');
+        $this->load->library('Myword');
+            $this->load->library('Myslot');
+            $this->load->library('Mypattern');
+        $this->load->library('Myexpander');
     }
 
     public function index_get() {
@@ -81,6 +84,15 @@ class Board extends REST_Controller {
         $columns = $output[0]->width + $c;
         $rows = $output[0]->height + $r;
         $this->BoardInterface->updateNumCR($columns, $rows, 1);
+        //MODIF: cuando pasemos el total se cambia lo de arriba por:
+        /*
+         * $this->BoardInterface->updateNumCR($c, $r, 1);
+         * $output = $this->BoardInterface->getNumCR(1);
+         * $c = $c - $output[0]->width;
+         * $r = $r - $output[0]->height;
+         */
+        
+        
 
         if ($c > 0) {
             $this->addColumns($output[0]->width, $output[0]->height, 1, $c);
@@ -243,8 +255,6 @@ class Board extends REST_Controller {
         $this->BoardInterface->removeSentence(1);
 
         $data = $this->Lexicon->recuperarFrase(1);
-        
-        
 
         $response = [
             'data' => $data
@@ -272,16 +282,21 @@ class Board extends REST_Controller {
 
         if ($this->BoardInterface->statusTrans() === FALSE) {
             $response = [
-                'dataTemp' => "eeee"
+                'error' => "errorText"
             ];
-            $this->response($response, 400);
+            $this->response($response, 500);
         } else {
-            
-            
+            $expander = new Myexpander();
+            $expander->expand();
+            $info = $expander->info;
+//            if ($info['frasefinal'] == ""){
+//                $response = null;
+//            }else{
             $response = [
-                "info" => $info
+                'info' => $info
             ];
-            
+//            }
+            //redirect(base_url().'resultatsBoard', 'location');
             $this->response($response, REST_Controller::HTTP_OK);
         }
     }
@@ -317,6 +332,24 @@ class Board extends REST_Controller {
         $this->BoardInterface->updatePosCell($pos2, $pos1,1);
         $this->BoardInterface->updatePosCell(-1, $pos2,1);
         
+        $data = $this->BoardInterface->getCellsBoard(1);
+
+        $response = [
+            'data' => $data
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
+    public function removePicto_post() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
+        $pos = $request->pos;
+        //$boardid = $request->boardid;
+
+        //1 es la board
+        $cell = $this->BoardInterface->getIDCell($pos,1);  
+        $this->BoardInterface->updateDataCell(NULL,$cell[0]->ID_RCell);       
+      
         $data = $this->BoardInterface->getCellsBoard(1);
 
         $response = [

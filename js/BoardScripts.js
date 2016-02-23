@@ -1,9 +1,9 @@
 var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile", 'ngDraggable']);
-app.controller('myCtrl', function ($scope, $http) {  
+app.controller('myCtrl', function ($scope, $http) {
     $scope.config = function (boardconf)
     {
         $scope.SearchType = "Tots";
-         $scope.inEdit = false;
+        $scope.inEdit = false;
         if (boardconf === 1)
         {
             $scope.showall();
@@ -105,8 +105,8 @@ app.controller('myCtrl', function ($scope, $http) {
     {
         var url = $scope.baseurl + "Board/showCellboard";
         var postdata = {r: '0', c: '0'};
-        
-         $http.post(url, postdata).success(function (response)
+
+        $http.post(url, postdata).success(function (response)
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
@@ -121,8 +121,8 @@ app.controller('myCtrl', function ($scope, $http) {
         $scope.grid1hide = false;
         $scope.grid2hide = false;
         $scope.grid3hide = true;
-        $scope.grid1 = 4;
-        $scope.grid2 = 8;
+        $scope.grid1 = 3;
+        $scope.grid2 = 9;
         $scope.grid3 = 0;
     };
 
@@ -130,8 +130,8 @@ app.controller('myCtrl', function ($scope, $http) {
     {
         var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '0', c: '1'};
-        
-         $http.post(url, postdata).success(function (response)
+
+        $http.post(url, postdata).success(function (response)
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
@@ -142,8 +142,8 @@ app.controller('myCtrl', function ($scope, $http) {
     {
         var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '0', c: '-1'};
-        
-         $http.post(url, postdata).success(function (response)
+
+        $http.post(url, postdata).success(function (response)
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
@@ -154,8 +154,8 @@ app.controller('myCtrl', function ($scope, $http) {
     {
         var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '1', c: '0'};
-        
-         $http.post(url, postdata).success(function (response)
+
+        $http.post(url, postdata).success(function (response)
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
@@ -166,8 +166,8 @@ app.controller('myCtrl', function ($scope, $http) {
     {
         var url = $scope.baseurl + "Board/modifyCellboard";
         var postdata = {r: '-1', c: '0'};
-        
-         $http.post(url, postdata).success(function (response)
+
+        $http.post(url, postdata).success(function (response)
         {
             $scope.columns = response.col;
             $scope.rows = response.row;
@@ -175,53 +175,53 @@ app.controller('myCtrl', function ($scope, $http) {
         });
     };
     $scope.openMenu = function ($id) {
-        
-        open($scope.baseurl + 'editMenu.html','','top=300,left=300,width=300,height=300') ; 
+
+        open($scope.baseurl + 'editMenu.html', '', 'top=300,left=300,width=300,height=300');
     };
-    
+
     // Desde aqui son del div de sentencias
     $scope.addToSentence = function (id) {
-        
+
         var url = $scope.baseurl + "Board/addWord";
         var postdata = {id: id};
- 
-         $http.post(url, postdata).success(function (response)
+
+        $http.post(url, postdata).success(function (response)
         {
             $scope.dataTemp = response.data;
         });
     };
     $scope.deleteLast = function () {
-        
+
         var url = $scope.baseurl + "Board/deleteLastWord";
- 
-         $http.post(url).success(function (response)
+
+        $http.post(url).success(function (response)
         {
             $scope.dataTemp = response.data;
         });
     };
     $scope.deleteAll = function () {
-        
+
         var url = $scope.baseurl + "Board/deleteAllWords";
- 
-         $http.post(url).success(function (response)
+
+        $http.post(url).success(function (response)
         {
             $scope.dataTemp = response.data;
         });
     };
     $scope.generate = function () {
-        
+
         var url = $scope.baseurl + "Board/generate";
- 
-         $http.post(url).success(function (response)
+
+        $http.post(url).success(function (response)
         {
             $scope.dataTemp = response.data;
             $scope.info = response.info;
             alert($scope.dataTemp);
         });
     };
-    
+
     //Search controllers
-    $scope.search = function($Searchtype)
+    $scope.search = function ($Searchtype)
     {
         var postdata = {id: $scope.Name};
         //Radio button function parameter, to set search type
@@ -260,7 +260,13 @@ app.controller('myCtrl', function ($scope, $http) {
               $scope.dataWord = response.data;
             });
     };
-    
+    $scope.range = function ($max) {
+        var range = [];
+        for (i = 0; i < $max; i++){
+            range.push(i);
+        }
+        return range;
+    };
     //Dragndrop events
     $scope.centerAnchor = true;
     $scope.toggleCenterAnchor = function () {
@@ -268,65 +274,55 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     var onDraggableEvent = function (evt, data) {
         console.log("128", "onDraggableEvent", evt, data);
-        if (evt.name === "draggable:start"){
+        if (evt.name === "draggable:start") {
             $scope.hide = false;
-        }else if(evt.name === "draggable:end"){
+        } else if (evt.name === "draggable:end") {
             $scope.hide = true;
         }
     };
     $scope.$on('draggable:start', onDraggableEvent);
     // $scope.$on('draggable:move', onDraggableEvent);
     $scope.$on('draggable:end', onDraggableEvent);
-    $scope.onDropSwap = function (posInBoard,data, evt) {
+    $scope.onDropSwap = function (posInBoard, data, evt) {
         var URL = "";
         //Significa que no hay que hacer swap, solo medio swap...
-        if (data.idpicto){
-            URL = $scope.baseurl+"Board/addPicto";
+        if (data.idpicto) {
+            URL = $scope.baseurl + "Board/addPicto";
             var postdata = {id: data.idpicto, pos: posInBoard};
-        }else{
+        } else {
             var postdata = {pos1: data.posInBoardPicto, pos2: posInBoard};
             URL = $scope.baseurl + "Board/swapPicto";
         }
-        //Mirar otra forma de pasar parametros
-        $http.post(URL,postdata).
-            success(function(response)
-            {
-              $scope.statusWord = response.status;
-              $scope.data = response.data;
-            });
+
+        $http.post(URL, postdata).
+                success(function (response)
+                {
+                    $scope.statusWord = response.status;
+                    $scope.data = response.data;
+                });
     };
     $scope.onDropRemove = function (data, evt) {
-        var url = $scope.url + "PictogramSearch/removePicto";
-        var id = data.idhistory;
-        alert(id);
-        $http.post(url, id).then(function (response)
-        {
-            $scope.statusWord = response.status;
-            $scope.history = response.data;
-        }, function (response)
-        {
-            $scope.history = "Request failed";
-            $scope.statusWord = response.status;
-        });
-    };
-    $scope.onDragSuccess1 = function (data, evt) {
-        console.log("133", "$scope", "onDragSuccess1", "", evt);
-        alert(data);
-        var index = $scope.droppedObjects1.indexOf(data);
-        alert(index);
-        if (index > -1) {
-            $scope.droppedObjects1.splice(index, 1);
-        }
+        
+        var postdata = {pos: data.posInBoardPicto};
+        var URL = $scope.baseurl + "Board/removePicto";
+
+
+        $http.post(URL, postdata).
+                success(function (response)
+                {
+                    $scope.statusWord = response.status;
+                    $scope.data = response.data;
+                });
     };
 });
 //Add a directive in order to recognize the right click
-app.directive('ngRightClick', function($parse) {
-    return function(scope, element, attrs) {
+app.directive('ngRightClick', function ($parse) {
+    return function (scope, element, attrs) {
         var fn = $parse(attrs.ngRightClick);
-        element.bind('contextmenu', function(event) {
-            scope.$apply(function() {
+        element.bind('contextmenu', function (event) {
+            scope.$apply(function () {
                 event.preventDefault();
-                fn(scope, {$event:event});
+                fn(scope, {$event: event});
             });
         });
     };
