@@ -27,7 +27,16 @@ app.controller('myCtrl', function ($scope, $http) {
          $scope.grid1 = 2;
          $scope.grid2 = 8;
          $scope.grid3 = 2;*/
-    };
+    }; 
+    $scope.range = function($repeatnum)
+    {
+        var n = [];
+        for(i=1;i<$repeatnum+1;i++)
+        {
+            n.push(i);
+        }
+        return n;
+    }
     $scope.showall = function ()
     {
         $scope.grid1hide = false;
@@ -228,37 +237,37 @@ app.controller('myCtrl', function ($scope, $http) {
         switch ($Searchtype)
         {
             case "Tots":
-                var URL = $scope.baseurl+"TestSearchWord/getDBAll";
+                var URL = $scope.baseurl + "SearchWord/getDBAll";
                 break;
             case "Noms":
-                var URL = $scope.baseurl+"TestSearchWord/getDBNames";
+                var URL = $scope.baseurl + "SearchWord/getDBNames";
                 break;
             case "Verb":
-                var URL = $scope.baseurl+"TestSearchWord/getDBVerbs";
+                var URL = $scope.baseurl + "SearchWord/getDBVerbs";
                 break;
             case "Adj":
-                var URL = $scope.baseurl+"TestSearchWord/getDBAdj";
+                var URL = $scope.baseurl + "SearchWord/getDBAdj";
                 break;
             case "Exp":
-                var URL = $scope.baseurl+"TestSearchWord/getDBExprs";
+                var URL = $scope.baseurl + "SearchWord/getDBExprs";
                 break;
             case "Altres":
-                var URL = $scope.baseurl+"TestSearchWord/getDBOthers";
+                var URL = $scope.baseurl + "SearchWord/getDBOthers";
                 break;
             default:
-                var URL = $scope.baseurl+"TestSearchWord/getDBAll";    
+                var URL = $scope.baseurl + "SearchWord/getDBAll";
         }
-        
-        
-        
-        
-        
-        $http.post(URL,postdata).
-            success(function(response)
-            {
-              $scope.statusWord = response.status;
-              $scope.dataWord = response.data;
-            });
+
+
+
+
+        //Request via post to controller search data from database
+        $http.post(URL, postdata).
+                success(function (response)
+                {
+                    $scope.statusWord = response.status;
+                    $scope.dataWord = response.data;
+                });
     };
     $scope.range = function ($max) {
         var range = [];

@@ -2,7 +2,7 @@
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class TestSearchWord extends REST_Controller {
+class SearchWord extends REST_Controller {
     
     public function __construct()
     {
@@ -13,31 +13,34 @@ class TestSearchWord extends REST_Controller {
         
     public function index_get()
     {
-
+        
     }
+    
     public function getDBAll_post()
     {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $startswith = $request->id;
-        //$languageNum = $request->language;
+        //$languageNum get cookie lenguage user
         $languageNum = 2;
-        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+
+        // MODIF: canviar por cookie
         $language = $this->switch_language($languageNum);
 
         
-        // Llamamos al modelo
-        $names1 = $this->DBwords->getDBNamesLike($startswith, $language);
-        $names2 = $this->DBwords->getDBVerbsLike($startswith, $language);
-        $names3 = $this->DBwords->getDBAdjLike($startswith, $language);
-        $names4 = $this->DBwords->getDBExprsLike($startswith, $language);
-        $names5 = $this->DBwords->getDBAdvsLike($startswith, $language);
-        $names6 = $this->DBwords->getDBModifsLike($startswith, $language);
-        $names7 = $this->DBwords->getDBQuestionPartLike($startswith, $language);
+        // Controller search all names from all picto table
+        $Names = $this->DBwords->getDBNamesLike($startswith, $language);
+        $Verbs = $this->DBwords->getDBVerbsLike($startswith, $language);
+        $Adj = $this->DBwords->getDBAdjLike($startswith, $language);
+        $Exprs = $this->DBwords->getDBExprsLike($startswith, $language);
+        $Advs = $this->DBwords->getDBAdvsLike($startswith, $language);
+        $Modifs = $this->DBwords->getDBModifsLike($startswith, $language);
+        $QuestionPart = $this->DBwords->getDBQuestionPartLike($startswith, $language);
         
-        $names8 = array_merge($names1, $names2, $names3, $names4, $names5, $names6, $names7);
+        // Marge all arrays to one
+        $DataArray = array_merge($Names, $Verbs, $Adj, $Exprs, $Advs, $Modifs, $QuestionPart);
         $response = [
-            "data" => $names8
+            "data" => $DataArray
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -48,16 +51,17 @@ class TestSearchWord extends REST_Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $startswith = $request->id;
-        //$languageNum = $request->language;
+        //$languageNum get cookie lenguage user
         $languageNum = 2;
-        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+
+        // MODIF: canviar por cookie
         $language = $this->switch_language($languageNum);
 
         
-        // Llamamos al modelo
-        $names = $this->DBwords->getDBNamesLike($startswith, $language);
+        // Controller search all names from all picto table
+        $DataArray = $this->DBwords->getDBNamesLike($startswith, $language);
         $response = [
-            "data" => $names
+            "data" => $DataArray
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -68,16 +72,17 @@ class TestSearchWord extends REST_Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $startswith = $request->id;
-        //$languageNum = $request->language;
+        //$languageNum get cookie lenguage user
         $languageNum = 2;
-        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+
+        // MODIF: canviar por cookie
         $language = $this->switch_language($languageNum);
 
         
-        // Llamamos al modelo
-        $names = $this->DBwords->getDBVerbsLike($startswith, $language);
+        // Controller search all names from all picto table
+        $DataArray = $this->DBwords->getDBVerbsLike($startswith, $language);
         $response = [
-            "data" => $names
+            "data" => $DataArray
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -88,16 +93,17 @@ class TestSearchWord extends REST_Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $startswith = $request->id;
-        //$languageNum = $request->language;
+        //$languageNum get cookie lenguage user
         $languageNum = 2;
-        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+
+        // MODIF: canviar por cookie
         $language = $this->switch_language($languageNum);
 
         
-        // Llamamos al modelo
-        $names = $this->DBwords->getDBAdjLike($startswith, $language);
+        // Controller search all names from all picto table
+        $DataArray = $this->DBwords->getDBAdjLike($startswith, $language);
         $response = [
-            "data" => $names
+            "data" => $DataArray
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -108,16 +114,17 @@ class TestSearchWord extends REST_Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $startswith = $request->id;
-        //$languageNum = $request->language;
+        //$languageNum get cookie lenguage user
         $languageNum = 2;
-        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+
+        // MODIF: canviar por cookie
         $language = $this->switch_language($languageNum);
 
         
-        // Llamamos al modelo
-        $names = $this->DBwords->getDBExprsLike($startswith, $language);
+        // Controller search all names from all picto table
+        $DataArray = $this->DBwords->getDBExprsLike($startswith, $language);
         $response = [
-            "data" => $names
+            "data" => $DataArray
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -128,34 +135,38 @@ class TestSearchWord extends REST_Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata);
         $startswith = $request->id;
-        //$languageNum = $request->language;
+        //$languageNum get cookie lenguage user
         $languageNum = 2;
-        // guardamos como "ca" el lenguaje "1" y com "es" el lenguaje "2"
+
+        // MODIF: canviar por cookie
         $language = $this->switch_language($languageNum);
 
         
-        // Llamamos al modelo
-        $names1 = $this->DBwords->getDBAdvsLike($startswith, $language);
-        $names2 = $this->DBwords->getDBModifsLike($startswith, $language);
-        $names3 = $this->DBwords->getDBQuestionPartLike($startswith, $language);
+        // Controller search all names from all picto table
+        $Advs = $this->DBwords->getDBAdvsLike($startswith, $language);
+        $Modifs = $this->DBwords->getDBModifsLike($startswith, $language);
+        $QuestionPart = $this->DBwords->getDBQuestionPartLike($startswith, $language);
         
-        $names4 = array_merge($names1, $names2, $names3);
+        $DataArray = array_merge($Advs, $Modifs, $QuestionPart);
         $response = [
-            "data" => $names4
+            "data" => $DataArray
         ];
         
         $this->response($response, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 
     }
-    function create_paths($names8){
+    
+    //Unused function, read row by row and make changes on the array
+    function create_paths($DataArray){
         function concat_path($row)
         {
             $newPath = base_url() . "img/pictos/" . $row["imgPicto"];
             $row["imgPicto"] = $newPath;
             return $row;
         }
-        return array_map("concat_path", $names8);
+        return array_map("concat_path", $DataArray);
     }
+    // MODIF: funcio temporal per escollir el idoma.
     function switch_language($languageNum)
     {
         if ($languageNum == 1){
