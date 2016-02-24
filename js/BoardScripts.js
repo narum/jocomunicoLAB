@@ -195,7 +195,7 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     $scope.openMenu = function ($id) {
 
-        ngDialog.open({ template: $scope.baseurl + 'popUpEdit.html' });
+        open($scope.baseurl + 'editMenu.html', '', 'top=300,left=300,width=300,height=300');
     };
 
     // Desde aqui son del div de sentencias
