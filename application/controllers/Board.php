@@ -38,13 +38,31 @@ class Board extends REST_Controller {
      * number of rows and columns in order to set the proportion
      */
 
+        public function getCellboard_post() {
+
+        // "1" es el numero de id de la "board"
+        $output = $this->BoardInterface->getBoardStruct(1);
+        $columns = $output[0]->width;
+        $rows = $output[0]->height;
+        $name = $output[0]->Bname;
+
+
+        $response = [
+            'col' => $columns,
+            'row' => $rows,
+            'name' => $name
+            
+        ];
+
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
     public function showCellboard_post() {
-        $this->BoardInterface->initTrans();
 
         $array = array();
 
         // "1" es el numero de id de la "board"
-        $output = $this->BoardInterface->getNumCR(1);
+        $output = $this->BoardInterface->getBoardStruct(1);
         $columns = $output[0]->width;
         $rows = $output[0]->height;
 
@@ -80,14 +98,14 @@ class Board extends REST_Controller {
 
         // "1" es el numero de id de la "board"
 
-        $output = $this->BoardInterface->getNumCR(1);
+        $output = $this->BoardInterface->getBoardStruct(1);
         $columns = $output[0]->width + $c;
         $rows = $output[0]->height + $r;
         $this->BoardInterface->updateNumCR($columns, $rows, 1);
         //MODIF: cuando pasemos el total se cambia lo de arriba por:
         /*
          * $this->BoardInterface->updateNumCR($c, $r, 1);
-         * $output = $this->BoardInterface->getNumCR(1);
+         * $output = $this->BoardInterface->getBoardStruct(1);
          * $c = $c - $output[0]->width;
          * $r = $r - $output[0]->height;
          */
