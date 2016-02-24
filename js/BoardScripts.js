@@ -1,4 +1,4 @@
-var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile", 'ngDraggable']);
+var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile", 'ngDraggable','ngDialog']);
 app.controller('myCtrl', function ($scope, $http) {
     $scope.config = function (boardconf)
     {
