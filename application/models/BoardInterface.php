@@ -13,7 +13,7 @@ class BoardInterface extends CI_Model {
      * GETS THE NOUNS OF THE TYPE $type FROM THE DATABASE
      */
 
-    function getNumCR($id) {
+    function getBoardStruct($id) {
         $output = array();
 
         $this->db->where('ID_Board', $id);

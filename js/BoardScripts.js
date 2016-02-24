@@ -133,6 +133,16 @@ app.controller('myCtrl', function ($scope, $http) {
         $scope.grid1 = 3;
         $scope.grid2 = 9;
         $scope.grid3 = 0;
+        
+        var url = $scope.baseurl + "Board/getCellboard";
+        var postdata = {r: '0', c: '1'};
+
+        $http.post(url, postdata).success(function (response)
+        {
+            $scope.columnsnum = response.col;
+            $scope.rowsnum = response.row;
+            $scope.nameboard = response.name;
+        });
     };
 
     $scope.addColumn = function ()
