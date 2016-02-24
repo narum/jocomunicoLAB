@@ -11,6 +11,8 @@
 
 <!--<link href="<?= base_url(); ?>css/projecte.css" rel="stylesheet" type="text/css" />-->
     <script src="<?= base_url(); ?>js/nlp/scripts.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="<?= base_url(); ?>/css/ngDialog.css"/>
+    <link rel="stylesheet" href="<?= base_url(); ?>/css/ngDialog-theme-default.css"/>
     <link rel="stylesheet" href="<?= base_url(); ?>/bootstrap-3.3.6-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="<?= base_url(); ?>/css/style-jc.css"/>
     <script src="<?= base_url(); ?>/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
@@ -18,6 +20,7 @@
     <script src="<?= base_url(); ?>js/angular/angular-bind-html-compile.js" type="text/javascript"></script>
     <script src="<?= base_url(); ?>js/angular/angular-sanitize.min.js" type="text/javascript"></script>
     <script src="<?= base_url(); ?>js/angular/ngDraggable.js" type="text/javascript"></script>
+    <script src="<?= base_url(); ?>js/angular/ngDialog.js" type="text/javascript"></script>
     <script src="<?= base_url(); ?>js/BoardScripts.js" type="text/javascript"></script>
 
 
@@ -117,6 +120,5 @@
             </div>
 
         </div>
-   
         </body>
 </html>

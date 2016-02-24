@@ -1,5 +1,5 @@
-var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile", 'ngDraggable']);
-app.controller('myCtrl', function ($scope, $http) {
+var app = angular.module('mySearch', ['ngSanitize', "angular-bind-html-compile", 'ngDraggable', 'ngDialog']);
+app.controller('myCtrl', function ($scope, $http, ngDialog) {
     $scope.config = function (boardconf)
     {
         $scope.SearchType = "Tots";
@@ -185,7 +185,7 @@ app.controller('myCtrl', function ($scope, $http) {
     };
     $scope.openMenu = function ($id) {
 
-        open($scope.baseurl + 'editMenu.html', '', 'top=300,left=300,width=300,height=300');
+        ngDialog.open({ template: $scope.baseurl + 'popUpEdit.html' });
     };
 
     // Desde aqui son del div de sentencias
